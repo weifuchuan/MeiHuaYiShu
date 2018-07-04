@@ -49,10 +49,10 @@ function ET(n: number): number {
 	return 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
 }
 
-function qiGuaByTime(
+export function qiGuaByTime(
 	year: gua.DiZhi,
 	month: gua.DiZhi,
-	day: gua.DiZhi,
+	day: gua.Tian,
 	hour: gua.DiZhi
 ): gua.QuanGua {
 	const up = year + month + day;
@@ -85,7 +85,7 @@ function qiGuaByTime(
 	}
 	return {
 		gua: [xg, sg, xh, sh, xb, sb],
-		ti: by <= 3 ? 0 : 1,
+		ti: by <= 3 ? 1 : 0,
 		bian: by
 	};
 }
@@ -97,3 +97,126 @@ function isQian(gua: gua.Gua): boolean {
 function isKun(gua: gua.Gua): boolean {
 	return !gua.reduce((p, c) => p || c, false);
 }
+
+// first 为上卦, second 为下卦
+export function qiGuaByTwoNumberAddHour(
+	first: number,
+	second: number,
+	hour: gua.DiZhi
+): gua.QuanGua {
+	const up = first;
+	const bottom = second;
+	const sg = gua.guas[up % 8];
+	const xg = gua.guas[bottom % 8];
+	const by: gua.Yao = ((first + second + hour) % 6 === 0
+		? 6
+		: (first + second + hour) % 6) as gua.Yao;
+	let sh: gua.Gua;
+	let xh: gua.Gua;
+	let sb: gua.Gua = sg;
+	let xb: gua.Gua = xg;
+	if (by <= 3) {
+		// xg
+		const cxg: gua.Gua = xg.slice() as gua.Gua;
+		cxg[by - 1] = !cxg[by - 1];
+		xb = cxg;
+	} else {
+		const csg: gua.Gua = sg.slice() as gua.Gua;
+		csg[by - 3 - 1] = !csg[by - 3 - 1];
+		sb = csg;
+	}
+	if ((isQian(sg) && isQian(xg)) || (isKun(sg) && isKun(xg))) {
+		const qg = [...xb, ...sb];
+		xh = [qg[1], qg[2], qg[3]];
+		sh = [qg[2], qg[3], qg[4]];
+	} else {
+		const qg = [...xg, ...sg];
+		xh = [qg[1], qg[2], qg[3]];
+		sh = [qg[2], qg[3], qg[4]];
+	}
+	return {
+		gua: [xg, sg, xh, sh, xb, sb],
+		ti: by <= 3 ? 1 : 0,
+		bian: by
+	};
+}
+
+// first 为上卦, second 为下卦
+export function qiGuaByTwoNumber(first: number, second: number): gua.QuanGua {
+	const up = first;
+	const bottom = second;
+	const sg = gua.guas[up % 8];
+	const xg = gua.guas[bottom % 8];
+	const by: gua.Yao = ((first + second) % 6 === 0
+		? 6
+		: (first + second) % 6) as gua.Yao;
+	let sh: gua.Gua;
+	let xh: gua.Gua;
+	let sb: gua.Gua = sg;
+	let xb: gua.Gua = xg;
+	if (by <= 3) {
+		// xg
+		const cxg: gua.Gua = xg.slice() as gua.Gua;
+		cxg[by - 1] = !cxg[by - 1];
+		xb = cxg;
+	} else {
+		const csg: gua.Gua = sg.slice() as gua.Gua;
+		csg[by - 3 - 1] = !csg[by - 3 - 1];
+		sb = csg;
+	}
+	if ((isQian(sg) && isQian(xg)) || (isKun(sg) && isKun(xg))) {
+		const qg = [...xb, ...sb];
+		xh = [qg[1], qg[2], qg[3]];
+		sh = [qg[2], qg[3], qg[4]];
+	} else {
+		const qg = [...xg, ...sg];
+		xh = [qg[1], qg[2], qg[3]];
+		sh = [qg[2], qg[3], qg[4]];
+	}
+	return {
+		gua: [xg, sg, xh, sh, xb, sb],
+		ti: by <= 3 ? 1 : 0,
+		bian: by
+	};
+}
+
+export function qiGuaByHouTian(
+	up: gua.GuaNumber,
+	bottom: gua.GuaNumber,
+	hour: gua.DiZhi
+): gua.QuanGua {
+	const sg = gua.guas[up];
+	const xg = gua.guas[bottom];
+	const by: gua.Yao = ((up + bottom + hour) % 6 === 0
+		? 6
+		: (up + bottom + hour) % 6) as gua.Yao;
+	let sh: gua.Gua;
+	let xh: gua.Gua;
+	let sb: gua.Gua = sg;
+	let xb: gua.Gua = xg;
+	if (by <= 3) {
+		// xg
+		const cxg: gua.Gua = xg.slice() as gua.Gua;
+		cxg[by - 1] = !cxg[by - 1];
+		xb = cxg;
+	} else {
+		const csg: gua.Gua = sg.slice() as gua.Gua;
+		csg[by - 3 - 1] = !csg[by - 3 - 1];
+		sb = csg;
+	}
+	if ((isQian(sg) && isQian(xg)) || (isKun(sg) && isKun(xg))) {
+		const qg = [...xb, ...sb];
+		xh = [qg[1], qg[2], qg[3]];
+		sh = [qg[2], qg[3], qg[4]];
+	} else {
+		const qg = [...xg, ...sg];
+		xh = [qg[1], qg[2], qg[3]];
+		sh = [qg[2], qg[3], qg[4]];
+	}
+	return {
+		gua: [xg, sg, xh, sh, xb, sb],
+		ti: by <= 3 ? 1 : 0,
+		bian: by
+	};
+}
+

@@ -12,7 +12,6 @@
     "noEmitHelpers": true,
     "importHelpers": true,
     "strict": true,
-    "noImplicitReturns": true,
-    "rootDir": "src"
+    "noImplicitReturns": true
   }
 }
