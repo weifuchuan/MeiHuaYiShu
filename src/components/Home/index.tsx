@@ -15,53 +15,28 @@ import {
   BackHandler
 } from "react-native";
 import { inject, observer } from "mobx-react/native";
-import {
-  withRouter,
-  RouteComponentProps,
-  Switch,
-  Route,
-  Redirect
-} from "react-router";
 import { Store } from "../../store";
 import { Drawer, Button } from "antd-mobile-rn";
 import QiGua from "./QiGua/index";
-import GuaLiNote from "./GuaLiNote";
-import MeiHuaYiShu from "./MeiHuaYiShu";
 import { observable } from "mobx";
+import { withNavigation, NavigationInjectedProps, createSwitchNavigator } from 'react-navigation';
 
 const { NavigationBar } = require("teaset");
 
 const { height, width } = Dimensions.get("window");
 
+
 @inject("store")
 @observer
-class Home extends React.Component<RouteComponentProps<any> & {
+class Home extends React.Component<NavigationInjectedProps & {
   store: Store;
 }> {
+  static router = QiGua.router; 
+
   state = { openDrawer: false, title: "起卦" };
   @observable navigationBarHeight: number = 0;
 
   render() {
-    // let path = this.props.match.path + "/";
-    // console.info("path:", path)
-    // path = path.substring(path.indexOf("/Home") + 5)
-    // const titles = path.match(/\/[^\/]+\/?/);
-    // let title = titles ? (titles.length === 0 ? "QiGua" : titles[0]) : "QiGua";
-    // switch (title) {
-    //   case "QiGua":
-    //     title = "起卦"
-    //     break;
-    //   case "GuaLiNote":
-    //     title = "卦例笔记"
-    //     break;
-    //   case "MeiHuaYiShu":
-    //     title = "《梅花易数》";
-    //     break;
-    //   default:
-    //     title = "";
-    //     break;
-    // }
-
     return (
       <View style={styles.container}>
         <Drawer
@@ -85,26 +60,21 @@ class Home extends React.Component<RouteComponentProps<any> & {
                   {
                     title: "起卦",
                     route: () => {
-                      this.props.history.push(`${this.props.match.path}/QiGua`);
-                      this.setState({ openDrawer: false, title: "起卦" });
+                      this.setState({ openDrawer: false });
                     }
                   },
                   {
                     title: "卦例笔记",
                     route: () => {
-                      this.props.history.push(
-                        `${this.props.match.path}/GuaLiNote`
-                      );
-                      this.setState({ openDrawer: false, title: "卦例笔记" });
+                      this.props.navigation.push("GuaLiNote");
+                      this.setState({ openDrawer: false });
                     }
                   },
                   {
                     title: "《梅花易数》",
                     route: () => {
-                      this.props.history.push(
-                        `${this.props.match.path}/MeiHuaYiShu`
-                      );
-                      this.setState({ openDrawer: false, title: "《梅花易数》" });
+                      this.props.navigation.push("MeiHuaYiShu");
+                      this.setState({ openDrawer: false });
                     }
                   }
                 ]}
@@ -141,46 +111,16 @@ class Home extends React.Component<RouteComponentProps<any> & {
               }
             />
             <View style={{ flex: 1, marginTop: this.navigationBarHeight }} >
-              <Switch>
-                <Route path={`${this.props.match.path}/QiGua`} component={QiGua} />
-                <Route
-                  path={`${this.props.match.path}/GuaLiNote`}
-                  component={GuaLiNote}
-                />
-                <Route
-                  path={`${this.props.match.path}/MeiHuaYiShu`}
-                  component={MeiHuaYiShu}
-                />
-                <Redirect
-                  from={`${this.props.match.path}`}
-                  to={`${this.props.match.path}/QiGua`}
-                />
-              </Switch>
+              <QiGua store={this.props.store} navigation={this.props.navigation} /> 
             </View>
           </View>
         </Drawer>
-        {/* <Button title={"OPEN"} onPress={() => this.openDrawer = true} /> */}
-
       </View>
     );
   }
-
-  componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
-  }
-
-  componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
-  }
-
-  handleBackPress = (): boolean => {
-    console.info(this.props.history.length)
-    return this.props.history.length > 0 ?
-      (this.props.history.goBack(), true) : false;
-  }
 }
 
-export default withRouter(Home);
+export default Home;
 
 const styles = StyleSheet.create({
   container: {

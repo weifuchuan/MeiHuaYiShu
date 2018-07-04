@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Text, View, StyleSheet, ViewStyle } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { Store } from '../../../store';
+import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 
 @inject("store")
 @observer
-class ErShuJiaShiChenGua extends React.Component<RouteComponentProps<any> & {
+class ErShuJiaShiChenGua extends React.Component<NavigationInjectedProps  & {
   store: Store;
 }> {
   render() {
@@ -20,4 +20,4 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 })
 
-export default withRouter(ErShuJiaShiChenGua); 
+export default withNavigation(ErShuJiaShiChenGua); 

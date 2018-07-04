@@ -1,24 +1,23 @@
 import * as React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { Route, Switch, Redirect } from "react-router";
 import Home from "./Home";
+import { createStackNavigator } from 'react-navigation';
+import GuaLiNote from './GuaLiNote';
+import MeiHuaYiShu from './MeiHuaYiShu';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Switch>
-          <Route path="/Home" component={Home} />
-          <Redirect from="/" to="/Home" />
-        </Switch>
-      </View>
-    );
-  }
-}
+export default createStackNavigator(
+  {
+    Home: {
+      screen: Home,
+    },
+    GuaLiNote:{
+      screen:GuaLiNote, 
+    },
+    MeiHuaYiShu:{
+      screen:MeiHuaYiShu 
+    }
+  },
+  {
+    initialRouteName: "Home",
+    headerMode: "none",
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFF"
-  }
-});
+  })

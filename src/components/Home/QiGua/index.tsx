@@ -2,21 +2,33 @@ import * as React from 'react'
 import { Text, View, StyleSheet, ViewStyle } from 'react-native';
 import { gua } from '../../../types';
 import { inject, observer } from 'mobx-react/native';
-import { withRouter, RouteComponentProps, Switch, Route, Redirect } from 'react-router';
 import { Store } from '../../../store';
 import { observable } from 'mobx';
 import ShiJianGua from './ShiJianGua';
 import ErShuJiaShiChenGua from './ErShuJiaShiChenGua';
 import ErShuGua from './ErShuGua';
 import HouTianGua from './HouTianGua';
+import { createSwitchNavigator, NavigationRouter, withNavigation, NavigationInjectedProps, createStackNavigator } from 'react-navigation';
 
 const { ListRow, Select } = require("teaset")
 
-@inject("store")
+const TypeNavigator = createStackNavigator(
+  {
+    ShiJianGua,
+    ErShuJiaShiChenGua,
+    ErShuGua,
+    HouTianGua
+  }, {
+    initialRouteName: "ShiJianGua",
+    headerMode:"none"
+  })
+
 @observer
-class QiGua extends React.Component<RouteComponentProps<any> & {
+class QiGua extends React.Component<NavigationInjectedProps & {
   store: Store;
 }> {
+  static router: NavigationRouter<any, any> = TypeNavigator.router;
+
   @observable guaType: gua.GuaType = "时间卦";
 
   render() {
@@ -36,16 +48,16 @@ class QiGua extends React.Component<RouteComponentProps<any> & {
               this.guaType = item
               switch (item) {
                 case "时间卦":
-                  this.props.history.push(`${this.props.match.path}/ShiJianGua`)
+                  this.props.navigation.navigate("ShiJianGua")
                   break;
                 case "二数加时辰卦":
-                  this.props.history.push(`${this.props.match.path}/ErShuJiaShiChenGua`)
+                  this.props.navigation.navigate("ErShuJiaShiChenGua")
                   break;
                 case "二数卦":
-                  this.props.history.push(`${this.props.match.path}/ErShuGua`)
+                  this.props.navigation.navigate("ErShuGua")
                   break;
                 case "后天卦":
-                  this.props.history.push(`${this.props.match.path}/HouTianGua`)
+                  this.props.navigation.navigate("HouTianGua")
                   break;
                 default:
                   break;
@@ -53,18 +65,10 @@ class QiGua extends React.Component<RouteComponentProps<any> & {
             }}
           />}
         />
-        <Switch>
-          <Route path={`${this.props.match.path}/ShiJianGua`} component={ShiJianGua} />
-          <Route path={`${this.props.match.path}/ErShuJiaShiChenGua`} component={ErShuJiaShiChenGua} />
-          <Route path={`${this.props.match.path}/ErShuGua`} component={ErShuGua} />
-          <Route path={`${this.props.match.path}/HouTianGua`} component={HouTianGua} />
-          <Redirect from={`${this.props.match.path}`} to={`${this.props.match.path}/ShiJianGua`} />
-        </Switch>
+        <TypeNavigator navigation={this.props.navigation}/>
       </View>
     )
   }
-
-
 }
 
 const styles = StyleSheet.create({
@@ -73,4 +77,4 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 })
 
-export default withRouter(QiGua); 
+export default (QiGua); 
