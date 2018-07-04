@@ -1,20 +1,25 @@
-import { Geolocation } from "react-native";
+// import { Geolocation } from "react-native";
 import { gua } from "../types";
 const dateMath = require("date-arithmetic");
 
-export function getLongitude(): Promise<number> {
+export function getLongitude(opt: PositionOptions = {}): Promise<number> {
 	return new Promise<number>((resolve, reject) => {
-		Geolocation.getCurrentPosition(
-			position => resolve(position.coords.longitude),
-			err => reject(err)
+		navigator.geolocation.getCurrentPosition(
+			position => {
+				resolve(position.coords.longitude)
+			},
+			err => {
+				reject(err)
+			},
+			opt
 		);
 	});
 }
 
-export async function sunTimeNow(): Promise<Date> {
+export async function sunTimeNow(opt: PositionOptions = {}): Promise<Date> {
 	const shiQu = -new Date().getTimezoneOffset() / 60;
 	const biaoZhunJingDu = shiQu * 15;
-	const longtitude = await getLongitude();
+	const longtitude = await getLongitude(opt);
 	const shicha = 4 * (longtitude - biaoZhunJingDu);
 	const now = new Date();
 	const NewYearsDay = new Date(now.getFullYear(), 0, 0, 0, 0, 0); //该年第一天

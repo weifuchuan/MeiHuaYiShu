@@ -11,7 +11,8 @@ import {
   TextStyle,
 
   LayoutChangeEvent,
-  Dimensions
+  Dimensions,
+  BackHandler
 } from "react-native";
 import { inject, observer } from "mobx-react/native";
 import {
@@ -23,7 +24,7 @@ import {
 } from "react-router";
 import { Store } from "../../store";
 import { Drawer, Button } from "antd-mobile-rn";
-import QiGua from "./QiGua";
+import QiGua from "./QiGua/index";
 import GuaLiNote from "./GuaLiNote";
 import MeiHuaYiShu from "./MeiHuaYiShu";
 import { observable } from "mobx";
@@ -37,28 +38,29 @@ const { height, width } = Dimensions.get("window");
 class Home extends React.Component<RouteComponentProps<any> & {
   store: Store;
 }> {
-  state = { openDrawer: false };
+  state = { openDrawer: false, title: "起卦" };
   @observable navigationBarHeight: number = 0;
 
   render() {
-    let path = this.props.match.path + "/";
-    path = path.substring(path.indexOf("/Home") + 5)
-    const titles = path.match(/\/[^\/]+\/?/);
-    let title = titles ? (titles.length === 0 ? "QiGua" : titles[0]) : "QiGua";
-    switch (title) {
-      case "QiGua":
-        title = "起卦"
-        break;
-      case "GuaLiNote":
-        title = "卦例笔记"
-        break;
-      case "MeiHuaYiShu":
-        title = "《梅花易数》";
-        break;
-      default:
-        title = "";
-        break;
-    }
+    // let path = this.props.match.path + "/";
+    // console.info("path:", path)
+    // path = path.substring(path.indexOf("/Home") + 5)
+    // const titles = path.match(/\/[^\/]+\/?/);
+    // let title = titles ? (titles.length === 0 ? "QiGua" : titles[0]) : "QiGua";
+    // switch (title) {
+    //   case "QiGua":
+    //     title = "起卦"
+    //     break;
+    //   case "GuaLiNote":
+    //     title = "卦例笔记"
+    //     break;
+    //   case "MeiHuaYiShu":
+    //     title = "《梅花易数》";
+    //     break;
+    //   default:
+    //     title = "";
+    //     break;
+    // }
 
     return (
       <View style={styles.container}>
@@ -66,10 +68,9 @@ class Home extends React.Component<RouteComponentProps<any> & {
           drawerBackgroundColor={"#fff"}
           open={this.state.openDrawer}
           onOpenChange={(opened) => {
-            console.info(opened);
             this.setState({ openDrawer: opened });
           }}
-          drawerWidth={width*0.6}
+          drawerWidth={width * 0.6}
           sidebar={
             <View style={styles.drawerContent} >
               <Image
@@ -77,15 +78,15 @@ class Home extends React.Component<RouteComponentProps<any> & {
                 style={styles.logo}
                 resizeMode={"contain"}
               />
-              <Text style={{color:"#000000", fontSize:20, marginBottom:height*0.04}}>梅花易数</Text>
+              <Text style={{ color: "#000000", fontSize: 20, marginBottom: height * 0.04 }}>梅花易数</Text>
               <FlatList
-                style={{ width:width * 0.6 }}
+                style={{ width: width * 0.6 }}
                 data={[
                   {
                     title: "起卦",
                     route: () => {
                       this.props.history.push(`${this.props.match.path}/QiGua`);
-                      this.setState({ openDrawer: false });
+                      this.setState({ openDrawer: false, title: "起卦" });
                     }
                   },
                   {
@@ -94,7 +95,7 @@ class Home extends React.Component<RouteComponentProps<any> & {
                       this.props.history.push(
                         `${this.props.match.path}/GuaLiNote`
                       );
-                      this.setState({ openDrawer: false });
+                      this.setState({ openDrawer: false, title: "卦例笔记" });
                     }
                   },
                   {
@@ -103,7 +104,7 @@ class Home extends React.Component<RouteComponentProps<any> & {
                       this.props.history.push(
                         `${this.props.match.path}/MeiHuaYiShu`
                       );
-                      this.setState({ openDrawer: false });
+                      this.setState({ openDrawer: false, title: "《梅花易数》" });
                     }
                   }
                 ]}
@@ -113,7 +114,7 @@ class Home extends React.Component<RouteComponentProps<any> & {
                   );
                 }}
                 ItemSeparatorComponent={() => (
-                  <View style={{ height: height*0.01, width: 3 }} />
+                  <View style={{ height: height * 0.01, width: 3 }} />
                 )}
                 keyExtractor={(item) => item.title}
               />
@@ -125,7 +126,7 @@ class Home extends React.Component<RouteComponentProps<any> & {
               onLayout={(event: LayoutChangeEvent) => {
                 this.navigationBarHeight = event.nativeEvent.layout.height;
               }}
-              title={title}
+              title={this.state.title}
               leftView={
                 <TouchableOpacity
                   onPress={() => {
@@ -162,6 +163,20 @@ class Home extends React.Component<RouteComponentProps<any> & {
 
       </View>
     );
+  }
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  }
+
+  handleBackPress = (): boolean => {
+    console.info(this.props.history.length)
+    return this.props.history.length > 0 ?
+      (this.props.history.goBack(), true) : false;
   }
 }
 

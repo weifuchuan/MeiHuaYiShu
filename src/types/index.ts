@@ -54,6 +54,7 @@ export namespace gua {
 		| "坎"
 		| "艮"
 		| "坤";
+	export type GuaType = "时间卦" | "二数加时辰卦" | "二数卦" | "后天卦";
 	export const signs: GuaS[] = ["☷", "☰", "☱", "☲", "☳", "☴", "☵", "☶", "☷"];
 	export const words: GuaW[] = [
 		"坤",
@@ -113,7 +114,7 @@ export namespace gua {
 	export const no2Gua = new Map<
 		GuaNumber,
 		{ sign: string; word: string; yao: Gua }
-	>()
+		>()
 		.set(1, { sign: "☰", word: "乾", yao: q })
 		.set(2, { sign: "☱", word: "兑", yao: d })
 		.set(3, { sign: "☲", word: "离", yao: l })
