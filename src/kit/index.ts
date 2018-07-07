@@ -1,6 +1,8 @@
 // import { Geolocation } from "react-native";
 import { gua } from "../types";
 const dateMath = require("date-arithmetic");
+import { data as yjData, IGuaItem } from '../assets/yijing'
+import _ from 'lodash'
 
 export function getLongitude(opt: PositionOptions = {}): Promise<number> {
 	return new Promise<number>((resolve, reject) => {
@@ -225,3 +227,57 @@ export function qiGuaByHouTian(
 	};
 }
 
+export function quanGua2xZhiX(qg: gua.QuanGua): string {
+	console.info(JSON.stringify(qg))
+	const xg = qg.gua[0];
+	const sg = qg.gua[1];
+	const xb = qg.gua[4];
+	const sb = qg.gua[5];
+	const xgIndex = gua.guas.findIndex(gua => _.isEqual(gua, xg));
+	const sgIndex = gua.guas.findIndex(gua => _.isEqual(gua, sg));
+	const xbIndex = gua.guas.findIndex(gua => _.isEqual(gua, xb));
+	const sbIndex = gua.guas.findIndex(gua => _.isEqual(gua, sb));
+	const first = yjData.find(g => g.pailie.up === gua.words[sgIndex] && g.pailie.bottom === gua.words[xgIndex])!.name;
+	const second = yjData.find(g => g.pailie.up === gua.words[sbIndex] && g.pailie.bottom === gua.words[xbIndex])!.name;
+	return `${first}之${second}`;
+}
+
+export function getRelationForWuXing(first: gua.WuXing, second: gua.WuXing): gua.Relation {
+	if (first === second) return "比和";
+	if (first === '金' && second === '土') return "被生";
+	if (first === '金' && second === '木') return "克";
+	if (first === '金' && second === '水') return "生";
+	if (first === '金' && second === '火') return "被克";
+	if (first === '木' && second === '土') return "克";
+	if (first === '木' && second === '金') return "被克";
+	if (first === '木' && second === '水') return "被生";
+	if (first === '木' && second === '火') return "生";
+	if (first === '水' && second === '土') return "被克";
+	if (first === '水' && second === '木') return "生";
+	if (first === '水' && second === '金') return "被生";
+	if (first === '水' && second === '火') return "克";
+	if (first === '火' && second === '土') return "生";
+	if (first === '火' && second === '木') return "被生";
+	if (first === '火' && second === '水') return "被克";
+	if (first === '火' && second === '金') return "克";
+	if (first === '土' && second === '金') return "生";
+	if (first === '土' && second === '木') return "被克";
+	if (first === '土' && second === '水') return "克";
+	if (first === '土' && second === '火') return "被生";
+	else return "比和";
+}
+
+export function getRelationForGua(first: gua.Gua | gua.GuaW | gua.GuaS, second: gua.Gua | gua.GuaW | gua.GuaS): gua.Relation {
+	return getRelationForWuXing(gua.gua2wuXing.get(first.toString())!, gua.gua2wuXing.get(second.toString())!);
+}
+
+export function getGuaByWord(up: gua.GuaW, bottom: gua.GuaW): IGuaItem {
+	return yjData.find(g => g.pailie.up === up && g.pailie.bottom === bottom)!
+}
+
+export function getGuaByGua(up: gua.Gua, bottom: gua.Gua): IGuaItem {
+	let _up: gua.GuaW, _bottom: gua.GuaW;
+	_up = gua.words[gua.guas.findIndex(g => _.isEqual(g, up))];
+	_bottom = gua.words[gua.guas.findIndex(g => _.isEqual(g, bottom))];
+	return yjData.find(g => g.pailie.up === _up && g.pailie.bottom === _bottom)!
+}

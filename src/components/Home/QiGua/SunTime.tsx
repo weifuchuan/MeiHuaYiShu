@@ -1,10 +1,11 @@
 import * as React from 'react'
 import { Text, View, StyleSheet, ViewStyle, Image, ImageStyle, TouchableOpacity, Dimensions } from 'react-native';
 import { observer } from 'mobx-react/native';
-import { Switch, Picker } from 'antd-mobile-rn'
+import { Switch, Picker, List } from 'antd-mobile-rn'
 import { observable } from 'mobx';
-import { sunTimeNow } from '../../../kit';
+import { sunTimeNow, sunTimeByLongtitude } from '../../../kit';
 import { Province, City, District, data as provinces } from '../../../assets/longitude';
+import { storage, fixedKey } from '../../../store';
 
 const { ListRow, Overlay, Label, PullPicker, Toast } = require("teaset")
 
@@ -32,17 +33,30 @@ const data: UseableForSelect[] = provinces.map(
       }))
   }))
 
+export interface ISunTime {
+  getNow(): Date;
+}
+
 @observer
 export default class SunTime extends React.Component<{
-  use: boolean;
   onChange: (use: boolean) => void;
-}>{
+  sync:()=>void; 
+}> implements ISunTime {
+
+  @observable use: boolean = true;
 
   @observable now: string = "(尝试获取经度)";
-  @observable selectLongitude: boolean = false;
-  @observable province: Province = provinces[0];
-  @observable city?: City;
-  @observable district?: District;
+
+  @observable currentPosition: [string, string, string] = ["北京", "北京市", "东城区"];
+
+  constructor(props: Readonly<{ use: boolean; onChange: (use: boolean) => void; sync: () => void;  }>) {
+    super(props);
+    storage.load<[string, string, string]>({ key: fixedKey.CURRENT_POSITION }).then(p => {
+      this.currentPosition = p;
+      this.startSunTimeUpdator();
+      this.props.sync(); 
+    }).catch(err=>console.error(err));
+  }
 
   render() {
     return (
@@ -58,41 +72,60 @@ export default class SunTime extends React.Component<{
           )}
           topSeparator={"full"}
           bottomSeparator={"full"}
-          accessory={<Switch checked={this.props.use} onChange={this.props.onChange} />}
+          accessory={
+            <Switch checked={this.use} onChange={ok => {
+              this.use = ok;
+              this.props.onChange(ok)
+              !ok && this.timer && clearInterval(this.timer);
+              const now = this.getNow();
+              this.now = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().length === 1 ? "0" + now.getMinutes() : now.getMinutes()}`
+              this.props.sync(); 
+            }}
+            />
+          }
         />
         {
-          this.props.use ?
+          this.use ?
             (
               <ListRow
                 title={
                   <View style={{ flexDirection: "row" }}>
                     <Text>现在（真太阳时）：</Text>
-                    <Text style={{ color: "blue" }} onPress={() => {
-                      this.selectLongitude = !this.selectLongitude;
-                    }}>选择城市</Text>
                   </View>
                 }
                 topSeparator={"full"}
                 bottomSeparator={"full"}
-                accessory={<Label text={this.now} />}
+                accessory={<Text onPress={()=>this.props.sync()}>{this.now}</Text>}
+                detail={"点击同步→"}
               />
             )
             : null
         }
         {
-          this.props.use && this.selectLongitude ?
+          this.use ?
             (
-              <ListRow
-                title={`省/市/区(县)：`}
-                topSeparator={"full"}
-                bottomSeparator={"full"}
-                accessory={(
-                  <Picker
-                    data={data}
-                    
-                  />
-                )}
-              />
+              <Picker
+                title={<Text>省/市/区(县)</Text>}
+                data={data}
+                cols={3}
+                extra={`${this.currentPosition[0]}/${this.currentPosition[1]}/${this.currentPosition[2]}`}
+                value={this.currentPosition.slice()}
+                onChange={(v) => {
+                  this.currentPosition[0] = v![0] as string;
+                  this.currentPosition[1] = v![1] as string;
+                  this.currentPosition[2] = v![2] as string;
+                }}
+                onOk={(v) => {
+                  this.currentPosition[0] = v![0] as string;
+                  this.currentPosition[1] = v![1] as string;
+                  this.currentPosition[2] = v![2] as string;
+                  storage.save({ key: fixedKey.CURRENT_POSITION, data: this.currentPosition.slice() })
+                  this.startSunTimeUpdator();
+                  this.props.onChange(true);
+                }}
+              >
+                <List.Item arrow="horizontal"><Text>省/市/区(县)：</Text></List.Item>
+              </Picker>
             )
             : null
         }
@@ -100,29 +133,38 @@ export default class SunTime extends React.Component<{
     );
   }
 
+
+  getNow(): Date {
+    if (this.use) {
+      const lng = provinces.find(p => p.name === this.currentPosition[0])!.city.find(c => c.name === this.currentPosition[1])!.district.find(d => d.name === this.currentPosition[2])!.longitude;
+      return sunTimeByLongtitude(lng);
+    } else {
+      return new Date();
+    }
+  }
+
   timer: any = null;
 
   componentDidMount() {
-    (async () => {
-      try {
-        const now = await sunTimeNow({ timeout: 5000 });
-        this.now = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours}:${now.getMinutes()}`
-        this.timer = setInterval(async () => {
-          const now = await sunTimeNow({ timeout: 5000 });
-          this.now = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours}:${now.getMinutes()}`
-        }, 30000)
-      } catch (err) {
-        console.info(err);
-        Toast.fail("获取经度失败，请 选择城市")
-      }
-    })()
+  }
+
+  private startSunTimeUpdator = () => {
+    this.timer && clearInterval(this.timer);
+    const lng = provinces.find(p => p.name === this.currentPosition[0])!.city.find(c => c.name === this.currentPosition[1])!.district.find(d => d.name === this.currentPosition[2])!.longitude;
+    const now = sunTimeByLongtitude(lng)
+    this.now = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().length === 1 ? "0" + now.getMinutes() : now.getMinutes()}`
+    this.timer = setInterval(() => {
+      const now = sunTimeByLongtitude(lng);
+      this.now = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().length === 1 ? "0" + now.getMinutes() : now.getMinutes()}`
+      this.props.onChange(this.use); 
+    }, 30000)
   }
 
   componentWillUnmount() {
     this.timer && clearInterval(this.timer);
   }
 
-  static sunTimeHelpOverlayView = (
+  private static sunTimeHelpOverlayView = (
     <Overlay.PopView
       style={{ alignItems: 'center', justifyContent: 'center' }}
     >
@@ -134,7 +176,7 @@ export default class SunTime extends React.Component<{
     </Overlay.PopView>
   )
 
-  showSunTimeHelp = () => {
+  private showSunTimeHelp = () => {
     Overlay.show(SunTime.sunTimeHelpOverlayView);
   }
 }

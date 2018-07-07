@@ -80,7 +80,7 @@ class Home extends React.Component<NavigationInjectedProps & {
                 ]}
                 renderItem={({ item, index }) => {
                   return (
-                    <Button type="primary" onClick={item.route}>{item.title}</Button>
+                    <Button type="primary" style={{ borderRadius: 0 }} onClick={item.route}>{item.title}</Button>
                   );
                 }}
                 ItemSeparatorComponent={() => (

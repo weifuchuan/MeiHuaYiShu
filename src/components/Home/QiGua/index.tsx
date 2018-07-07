@@ -1,14 +1,14 @@
 import * as React from 'react'
-import { Text, View, StyleSheet, ViewStyle } from 'react-native';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { gua } from '../../../types';
-import { inject, observer } from 'mobx-react/native';
+import { observer } from 'mobx-react/native';
 import { Store } from '../../../store';
 import { observable } from 'mobx';
 import ShiJianGua from './ShiJianGua';
 import ErShuJiaShiChenGua from './ErShuJiaShiChenGua';
 import ErShuGua from './ErShuGua';
 import HouTianGua from './HouTianGua';
-import { createSwitchNavigator, NavigationRouter, withNavigation, NavigationInjectedProps, createStackNavigator } from 'react-navigation';
+import { NavigationRouter, NavigationInjectedProps, createStackNavigator } from 'react-navigation';
 
 const { ListRow, Select } = require("teaset")
 
@@ -74,6 +74,7 @@ class QiGua extends React.Component<NavigationInjectedProps & {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff"
   } as ViewStyle,
 })
 
