@@ -73,6 +73,7 @@ export namespace gua {
 		"艮",
 		"坤"
 	];
+	export const directions: string[] = ['西南', '西北', '西', '南', '东', '东南', '北', '东北', '西南']
 	export const guas: Gua[] = [
 		[false, false, false],
 		[true, true, true],

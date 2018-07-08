@@ -4,20 +4,24 @@ import { createStackNavigator } from 'react-navigation';
 import GuaLiNote from './GuaLiNote';
 import MeiHuaYiShu from './MeiHuaYiShu';
 import Gua from './Gua';
+import LeiXiang from './LeiXiang';
 
 export default createStackNavigator(
   {
     Home: {
       screen: Home,
     },
-    GuaLiNote:{
-      screen:GuaLiNote, 
+    GuaLiNote: {
+      screen: GuaLiNote,
     },
-    MeiHuaYiShu:{
-      screen:MeiHuaYiShu 
+    MeiHuaYiShu: {
+      screen: MeiHuaYiShu
     },
-    Gua:{
-      screen:Gua
+    Gua: {
+      screen: Gua
+    },
+    LeiXiang: {
+      screen: LeiXiang
     }
   },
   {

@@ -61,7 +61,9 @@
     "react-native": "~0.55.2",
     "react-native-storage": "^0.2.2",
     "react-native-tab-view": "^1.0.2",
+    "react-native-webview-autoheight": "^1.0.5",
     "react-navigation": "^2.5.5",
+    "react-navigation-backhandler": "^1.1.1",
     "solarlunar": "^2.0.2",
     "teaset": "^0.5.8"
   }

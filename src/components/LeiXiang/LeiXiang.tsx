@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, ViewStyle, WebView,Text } from 'react-native';
+import { View, ViewStyle, WebView, Text, Dimensions } from 'react-native';
 import { observer } from 'mobx-react/native';
 import { gua } from '../../types';
 import { observable } from 'mobx';
@@ -15,13 +15,16 @@ import kan from '../../assets/bagua/kan';
 import geng from '../../assets/bagua/geng';
 import kun from '../../assets/bagua/kun';
 
+const { Overlay } = require("teaset")
+const { width, height } = Dimensions.get("window")
+
 @observer
 export default class LeiXiang extends React.Component<{ style?: ViewStyle }>{
   @observable guaWord: gua.GuaW = '乾';
 
   render() {
     return (
-      <View style={{flex:1}}>
+      <View style={{ flex: 1 }}>
         <ListRow
           title={"卦："}
           topSeparator={"full"}
@@ -68,6 +71,27 @@ export default class LeiXiang extends React.Component<{ style?: ViewStyle }>{
         return kun;
       default:
         return '';
+    }
+  }
+
+  private static modal: any = null;
+
+  static modalShow() {
+    if (LeiXiang.modal) {
+      Overlay.show(LeiXiang.modal);
+    }
+    else {
+      Overlay.show(LeiXiang.modal = (
+        <Overlay.View
+          style={{ alignItems: 'center', justifyContent: 'center' }}
+          modal={false}
+          overlayOpacity={0.6}
+        >
+          <View style={{ height: height * 0.8, width: width * 0.8, borderRadius: 5 }}>
+            <LeiXiang />
+          </View>
+        </Overlay.View>
+      ));
     }
   }
 }

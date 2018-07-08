@@ -30,7 +30,7 @@ mso-hansi-font-family:Calibri'>人物：中女、文人、大腹、目疾人、<
 lang=EN-US><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:宋体;mso-ascii-font-family:Calibri;
-mso-hansi-font-family:Calibri'>人事；文画之所、聪明才学、相见虚心、书事。</span><span lang=EN-US><o:p></o:p></span></p>
+mso-hansi-font-family:Calibri'>人事：文画之所、聪明才学、相见虚心、书事。</span><span lang=EN-US><o:p></o:p></span></p>
 
 <p class=MsoNormal><span style='font-family:宋体;mso-ascii-font-family:Calibri;
 mso-hansi-font-family:Calibri'>身体：目、心、上焦。</span><span lang=EN-US><o:p></o:p></span></p>

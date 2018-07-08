@@ -5,8 +5,14 @@
     "outDir": "build/dist",
     "sourceMap": true,
     "experimentalDecorators": true,
+    "downlevelIteration": true,
     "jsx": "react-native",
-    "lib": ["dom", "es2015", "es2016", "es5"],
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016",
+      "es5"
+    ],
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "noEmitHelpers": true,

@@ -7,7 +7,7 @@ import { Store } from '../../store';
 import { quanGua2xZhiX, getRelationForGua, getGuaByGua } from '../../kit';
 import { observable } from 'mobx';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import LeiXiang from './LeiXiang';
+import LeiXiang from '../LeiXiang/LeiXiang';
 import { IGuaItem } from '../../assets/yijing';
 const solarLunar = require("../../assets/solarlunar.min.js");
 const { NavigationBar } = require("teaset");

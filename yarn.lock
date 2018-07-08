@@ -5931,6 +5931,10 @@ react-native-web-maps@^0.1.0:
   dependencies:
     react-google-maps "^7.3.0"
 
+react-native-webview-autoheight@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-webview-autoheight/-/react-native-webview-autoheight-1.0.5.tgz#6be37caf679b4c88b9b3e4e547f149b6436d8bff"
+
 react-native@~0.55.2:
   version "0.55.4"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.55.4.tgz#eecffada3750a928e2ddd07cf11d857ae9751c30"
@@ -5994,6 +5998,10 @@ react-native@~0.55.2:
     xcode "^0.9.1"
     xmldoc "^0.4.0"
     yargs "^9.0.0"
+
+react-navigation-backhandler@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-backhandler/-/react-navigation-backhandler-1.1.1.tgz#a5cbd414acc503ed79bd10d27fcd71c4d1af476d"
 
 react-navigation-deprecated-tab-navigator@1.3.0:
   version "1.3.0"

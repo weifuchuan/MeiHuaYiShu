@@ -228,7 +228,6 @@ export function qiGuaByHouTian(
 }
 
 export function quanGua2xZhiX(qg: gua.QuanGua): string {
-	console.info(JSON.stringify(qg))
 	const xg = qg.gua[0];
 	const sg = qg.gua[1];
 	const xb = qg.gua[4];
