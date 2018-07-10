@@ -146,12 +146,14 @@ export namespace gua {
 export class Note {
 	// 卦
 	@observable quanGua: gua.QuanGua;
+	// 问事
+	@observable thing: string = '';
 	// 分析
-	@observable analysis: string = "";
+	@observable analysis: any = {};
 	// 断言
-	@observable assert: string = "";
+	@observable assert: any = {};
 	// 结果
-	@observable result: string = "";
+	@observable result: any = {};
 	// 准确否
 	@observable rigth: true | false | "" = "";
 

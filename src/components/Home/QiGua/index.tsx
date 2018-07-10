@@ -20,6 +20,7 @@ const TypeNavigator = createStackNavigator(
     ErShuGua,
     HouTianGua
   }, {
+    initialRouteName: "ShiJianGua",
     headerMode: "none"
   })
 
@@ -33,40 +34,40 @@ class QiGua extends React.Component<NavigationInjectedProps & {
 
   render() {
     return (
-        <View style={styles.container}>
-          <ListRow
-            title={"起卦方式："}
-            topSeparator={"full"}
-            bottomSeparator={"full"}
-            accessory={<Select
-              items={["时间卦", "二数加时辰卦", "二数卦", "后天卦"] as gua.GuaType[]}
-              getItemValue={(item: string) => item}
-              getItemText={(item: string) => item}
-              value={this.guaType}
-              pickerTitle={"起卦方式"}
-              onSelected={(item: gua.GuaType) => {
-                this.guaType = item
-                switch (item) {
-                  case "时间卦":
-                    this.props.navigation.navigate("ShiJianGua")
-                    break;
-                  case "二数加时辰卦":
-                    this.props.navigation.navigate("ErShuJiaShiChenGua")
-                    break;
-                  case "二数卦":
-                    this.props.navigation.navigate("ErShuGua")
-                    break;
-                  case "后天卦":
-                    this.props.navigation.navigate("HouTianGua")
-                    break;
-                  default:
-                    break;
-                }
-              }}
-            />}
-          />
-          <TypeNavigator navigation={this.props.navigation} />
-        </View>
+      <View style={styles.container}>
+        <ListRow
+          title={"起卦方式："}
+          topSeparator={"full"}
+          bottomSeparator={"full"}
+          accessory={<Select
+            items={["时间卦", "二数加时辰卦", "二数卦", "后天卦"] as gua.GuaType[]}
+            getItemValue={(item: string) => item}
+            getItemText={(item: string) => item}
+            value={this.guaType}
+            pickerTitle={"起卦方式"}
+            onSelected={(item: gua.GuaType) => {
+              this.guaType = item
+              switch (item) {
+                case "时间卦":
+                  this.props.navigation.replace("ShiJianGua")
+                  break;
+                case "二数加时辰卦":
+                  this.props.navigation.replace("ErShuJiaShiChenGua")
+                  break;
+                case "二数卦":
+                  this.props.navigation.replace("ErShuGua")
+                  break;
+                case "后天卦":
+                  this.props.navigation.replace("HouTianGua")
+                  break;
+                default:
+                  break;
+              }
+            }}
+          />}
+        />
+        <TypeNavigator navigation={this.props.navigation} />
+      </View>
     )
   }
 

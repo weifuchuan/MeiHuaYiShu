@@ -6,7 +6,6 @@ import { Store } from '../../../store';
 import { observable, IObservableValue, autorun, IReactionDisposer } from 'mobx';
 import SunTime from './SunTime';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
-import { clearInterval } from 'timers';
 import { gua } from "../../../types";
 import { qiGuaByTime } from '../../../kit';
 import { jiaZhi, jiaZhiDiZhiValue } from '../../../assets/jiazhi';
@@ -31,7 +30,6 @@ class ShiJianGua extends React.Component<NavigationInjectedProps & {
 
   render() {
     return (
-      <AndroidBackHandler onBackPress={this.onBackButtonPressAndroid}>
         <View style={styles.container}>
           <SunTime
             ref={r => this.sunTime = r!}
@@ -103,7 +101,6 @@ class ShiJianGua extends React.Component<NavigationInjectedProps & {
             </Card.Body>
           </Card>
         </View>
-      </AndroidBackHandler>
     );
   }
 

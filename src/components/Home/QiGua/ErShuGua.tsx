@@ -33,7 +33,6 @@ class ErShuGua extends React.Component<NavigationInjectedProps & {
 
   render() {
     return (
-      <AndroidBackHandler onBackPress={this.onBackButtonPressAndroid}>
         <View style={styles.container}>
           <List>
             <InputItem
@@ -143,7 +142,6 @@ class ErShuGua extends React.Component<NavigationInjectedProps & {
           </Card>
         </View>
 
-      </AndroidBackHandler >
     );
   }
 

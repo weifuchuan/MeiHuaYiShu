@@ -31,109 +31,107 @@ class HouTianGua extends React.Component<NavigationInjectedProps & {
 
   render() {
     return (
-      <AndroidBackHandler onBackPress={this.onBackButtonPressAndroid}>
-        <View style={styles.container}>
-          <ListRow
-            title={"上卦："}
-            detail={<Text style={{ color: "blue" }} onPress={() => LeiXiang.modalShow()}>万物类象  </Text>}
-            topSeparator={"full"}
-            bottomSeparator={"full"}
-            accessory={<Select
-              items={gua.words.slice(1)}
-              getItemValue={(item: string) => item}
-              getItemText={(item: string) => item}
-              value={this.up}
-              pickerType={"popover"}
-              onSelected={(item: gua.GuaW) => {
-                this.up = item;
-              }}
-            />}
-          />
-          <ListRow
-            title={"下卦："}
-            topSeparator={"full"}
-            bottomSeparator={"full"}
-            accessory={<Select
-              items={gua.words.slice(1)}
-              getItemValue={(item: string) => item}
-              getItemText={(item: string) => `${item}(${gua.directions[gua.words.findIndex(w => w === item)!]})`}
-              value={this.bottom}
-              pickerType={"popover"}
-              onSelected={(item: gua.GuaW) => {
-                this.bottom = item;
-              }}
-            />}
-          />
-          <SunTime
-            ref={r => this.sunTime = r!}
-            onChange={v => {
-              this.useSunTime = v;
+      <View style={styles.container}>
+        <ListRow
+          title={"上卦："}
+          detail={<Text style={{ color: "blue" }} onPress={() => LeiXiang.modalShow()}>万物类象  </Text>}
+          topSeparator={"full"}
+          bottomSeparator={"full"}
+          accessory={<Select
+            items={gua.words.slice(1)}
+            getItemValue={(item: string) => item}
+            getItemText={(item: string) => item}
+            value={this.up}
+            pickerType={"popover"}
+            onSelected={(item: gua.GuaW) => {
+              this.up = item;
             }}
-            sync={() => {
-              this.updateTimeForGua()
-              this.forceUpdate();
+          />}
+        />
+        <ListRow
+          title={"下卦："}
+          topSeparator={"full"}
+          bottomSeparator={"full"}
+          accessory={<Select
+            items={gua.words.slice(1)}
+            getItemValue={(item: string) => item}
+            getItemText={(item: string) => `${item}(${gua.directions[gua.words.findIndex(w => w === item)!]})`}
+            value={this.bottom}
+            pickerType={"popover"}
+            onSelected={(item: gua.GuaW) => {
+              this.bottom = item;
             }}
-          />
-          {
-            this.useNongLi ?
-              (
-                <Picker
-                  data={nongLiUseableData}
-                  value={this.timeForGua.slice()}
-                  cols={4}
-                  onChange={t => {
-                    (this as any).timeForGua = t!
-                  }}
-                  onOk={t => {
-                    (this as any).timeForGua = t!
-                  }}
-                >
-                  <List.Item arrow="horizontal">
-                    <View style={{ flexDirection: "row" }}>
-                      <Text>起卦时间：</Text>
-                      <Text style={{ color: "blue" }} onPress={() => this.useNongLi = false}>转公历</Text>
-                    </View>
-                  </List.Item>
-                </Picker>
-              )
-              : (
-                <DatePicker
-                  mode={"datetime"}
-                  value={this.now}
-                  onChange={d => {
-                    this.now = d;
-                    (this as any).timeForGua = this.solar2timeForGua(this.now);
-                  }}
-                  title={"选择时间"}
-                >
-                  <List.Item arrow="horizontal">
-                    <View style={{ flexDirection: "row" }}>
-                      <Text>起卦时间：</Text>
-                      <Text style={{ color: "blue" }} onPress={() => this.useNongLi = true}>转农历</Text>
-                    </View>
-                  </List.Item>
-                </DatePicker>
-              )
-          }
-          <Button type={"primary"} style={{ borderRadius: 0 }} onClick={this.qiGua} >起卦</Button>
-          <Card full={true} style={{ flex: 1 }}>
-            <Card.Header title={"后天卦卦例"} extra={(
-              <View style={{ flex: 1, alignItems: 'flex-end' }}>
-                <Text onPress={() => {
-                  ModalWebView.show(guali);
-                }}>全屏</Text>
-              </View>
-            )} />
-            <Card.Body>
-              <WebView
-                source={{
-                  html: guali
+          />}
+        />
+        <SunTime
+          ref={r => this.sunTime = r!}
+          onChange={v => {
+            this.useSunTime = v;
+          }}
+          sync={() => {
+            this.updateTimeForGua()
+            this.forceUpdate();
+          }}
+        />
+        {
+          this.useNongLi ?
+            (
+              <Picker
+                data={nongLiUseableData}
+                value={this.timeForGua.slice()}
+                cols={4}
+                onChange={t => {
+                  (this as any).timeForGua = t!
                 }}
-              />
-            </Card.Body>
-          </Card>
-        </View>
-      </AndroidBackHandler>
+                onOk={t => {
+                  (this as any).timeForGua = t!
+                }}
+              >
+                <List.Item arrow="horizontal">
+                  <View style={{ flexDirection: "row" }}>
+                    <Text>起卦时间：</Text>
+                    <Text style={{ color: "blue" }} onPress={() => this.useNongLi = false}>转公历</Text>
+                  </View>
+                </List.Item>
+              </Picker>
+            )
+            : (
+              <DatePicker
+                mode={"datetime"}
+                value={this.now}
+                onChange={d => {
+                  this.now = d;
+                  (this as any).timeForGua = this.solar2timeForGua(this.now);
+                }}
+                title={"选择时间"}
+              >
+                <List.Item arrow="horizontal">
+                  <View style={{ flexDirection: "row" }}>
+                    <Text>起卦时间：</Text>
+                    <Text style={{ color: "blue" }} onPress={() => this.useNongLi = true}>转农历</Text>
+                  </View>
+                </List.Item>
+              </DatePicker>
+            )
+        }
+        <Button type={"primary"} style={{ borderRadius: 0 }} onClick={this.qiGua} >起卦</Button>
+        <Card full={true} style={{ flex: 1 }}>
+          <Card.Header title={"后天卦卦例"} extra={(
+            <View style={{ flex: 1, alignItems: 'flex-end' }}>
+              <Text onPress={() => {
+                ModalWebView.show(guali);
+              }}>全屏</Text>
+            </View>
+          )} />
+          <Card.Body>
+            <WebView
+              source={{
+                html: guali
+              }}
+            />
+          </Card.Body>
+        </Card>
+      </View>
     );
   }
 
@@ -154,8 +152,8 @@ class HouTianGua extends React.Component<NavigationInjectedProps & {
   }
 
   private qiGua = () => {
-    const qg = qiGuaByHouTian(gua.words.slice(1).findIndex(w => w === this.up) as gua.GuaNumber,
-      gua.words.slice(1).findIndex(w => w === this.bottom) as gua.GuaNumber,
+    const qg = qiGuaByHouTian(gua.words.lastIndexOf(this.up) as gua.GuaNumber,
+      gua.words.lastIndexOf(this.bottom) as gua.GuaNumber,
       Number.parseInt(this.timeForGua[3]) as gua.DiZhi);
     const time = this.timeForGua.map((s, i) => i === 0 ? Number.parseInt(s.split('-')[1]) : Number.parseInt(s));
     if (this.useNongLi)
@@ -216,5 +214,4 @@ p {text-indent: 2em}
 <h3 align="center">枯枝坠地占</h3>
 <p>戊子日辰时，偶行至中途，有树蔚然，无风，枯枝自坠地于兑方。占之，槁木为离，作上卦，兑方为下卦，得火泽睽。以兑二离三，加辰时五数，总十数，去六余四，变山泽损，是睽之九四。《易》曰：&ldquo;睽孤，遇元夫。&rdquo;卦火泽睽变损，互见坎、离，兑金为体，离火克之，且睽损卦名，俱有伤残之义。</p>
 <p>断曰：此树十日当伐。果十日，伐树起公榭，而匠者适字&ldquo;元夫&rdquo;也。</p>
-
-               `
+`
