@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { NavigationInjectedProps } from 'react-navigation';
 import { View, StyleSheet, ViewStyle, Text, LayoutChangeEvent, Dimensions, ScrollView } from 'react-native';
-import { gua } from '../../types';
+import { gua,  Note } from '../../types';
 import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../store';
 import { quanGua2xZhiX, getRelationForGua, getGuaByGua } from '../../kit';
@@ -41,7 +41,7 @@ export default class Gua extends React.Component<NavigationInjectedProps & {
   render() {
     const navigation = this.props.navigation;
     const quanGua: gua.QuanGua = navigation.getParam("gua");
-    const time: [number, number, number, number] = navigation.getParam("time");
+    const time: gua.YMDH = navigation.getParam("time");
     const datetime: Date = navigation.getParam("datetime", undefined);
     let hasShiZhi = false;
     let gzYear: string = '', gzMonth: string = '', gzDay: string = '', gzHour: string = '';
@@ -67,7 +67,16 @@ export default class Gua extends React.Component<NavigationInjectedProps & {
           onLayout={(e: LayoutChangeEvent) => this.navigationBarHeight = e.nativeEvent.layout.height}
           title={quanGua2xZhiX(quanGua)}
           leftView={<NavigationBar.BackButton title='返回' onPress={() => navigation.goBack()} />}
-          rightView={<NavigationBar.LinkButton title="保存为卦例" />}
+          rightView={<NavigationBar.LinkButton title="保存为卦例" onPress={() => {
+            if (datetime)
+              this.props.navigation.push("NoteEditor", {
+                note: new Note(quanGua, '', datetime ? datetime : new Date(), time)
+              })
+            else
+              this.props.navigation.push("NoteEditor", {
+                quanGua, time
+              })
+          }} />}
         />
         <View style={{ marginTop: this.navigationBarHeight, flex: 1, }}>
           <View style={{ width, alignItems: 'center' }}>

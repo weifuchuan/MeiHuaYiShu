@@ -1,10 +1,14 @@
 import { observable } from "mobx";
+import { getGuaByGua } from '../kit';
+import { IGuaItem } from '../assets/yijing';
+const solarLunar = require("../assets/solarlunar.min.js");
 
 export namespace gua {
 	// 乾☰兑☱离☲震☳巽☴坎☵艮☶坤☷
 	export type Gua = [boolean, boolean, boolean]; // true -> 阳, false -> 阴
 	export type Yao = 1 | 2 | 3 | 4 | 5 | 6;
 	export type DiZhi = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+	export type YMDH = [DiZhi, DiZhi, Tian, DiZhi];
 	export const diZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', "未", "申", '酉', '戌', '亥'];
 	export const diZhiNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 	export const tianGan = ['甲', '乙', '丙', "丁", '戊', '己', '庚', '辛', "壬", '癸']
@@ -145,19 +149,62 @@ export namespace gua {
 // 卦例笔记
 export class Note {
 	// 卦
-	@observable quanGua: gua.QuanGua;
+	quanGua: Readonly<gua.QuanGua>;
 	// 问事
-	@observable thing: string = '';
-	// 分析
-	@observable analysis: any = {};
-	// 断言
-	@observable assert: any = {};
-	// 结果
-	@observable result: any = {};
-	// 准确否
-	@observable rigth: true | false | "" = "";
+	@observable thing: string;
+	// 内容
+	@observable content: any;
+	// 起卦时间
+	@observable datetime: Readonly<Date>;
+	// 一般时间
+	@observable time: Readonly<gua.YMDH>;
 
-	constructor(quanGua: gua.QuanGua) {
-		this.quanGua = observable(quanGua);
+	constructor(quanGua: gua.QuanGua, thing: string, datetime: Date, time: gua.YMDH, content: any = { "ops": [{ "insert": "分析" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n断语" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n结果" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n\n" }] }) {
+		this.quanGua = quanGua;
+		this.thing = thing;
+		this.content = content;
+		this.datetime = datetime;
+		this.time = time;
 	}
+
+	static of(obj: { quanGua: gua.QuanGua, thing: string, content?: any, datetime: Date, time: gua.YMDH }): Note {
+		return new Note(obj.quanGua, obj.thing, obj.datetime, obj.time, obj.content);
+	}
+
+	help(): {
+		hasShiZhi: boolean;
+		shiZhi: {
+			gzYear: string;
+			gzMonth: string;
+			gzDay: string;
+			gzHour: string;
+		};
+		zhuGua: IGuaItem;
+		huGua: IGuaItem;
+		bianGua: IGuaItem;
+	} {
+		let hasShiZhi = false;
+		let gzYear: string = '', gzMonth: string = '', gzDay: string = '', gzHour: string = '';
+		if (this.datetime) {
+			hasShiZhi = true;
+			const o: { gzYear: string, gzMonth: string, gzDay: string } = solarLunar.solar2lunar(this.datetime.getFullYear(), this.datetime.getMonth() + 1, this.datetime.getDate());
+			gzYear = o.gzYear
+			gzMonth = o.gzMonth
+			gzDay = o.gzDay
+			const zhiShiGan = gua.dayGan2hourGanAtZhi.get(gzDay[0])!;
+			let i = gua.tianGan.indexOf(zhiShiGan) + 1;
+			i = i + this.time[3] - 1;
+			i = i > 10 ? i - 10 : i;
+			gzHour = gua.tianGan[i - 1] + gua.diZhi[this.time[3] - 1];
+		}
+		const zhuGua = getGuaByGua(this.quanGua.gua[1], this.quanGua.gua[0]);
+		const huGua = getGuaByGua(this.quanGua.gua[3], this.quanGua.gua[2]);
+		const bianGua = getGuaByGua(this.quanGua.gua[5], this.quanGua.gua[4]);
+
+		return {
+			hasShiZhi, shiZhi: { gzYear, gzMonth, gzDay, gzHour }, zhuGua, huGua, bianGua
+		}
+	}
+
+
 }
