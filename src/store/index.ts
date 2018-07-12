@@ -3,6 +3,7 @@ import Storage from './storage';
 import { observable, toJS } from 'mobx';
 import { Note, INote } from '../types';
 import { MD5 } from 'crypto-js';
+import { GuaResult } from '../types/index';
 
 function idGenerator(): string {
 	return MD5(new Date().toLocaleTimeString() + Math.random().toString()).toString();
@@ -56,6 +57,15 @@ export class Store {
 			});
 		}
 	}
+
+	async changeNoteResult(note: Note, result: GuaResult) {
+		note.result = result;
+		await storage.save({
+			key: fixedKey.NOTE,
+			id: note.id,
+			data: toJS(note)
+		});
+	}
 }
 
 export default new Store();
@@ -71,7 +81,7 @@ export interface IStorege {
 
 export const storage: IStorege = new Storage({
 	// 最大容量，默认值1000条数据循环存储
-	size: 1000000,
+	size: 100000000,
 
 	// 存储引擎：对于RN使用AsyncStorage，对于web使用window.localStorage
 	// 如果不指定则数据只会保存在内存中，重启后即丢失

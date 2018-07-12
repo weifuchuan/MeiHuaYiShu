@@ -177,7 +177,7 @@ export class Note implements INote {
 	@observable datetime: Date;
 	// 一般时间
 	@observable time: gua.YMDH;
-	@observable result: GuaResult = 'unknow';
+	@observable result: GuaResult;
 
 	constructor(
 		quanGua: gua.QuanGua,
@@ -202,6 +202,7 @@ export class Note implements INote {
 		this.content = content;
 		this.datetime = datetime;
 		this.time = time;
+		this.result = result;
 	}
 
 	static of(obj: INote): Note {

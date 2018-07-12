@@ -7,23 +7,19 @@ import {
 	Dimensions,
 	LayoutChangeEvent,
 	WebView,
-	NativeSyntheticEvent,
-	WebViewMessageEventData,
 	FlatList,
 	TouchableOpacity,
-	Image,
-	ImageProps
+	Image
 } from 'react-native';
 import { observable } from 'mobx';
-import { observer, inject, Observer } from 'mobx-react/native';
+import { observer, inject } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Store } from '../../store';
-import { Note, FromType } from '../../types';
+import { Note, FromType, GuaResult } from '../../types';
 import { SwipeAction, Button, List, Drawer } from '../../../node_modules/antd-mobile-rn';
 import { quanGua2xZhiX } from '../../kit';
 import { Modal } from 'antd-mobile-rn';
 
-const QuillDeltaToHtmlConverter = require('quill-delta-to-html');
 const { NavigationBar } = require('teaset');
 const { height, width } = Dimensions.get('window');
 
@@ -129,38 +125,37 @@ export default class GuaLiNote extends React.Component<
 					<View style={{ marginTop: this.navigationBarHeight, flex: 1 }}>
 						<FlatList
 							data={store.notes.slice()}
-							renderItem={({ item, index }) => {
+							renderItem={({ item }) => {
 								return (
-									<Observer>
-										{() => (
-											<NoteItem
-												note={item}
-												onDelete={(note) => {
-													const close = Modal.alert('删除？', '删除此笔记', [
-														{
-															text: '删除',
-															onPress: () => {
-																store.deleteNote(note);
-																close && close();
-															}
-														},
-														{ text: '取消', onPress: () => close && close() }
-													]);
-												}}
-												onClick={(note) => {
-													// this.props.navigation.navigate('Note', { note });
-													this.props.navigation.navigate({
-														routeName: 'Note',
-														params: {
-															note,
-															from: this.props.navigation.getParam('from', FromType.list)
-														},
-														key: FromType.list
-													});
-												}}
-											/>
-										)}
-									</Observer>
+									<NoteItem
+										note={item}
+										onDelete={(note) => {
+											const close = Modal.alert('删除？', '删除此笔记', [
+												{
+													text: '删除',
+													onPress: () => {
+														store.deleteNote(note);
+														close && close();
+													}
+												},
+												{ text: '取消', onPress: () => close && close() }
+											]);
+										}}
+										onClick={(note) => {
+											this.props.navigation.navigate({
+												routeName: 'Note',
+												params: {
+													note,
+													from: this.props.navigation.getParam('from', FromType.list)
+												},
+												key: FromType.list
+											});
+										}}
+										onResultChange={(result, note) => {
+											store.changeNoteResult(note, result);
+											// this.forceUpdate();
+										}}
+									/>
 								);
 							}}
 							keyExtractor={(item) => item.id}
@@ -178,61 +173,84 @@ export default class GuaLiNote extends React.Component<
 	}
 }
 
-const ok = { source: require('../../assets/ui/ok.png'), style: { tintColor: '#006400' } };
-const unknow = { source: require('../../assets/ui/unknow.png'), style: { tintColor: '#696969' } };
-const no = { source: require('../../assets/ui/no.png'), style: { tintColor: '#FA8072' } };
+const ok = { source: require('../../assets/ui/ok.png'), style: { tintColor: '#006400', marginRight: 5 } };
+const unknow = { source: require('../../assets/ui/unknow.png'), style: { tintColor: '#696969', marginRight: 5 } };
+const no = { source: require('../../assets/ui/no.png'), style: { tintColor: '#FA8072', marginRight: 5 } };
 
-const NoteItem = ({
-	note,
-	onDelete,
-	onClick
-}: {
-	note: Note;
-	onDelete: (note: Note) => void;
-	onClick: (note: Note) => void;
-}): React.ReactElement<any> => {
-	let img: ImageProps = unknow;
-	switch (note.result) {
-		case 'ok':
-			img = ok;
-			break;
-		case 'unknow':
-			img = unknow;
-			break;
-		case 'no':
-			img = no;
-			break;
-		default:
-			break;
-	}
-	return (
-		<SwipeAction
-			right={[
-				{
-					text: '删除',
-					onPress: () => {
-						onDelete(note);
+const NoteItem = observer(
+	({
+		note,
+		onDelete,
+		onClick,
+		onResultChange
+	}: {
+		note: Note;
+		onDelete: (note: Note) => void;
+		onClick: (note: Note) => void;
+		onResultChange: (r: GuaResult, note: Note) => void;
+	}): React.ReactElement<any> => {
+		return (
+			<SwipeAction
+				autoClose={true}
+				left={[
+					{
+						text: '未果',
+						onPress: () => {
+							onResultChange('unknow', note);
+						}
 					},
-					style: {
-						backgroundColor: 'red',
-						color: '#fff'
+					{
+						text: '准确',
+						onPress: () => {
+							onResultChange('ok', note);
+						}
+					},
+					{
+						text: '未准',
+						onPress: () => {
+							onResultChange('no', note);
+						}
 					}
-				}
-			]}
-		>
-			<List.Item thumb={<Image {...img} />} multipleLine={true} wrap onClick={() => onClick(note)}>
-				{note.thing}
-				<List.Item.Brief>{`${quanGua2xZhiX(
-					note.quanGua
-				)} | ${note.datetime.getFullYear()}-${note.datetime.getMonth() +
-					1}-${note.datetime.getDate()} ${note.datetime.getHours()}:${note.datetime.getMinutes().toString()
-					.length === 1
-					? '0' + note.datetime.getMinutes()
-					: note.datetime.getMinutes()}`}</List.Item.Brief>
-			</List.Item>
-		</SwipeAction>
-	);
-};
+				]}
+				right={[
+					{
+						text: '删除',
+						onPress: () => {
+							onDelete(note);
+						},
+						style: {
+							backgroundColor: 'red',
+							color: '#fff'
+						}
+					}
+				]}
+			>
+				<List.Item
+					thumb={
+						<Image
+							{...(note.result === 'unknow'
+								? unknow
+								: note.result === 'no' ? no : note.result === 'ok' ? ok : unknow)}
+						/>
+					}
+					multipleLine={true}
+					wrap
+					onClick={() => onClick(note)}
+				>
+					{note.thing}
+					<List.Item.Brief>{`${quanGua2xZhiX(
+						note.quanGua
+					)} | ${note.datetime.getFullYear()}-${note.datetime.getMonth() +
+						1}-${note.datetime.getDate()} ${note.datetime.getHours()}:${note.datetime
+						.getMinutes()
+						.toString().length === 1
+						? '0' + note.datetime.getMinutes()
+						: note.datetime.getMinutes()}`}</List.Item.Brief>
+				</List.Item>
+			</SwipeAction>
+		);
+	}
+);
 
 const styles = StyleSheet.create({
 	container: {
