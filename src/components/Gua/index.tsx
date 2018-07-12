@@ -177,7 +177,7 @@ const relation2color = new Map<gua.Relation, string>()
   .set("被克", "#8B008B") // 深洋红色
   .set('被生', '#000080') // 海军蓝
 
-const ZhenGua = ({ qg, style = {} }: { qg: gua.QuanGua; style?: ViewStyle }) => {
+export const ZhenGua = ({ qg, style = {} }: { qg: gua.QuanGua; style?: ViewStyle }) => {
   const threeGua = [[qg.gua[0], qg.gua[1]], [qg.gua[2], qg.gua[3]], [qg.gua[4], qg.gua[5]]];
   const t = qg.gua[qg.ti];
   return (

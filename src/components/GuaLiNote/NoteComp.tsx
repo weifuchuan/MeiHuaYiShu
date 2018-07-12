@@ -1,23 +1,42 @@
 import * as React from 'react'
-import { View, Dimensions, LayoutChangeEvent } from 'react-native';
+import { View, Dimensions, LayoutChangeEvent, Text } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
 import { quanGua2xZhiX } from '../../kit';
 import { observable } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
-import { Note } from '../../types';
+import { Note, gua } from '../../types';
+import { ZhenGua, G } from '../Gua';
+import { List, InputItem } from 'antd-mobile-rn';
+import Tabs from '../Tabs';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import LeiXiang from '../LeiXiang/LeiXiang';
 
 const { NavigationBar } = require("teaset");
-
+const { WebViewQuillEditor, WebViewQuillViewer } = require('react-native-webview-quilljs');
 const { height, width } = Dimensions.get("window")
 
 @inject("store")
 @observer
 export default class NoteComp extends React.Component<NavigationInjectedProps> {
   @observable navigationBarHeight: number = 60;
+  webViewQuillViewer: any;
+  state = {
+    tabViewNavigationState: {
+      index: 0,
+      routes: [
+        { key: "leiXiang", title: "类象" },
+        { key: 'zhuGua', title: '主卦' },
+        { key: 'huGua', title: '互卦' },
+        { key: 'bianGua', title: '变卦' },
+      ],
+    }
+  };
   render() {
-    const note = this.props.navigation.getParam("note");
+    const note: Note = this.props.navigation.getParam("note");
     const { quanGua, datetime, time } = note;
-
+    const {
+      hasShiZhi, shiZhi: { gzYear, gzMonth, gzDay, gzHour }, zhuGua, huGua, bianGua
+    } = note.help();
     return (
       <View style={{ flex: 1, backgroundColor: "#fff" }} >
         <NavigationBar
@@ -36,7 +55,61 @@ export default class NoteComp extends React.Component<NavigationInjectedProps> {
           }} />}
         />
         <View style={{ marginTop: this.navigationBarHeight, flex: 1, }}>
-
+          <View style={{ width, alignItems: 'center' }}>
+            <ZhenGua qg={quanGua} style={{ marginTop: 10 }} />
+            {
+              hasShiZhi ?
+                <Text selectable={true} style={{ marginTop: 10 }} >{gzYear}, {gzMonth}, {gzDay}, {gzHour} / {`${datetime.getFullYear()}-${datetime.getMonth() + 1}-${datetime.getDate()} ${datetime.getHours()}:${datetime.getMinutes().toString().length === 1 ? '0' + datetime.getMinutes() : datetime.getMinutes()}`}</Text>
+                : <Text selectable={true}>{`${gua.diZhi[time[0] - 1]}年, ${time[1]}月, ${time[2]}日, ${gua.diZhi[time[3] - 1]}时`}</Text>
+            }
+          </View>
+          <List.Item multipleLine={true}>{note.thing}</List.Item>
+          <Tabs
+            style={{ flex: 1 }}
+            elements={[{
+              title: "编辑",
+              elem: (
+                <View style={{ flex: 1 }}>
+                  <InputItem value={note.thing} onChangeText={t => note.thing = t} >问事：</InputItem>
+                  <WebViewQuillViewer
+                    ref={(component: any) => (this.webViewQuillViewer = component)}
+                    contentToDisplay={note.content}
+                  />
+                </View>
+              )
+            }, {
+              title: "资料",
+              elem: (
+                <View style={{ flex: 1 }}>
+                  <TabView
+                    navigationState={this.state.tabViewNavigationState}
+                    onIndexChange={(i) => {
+                      this.setState((prev) => ({
+                        tabViewNavigationState: {
+                          ...(prev as any).tabViewNavigationState,
+                          index: i
+                        }
+                      }))
+                    }}
+                    renderScene={SceneMap({
+                      zhuGua: () => G(zhuGua),
+                      huGua: () => G(huGua),
+                      bianGua: () => G(bianGua),
+                      leiXiang: LeiXiang
+                    })}
+                    renderTabBar={props =>
+                      <TabBar
+                        {...props}
+                        indicatorStyle={{ backgroundColor: 'blue' }}
+                        style={{ backgroundColor: "#fff" }}
+                        renderLabel={(params) => <Text style={{ color: "#000" }}>{(params.route as any).title}</Text>}
+                      />
+                    }
+                  />
+                </View>
+              )
+            }]}
+          />
         </View>
       </View>
     )
