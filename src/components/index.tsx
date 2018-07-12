@@ -6,6 +6,7 @@ import MeiHuaYiShu from './MeiHuaYiShu';
 import Gua from './Gua';
 import LeiXiang from './LeiXiang';
 import NoteEditor from './GuaLiNote/NoteEditor';
+import { NoteComp } from './GuaLiNote/NoteComp';
 
 export default createStackNavigator(
   {
@@ -24,8 +25,11 @@ export default createStackNavigator(
     LeiXiang: {
       screen: LeiXiang
     },
-    NoteEditor:{
+    NoteEditor: {
       screen: NoteEditor
+    },
+    Note: {
+      screen: NoteComp
     }
   },
   {

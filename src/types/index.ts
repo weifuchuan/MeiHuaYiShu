@@ -146,18 +146,27 @@ export namespace gua {
 	// 		.set(8, { sign: "☷", word: "坤", yao: kun });
 }
 
+export interface INote {
+	quanGua: gua.QuanGua;
+	thing: string;
+	content: any;
+	datetime: Date;
+	time: gua.YMDH;
+}
+
 // 卦例笔记
-export class Note {
+export class Note implements INote {
+	id: string = '';
 	// 卦
-	quanGua: Readonly<gua.QuanGua>;
+	quanGua: gua.QuanGua;
 	// 问事
 	@observable thing: string;
 	// 内容
 	@observable content: any;
 	// 起卦时间
-	@observable datetime: Readonly<Date>;
+	@observable datetime: Date;
 	// 一般时间
-	@observable time: Readonly<gua.YMDH>;
+	@observable time: gua.YMDH;
 
 	constructor(quanGua: gua.QuanGua, thing: string, datetime: Date, time: gua.YMDH, content: any = { "ops": [{ "insert": "分析" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n断语" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n结果" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n\n" }] }) {
 		this.quanGua = quanGua;
@@ -167,7 +176,7 @@ export class Note {
 		this.time = time;
 	}
 
-	static of(obj: { quanGua: gua.QuanGua, thing: string, content?: any, datetime: Date, time: gua.YMDH }): Note {
+	static of(obj: INote): Note {
 		return new Note(obj.quanGua, obj.thing, obj.datetime, obj.time, obj.content);
 	}
 

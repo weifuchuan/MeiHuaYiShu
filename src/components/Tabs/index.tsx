@@ -1,5 +1,7 @@
 import * as React from 'react'
-import { View, ViewStyle, Text, TouchableOpacity } from 'react-native';
+import { View, ViewStyle, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { observer } from 'mobx-react/native';
+import { observable } from 'mobx';
 
 export interface ITabsProps {
   elements: {
@@ -9,11 +11,14 @@ export interface ITabsProps {
   style?: ViewStyle;
 }
 
+@observer
 export default class Tabs extends React.Component<ITabsProps>{
+  @observable tabBarWidth = Dimensions.get("window").width;
+  @observable contentWidth = Dimensions.get("window").width;
+  @observable contentHeight = Dimensions.get("window").height;
 
   state = {
     currentTab: 0,
-    tabBarWidth: 0,
     selectedColor: "#800080",
     unselectedColor: "#000000",
   }
@@ -21,9 +26,9 @@ export default class Tabs extends React.Component<ITabsProps>{
   render() {
     return (
       <View style={this.props.style ? this.props.style : {}} onLayout={e => {
-        this.setState(prev => ({ ...prev, tabBarWidth: e.nativeEvent.layout.width }))
+        this.tabBarWidth = e.nativeEvent.layout.width;
       }} >
-        <View style={{ flexDirection: "row", width: this.state.tabBarWidth, }}  >
+        <View style={{ flexDirection: "row", width: this.tabBarWidth, }}  >
           {
             this.props.elements.map((e, i) => {
               return (
@@ -36,19 +41,33 @@ export default class Tabs extends React.Component<ITabsProps>{
                   <View
                     style={this.state.currentTab === i
                       ? {
-                        width: this.state.tabBarWidth / this.props.elements.length,
-                        backgroundColor: this.state.selectedColor
+                        width: this.tabBarWidth / this.props.elements.length,
+                        backgroundColor: this.state.selectedColor,
+                        height: 1,
                       }
-                      : {}}
+                      : { height: 1, }}
                   />
                 </TouchableOpacity>
               )
             })
           }
         </View>
-        {
-          this.props.elements[this.state.currentTab].elem
-        }
+        <View style={{ flex: 1 }} onLayout={e => {
+          this.contentHeight = e.nativeEvent.layout.height;
+          this.contentWidth = e.nativeEvent.layout.width;
+        }} >
+          {
+            this.props.elements.map((e, i) => {
+              return (
+                <View style={{ zIndex: this.state.currentTab === i ? 100 : 0, position: "absolute", top: 0, left: 0, height: this.contentHeight, width: this.contentWidth, backgroundColor: "#fff" }} key={i}  >
+                  {
+                    e.elem
+                  }
+                </View>
+              )
+            })
+          }
+        </View>
       </View>
     )
   }

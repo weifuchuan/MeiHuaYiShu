@@ -1,12 +1,49 @@
 import { AsyncStorage } from 'react-native';
-import Storage from './storage'; 
+import Storage from './storage';
+import { observable, toJS } from 'mobx';
+import { Note, INote } from '../types';
+import { MD5 } from 'crypto-js'
+
+function idGenerator(): string {
+  return MD5(new Date().toLocaleTimeString() + Math.random().toString()).toString()
+}
 
 export namespace fixedKey {
   export const CURRENT_POSITION = "currentPosition"
-
+  export const NOTE = 'note'
 }
 
 export class Store {
+  @observable notes: Note[] = [];
+
+  constructor() {
+    (async () => {
+      try {
+        const notes = await storage.getAllDataForKey<INote>(fixedKey.NOTE);
+        notes.sort((a, b) => {
+          if (a.datetime.getMilliseconds() > b.datetime.getMilliseconds())
+            return -1;
+          else
+            return 1;
+        });
+        (this.notes as any).clear();
+        this.notes.push(...notes.map(Note.of));
+      } catch (err) {
+        // no notes in storage
+      }
+
+    })()
+  }
+
+  async addNote(note: Note) {
+    note.id = idGenerator();
+    this.notes.unshift(note);
+    await storage.save({
+      key: fixedKey.NOTE,
+      id: note.id,
+      data: toJS(note),
+    })
+  }
 
 }
 
@@ -27,6 +64,9 @@ export interface IStorege {
     key: string;
     id?: string;
   }): Promise<void>;
+  getIdsForKey(key: string): Promise<string[]>;
+  getAllDataForKey<T = any>(key: string): Promise<T[]>;
+  clearMapForKey(key: string): Promise<void>;
 }
 
 export const storage: IStorege = new Storage({
@@ -54,6 +94,6 @@ export const storage: IStorege = new Storage({
     // }
     currentPosition({ resolve, reject }: { id?: string; resolve: (v: any) => void; reject: (e: any) => void }) {
       resolve(["北京", "北京市", "东城区"])
-    }
+    },
   }
 })  

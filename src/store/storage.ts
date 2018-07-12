@@ -341,7 +341,7 @@ export default class Storage {
       return this._m.__keys__[key] || [];
     });
   }
-  getAllDataForKey(key: any, options: any) {
+  getAllDataForKey(key: any, options: any = {}) {
     options = Object.assign({ syncInBackground: true }, options);
     return this.getIdsForKey(key).then((ids: any) => {
       let querys = ids.map((id: any) => ({ key, id, syncInBackground: options.syncInBackground }));

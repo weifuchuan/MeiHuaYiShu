@@ -7,10 +7,12 @@ import { Store } from '../../store';
 import { getGuaByGua, quanGua2xZhiX } from '../../kit';
 import { gua, Note } from '../../types';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
-import { InputItem } from 'antd-mobile-rn';
+import { InputItem, Modal } from 'antd-mobile-rn';
+import Tabs from '../Tabs';
+import { G } from '../Gua';
+import LeiXiang from '../LeiXiang/LeiXiang';
 const solarLunar = require("../../assets/solarlunar.min.js");
 const { WebViewQuillEditor, WebViewQuillViewer } = require('react-native-webview-quilljs');
-const QuillDeltaToHtmlConverter = require('quill-delta-to-html');
 const { NavigationBar } = require("teaset");
 const { height, width } = Dimensions.get("window")
 
@@ -37,8 +39,10 @@ export default class NoteEditor extends React.Component<NavigationInjectedProps 
     tabViewNavigationState: {
       index: 0,
       routes: [
-        { key: "edit", title: "卦例编辑" },
-        { key: 'file', title: '参考资料' },
+        { key: "leiXiang", title: "类象" },
+        { key: 'zhuGua', title: '主卦' },
+        { key: 'huGua', title: '互卦' },
+        { key: 'bianGua', title: '变卦' },
       ],
     }
   };
@@ -58,9 +62,11 @@ export default class NoteEditor extends React.Component<NavigationInjectedProps 
         <NavigationBar
           onLayout={(e: LayoutChangeEvent) => this.navigationBarHeight = e.nativeEvent.layout.height}
           title={quanGua2xZhiX(quanGua)}
-          leftView={<NavigationBar.BackButton title='返回' onPress={() => this.props.navigation.goBack()} />}
+          leftView={<NavigationBar.BackButton title='返回' onPress={this.back} />}
           rightView={<NavigationBar.LinkButton title={"保存"} onPress={async () => {
-
+            note.content = await this.getContent();
+            this.props.store.addNote(note);
+            this.props.navigation.push("GuaLiNote");
           }} />}
         />
         <View style={{ marginTop: this.navigationBarHeight, flex: 1 }}>
@@ -92,60 +98,90 @@ export default class NoteEditor extends React.Component<NavigationInjectedProps 
               </View>
             </View>
             <View style={{ padding: 5 }}>
-              <Text style={{ marginBottom: 5 }}>{datetime.toLocaleString()}</Text>
+              <Text style={{ marginBottom: 5 }}>{`${datetime.getFullYear()}-${datetime.getMonth() + 1}-${datetime.getDate()} ${datetime.getHours()}:${datetime.getMinutes().toString().length === 1 ? '0' + datetime.getMinutes() : datetime.getMinutes()}`}</Text>
               <Text>{hasShiZhi ? `${gzYear}, ${gzMonth}, ${gzDay}, ${gzHour}` : `${gua.diZhi[note.time[0] - 1]}年, ${note.time[1]}月, ${note.time[2]}日, ${gua.diZhi[note.time[3] - 1]}时`}</Text>
             </View>
           </View>
-          <TabView
-            navigationState={this.state.tabViewNavigationState}
-            onIndexChange={(i) => {
-              this.setState((prev) => ({
-                tabViewNavigationState: {
-                  ...prev.tabViewNavigationState,
-                  index: i
-                }
-              }))
-            }}
-            renderScene={SceneMap({
-              edit: () => (
-                <Observer>
-                  {
-                    () => (
-                      <View style={{ flex: 1 }}>
-                        <InputItem value={note.thing} onChangeText={t => note.thing = t} >问事：</InputItem>
-                        <WebViewQuillEditor
-                          ref={(component: any) => (this.webViewQuillEditor = component)}
-                          getDeltaCallback={this.getDeltaCallback}
-                          contentToDisplay={note.content}
-                        />
-                      </View>
-                    )
-                  }
-                </Observer>
-              ),
-              file: () => (
-                <View>
-
+          <Tabs
+            style={{ flex: 1 }}
+            elements={[{
+              title: "编辑",
+              elem: (
+                <View style={{ flex: 1 }}>
+                  <InputItem value={note.thing} onChangeText={t => note.thing = t} >问事：</InputItem>
+                  <WebViewQuillEditor
+                    ref={(component: any) => (this.webViewQuillEditor = component)}
+                    getDeltaCallback={this.getDeltaCallback}
+                    contentToDisplay={note.content}
+                  />
                 </View>
-              ),
-            })}
-            renderTabBar={props =>
-              <TabBar
-                {...props}
-                indicatorStyle={{ backgroundColor: 'blue' }}
-                style={{ backgroundColor: "#fff" }}
-                renderLabel={(params) => <Text style={{ color: "#000" }}>{(params.route as any).title}</Text>}
-              />
-            }
+              )
+            }, {
+              title: "资料",
+              elem: (
+                <View style={{ flex: 1 }}>
+                  <TabView
+                    navigationState={this.state.tabViewNavigationState}
+                    onIndexChange={(i) => {
+                      this.setState((prev) => ({
+                        tabViewNavigationState: {
+                          ...prev.tabViewNavigationState,
+                          index: i
+                        }
+                      }))
+                    }}
+                    renderScene={SceneMap({
+                      zhuGua: () => G(zhuGua),
+                      huGua: () => G(huGua),
+                      bianGua: () => G(bianGua),
+                      leiXiang: LeiXiang
+                    })}
+                    renderTabBar={props =>
+                      <TabBar
+                        {...props}
+                        indicatorStyle={{ backgroundColor: 'blue' }}
+                        style={{ backgroundColor: "#fff" }}
+                        renderLabel={(params) => <Text style={{ color: "#000" }}>{(params.route as any).title}</Text>}
+                      />
+                    }
+                  />
+                </View>
+              )
+            }]}
           />
         </View>
       </View>
     );
   }
 
+  private lastResolve: (value?: any) => void = () => null;
+
   private getDeltaCallback = (d: any) => {
-    const note: Note = this.props.navigation.getParam("note");
-    note.content = d;
+    this.lastResolve(d);
+  }
+
+  private getContent = (): Promise<any> => {
+    return new Promise<any>((resolve) => {
+      this.lastResolve = resolve;
+      this.webViewQuillEditor.getDelta();
+    })
+  }
+
+  private back = () => {
+    const modal = Modal.alert("放弃编辑？", "返回将放弃编辑好的内容", [
+      {
+        text: "返回",
+        onPress: () => {
+          this.props.navigation.goBack();
+        }
+      }, {
+        text: "取消",
+        onPress: () => {
+          modal && modal();
+        }
+      }]
+    )
+
   }
 }
 

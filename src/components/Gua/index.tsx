@@ -201,14 +201,14 @@ const ZhenGua = ({ qg, style = {} }: { qg: gua.QuanGua; style?: ViewStyle }) => 
 }
 
 
-const G = (g: IGuaItem): JSX.Element => {
+export const G = (g: IGuaItem): React.ReactElement<any> => {
   return (
     <ScrollView style={{ flex: 1 }} >
       <View style={{ padding: width * 0.05 }}>
-        <Text style={{ marginBottom: width * 0.02 }}>{`${g.name}：${g.name2}，上${g.pailie.up}下${g.pailie.bottom}。`}</Text>
-        <Text style={{ marginBottom: width * 0.02 }}>{g.profile}</Text>
+        <Text selectable={true} style={{ marginBottom: width * 0.02 }}>{`${g.name}：${g.name2}，上${g.pailie.up}下${g.pailie.bottom}。`}</Text>
+        <Text selectable={true}  style={{ marginBottom: width * 0.02 }}>{g.profile}</Text>
         {g.yaos.map((yao, i) => (
-          <Text key={i} style={{ marginBottom: width * 0.02 }}>{`${yao[0]}：${yao[1][yao[1].length - 1] === "。" ? yao[1] : yao[1] + "。"}`}</Text>
+          <Text selectable={true}  key={i} style={{ marginBottom: width * 0.02 }}>{`${yao[0]}：${yao[1][yao[1].length - 1] === "。" ? yao[1] : yao[1] + "。"}`}</Text>
         ))}
       </View>
     </ScrollView>

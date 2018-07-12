@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "@types/crypto-js": "^3.1.41",
     "@types/expo": "^27.0.6",
     "@types/jest": "^22.2.3",
     "@types/lodash": "^4.14.110",
@@ -53,6 +54,7 @@
   },
   "dependencies": {
     "antd-mobile-rn": "^2.2.0",
+    "crypto-js": "^3.1.9-1",
     "date-arithmetic": "^3.1.0",
     "expo": "^27.0.1",
     "lodash": "^4.17.10",
