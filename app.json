@@ -1,9 +1,16 @@
 {
   "expo": {
+    "name":"梅花易数", 
+    "version": "0.1.0",
     "sdkVersion": "27.0.0",
+    "slug":"MeiHuaYiShu",
+    "icon":"./src/assets/ui/meihua2.png",
     "packagerOpts": {
       "sourceExts": ["ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
+    },
+    "android": {
+      "package": "com.fuchuan.meihuayishu"
     }
   }
 }
