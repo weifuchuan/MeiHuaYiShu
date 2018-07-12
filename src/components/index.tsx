@@ -6,34 +6,19 @@ import MeiHuaYiShu from './MeiHuaYiShu';
 import Gua from './Gua';
 import LeiXiang from './LeiXiang';
 import NoteEditor from './GuaLiNote/NoteEditor';
-import { NoteComp } from './GuaLiNote/NoteComp';
+import Note from './GuaLiNote/NoteComp';
 
 export default createStackNavigator(
   {
-    Home: {
-      screen: Home,
-    },
-    GuaLiNote: {
-      screen: GuaLiNote,
-    },
-    MeiHuaYiShu: {
-      screen: MeiHuaYiShu
-    },
-    Gua: {
-      screen: Gua
-    },
-    LeiXiang: {
-      screen: LeiXiang
-    },
-    NoteEditor: {
-      screen: NoteEditor
-    },
-    Note: {
-      screen: NoteComp
-    }
+    Home,
+    GuaLiNote,
+    MeiHuaYiShu,
+    Gua,
+    LeiXiang,
+    NoteEditor,
+    Note
   },
   {
     initialRouteName: "Home",
     headerMode: "none",
-
   })

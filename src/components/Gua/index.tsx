@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { NavigationInjectedProps } from 'react-navigation';
 import { View, StyleSheet, ViewStyle, Text, LayoutChangeEvent, Dimensions, ScrollView } from 'react-native';
-import { gua,  Note } from '../../types';
+import { gua, Note } from '../../types';
 import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../store';
 import { quanGua2xZhiX, getRelationForGua, getGuaByGua } from '../../kit';
@@ -24,7 +24,7 @@ export default class Gua extends React.Component<NavigationInjectedProps & {
     routes: { key: string; title: string; }[];
   };
 }>{
-  @observable navigationBarHeight: number = 0;
+  @observable navigationBarHeight: number = 60;
   @observable guaPage = 0;
   state = {
     tabViewNavigationState: {
@@ -206,9 +206,9 @@ export const G = (g: IGuaItem): React.ReactElement<any> => {
     <ScrollView style={{ flex: 1 }} >
       <View style={{ padding: width * 0.05 }}>
         <Text selectable={true} style={{ marginBottom: width * 0.02 }}>{`${g.name}：${g.name2}，上${g.pailie.up}下${g.pailie.bottom}。`}</Text>
-        <Text selectable={true}  style={{ marginBottom: width * 0.02 }}>{g.profile}</Text>
+        <Text selectable={true} style={{ marginBottom: width * 0.02 }}>{g.profile}</Text>
         {g.yaos.map((yao, i) => (
-          <Text selectable={true}  key={i} style={{ marginBottom: width * 0.02 }}>{`${yao[0]}：${yao[1][yao[1].length - 1] === "。" ? yao[1] : yao[1] + "。"}`}</Text>
+          <Text selectable={true} key={i} style={{ marginBottom: width * 0.02 }}>{`${yao[0]}：${yao[1][yao[1].length - 1] === "。" ? yao[1] : yao[1] + "。"}`}</Text>
         ))}
       </View>
     </ScrollView>

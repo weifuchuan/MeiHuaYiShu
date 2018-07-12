@@ -146,12 +146,15 @@ export namespace gua {
 	// 		.set(8, { sign: "☷", word: "坤", yao: kun });
 }
 
+export type GuaResult = "ok" | "no" | "unknow";
+
 export interface INote {
 	quanGua: gua.QuanGua;
 	thing: string;
 	content: any;
 	datetime: Date;
 	time: gua.YMDH;
+	result: GuaResult;
 }
 
 // 卦例笔记
@@ -167,8 +170,9 @@ export class Note implements INote {
 	@observable datetime: Date;
 	// 一般时间
 	@observable time: gua.YMDH;
+	@observable result: GuaResult = "unknow";
 
-	constructor(quanGua: gua.QuanGua, thing: string, datetime: Date, time: gua.YMDH, content: any = { "ops": [{ "insert": "分析" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n断语" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n结果" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n\n" }] }) {
+	constructor(quanGua: gua.QuanGua, thing: string, datetime: Date, time: gua.YMDH, content: any = { "ops": [{ "insert": "分析" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n断语" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n结果" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n\n" }] }, result: GuaResult = "unknow") {
 		this.quanGua = quanGua;
 		this.thing = thing;
 		this.content = content;
@@ -177,7 +181,7 @@ export class Note implements INote {
 	}
 
 	static of(obj: INote): Note {
-		return new Note(obj.quanGua, obj.thing, obj.datetime, obj.time, obj.content);
+		return new Note(obj.quanGua, obj.thing, obj.datetime, obj.time, obj.content, obj.result);
 	}
 
 	help(): {

@@ -1,47 +1,186 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, ViewStyle, Dimensions, LayoutChangeEvent, WebView, NativeSyntheticEvent, WebViewMessageEventData } from 'react-native';
+import { Text, View, StyleSheet, ViewStyle, Dimensions, LayoutChangeEvent, WebView, NativeSyntheticEvent, WebViewMessageEventData, FlatList, TouchableOpacity, Image, ImageProps } from 'react-native';
 import { observable } from 'mobx';
-import { observer } from 'mobx-react/native';
+import { observer, inject, Observer } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
-import editor from '../../assets/note-editor'
+import { Store } from '../../store';
+import { Note } from '../../types';
+import { SwipeAction, Button, List, Drawer } from '../../../node_modules/antd-mobile-rn';
+import { quanGua2xZhiX } from '../../kit';
 
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html');
 const { NavigationBar } = require("teaset");
 const { height, width } = Dimensions.get("window")
 
+@inject('store')
 @observer
-export default class GuaLiNote extends React.Component<NavigationInjectedProps> {
-  @observable navigationBarHeight: number = 0;
+export default class GuaLiNote extends React.Component<NavigationInjectedProps & {
+  store: Store
+}> {
+  @observable navigationBarHeight: number = 60;
   web: WebView | null = null;
+  @observable openDrawer: any;
   render() {
+    const store = this.props.store;
+
     return (
       <View style={styles.container}>
-        <NavigationBar
-          onLayout={(e: LayoutChangeEvent) => this.navigationBarHeight = e.nativeEvent.layout.height}
-          title={"《梅花易数》"}
-          leftView={<NavigationBar.BackButton title='返回' onPress={() => this.props.navigation.goBack()} />}
-        />
-        <View style={{ marginTop: this.navigationBarHeight, flex: 1 }}>
-          <WebView
-            source={{ html: editor }}
-            onMessage={this.onMessage}
-            ref={r => this.web = r}
-            domStorageEnabled={true}
-            javaScriptEnabled={true}
+        <Drawer
+          drawerBackgroundColor={"#fff"}
+          open={this.openDrawer}
+          onOpenChange={(opened) => {
+            this.openDrawer = opened;
+          }}
+          drawerWidth={width * 0.6}
+          sidebar={
+            <View style={{ alignItems: "center" }} >
+              <Image
+                source={require("../../assets/ui/meihua.png")}
+                style={{
+                  width: width * 0.4,
+                  height: width * 0.4,
+                  marginTop: height * 0.04
+                }}
+                resizeMode={"contain"}
+              />
+              <Text style={{ color: "#000000", fontSize: 20, marginBottom: height * 0.04 }}>梅花易数</Text>
+              <FlatList
+                style={{ width: width * 0.6 }}
+                data={[
+                  {
+                    title: "起卦",
+                    route: () => {
+                      this.props.navigation.replace("Home");
+                      this.openDrawer = false;
+                    }
+                  },
+                  {
+                    title: "万物类象",
+                    route: () => {
+                      this.props.navigation.replace("LeiXiang");
+                      this.openDrawer = false;
+                    }
+                  },
+                  {
+                    title: "卦例笔记",
+                    route: () => {
+                      this.openDrawer = false;
+                    }
+                  },
+                  {
+                    title: "《梅花易数》",
+                    route: () => {
+                      this.props.navigation.replace("MeiHuaYiShu");
+                      this.openDrawer = false;
+                    }
+                  }
+                ]}
+                renderItem={({ item }) => {
+                  return (
+                    <Button type="primary" style={{ borderRadius: 0 }} onClick={item.route}>{item.title}</Button>
+                  );
+                }}
+                ItemSeparatorComponent={() => (
+                  <View style={{ height: height * 0.01, width: 3 }} />
+                )}
+                keyExtractor={(item) => item.title}
+              />
+            </View>
+          }
+        >
+          <NavigationBar
+            onLayout={(e: LayoutChangeEvent) => this.navigationBarHeight = e.nativeEvent.layout.height}
+            title={"卦例笔记"}
+            leftView={
+              <TouchableOpacity
+                onPress={() => {
+                  this.openDrawer = true;
+                }}
+              >
+                <Image
+                  style={{
+                    height: 25,
+                    width: 25,
+                    marginLeft: 5,
+                    tintColor: "#fff"
+                  }}
+                  source={require("../../assets/ui/menu.png")}
+                />
+              </TouchableOpacity>
+            }
           />
-        </View>
+          <View style={{ marginTop: this.navigationBarHeight, flex: 1 }}>
+            <FlatList
+              data={store.notes.slice()}
+              renderItem={({ item, index }) => {
+                return (
+                  <Observer>
+                    {
+                      () => <NoteItem
+                        note={item}
+                        onDelete={(note) => {
+
+                        }}
+                        onClick={(note) => {
+
+                        }}
+                      />
+                    }
+                  </Observer>
+                )
+              }}
+              keyExtractor={(item) => item.id}
+
+              ListHeaderComponent={<View></View>}
+              ListEmptyComponent={<View style={{ flex: 1, justifyContent: 'center', alignItems: "center" }}><Text>无</Text></View>}
+            />
+          </View>
+        </Drawer>
       </View>
     );
   }
 
-  private onMessage = (e: NativeSyntheticEvent<WebViewMessageEventData>) => {
-    const msg: {
-      thing: string,
-      analysis: any,
-      assert: any,
-    } = JSON.parse(e.nativeEvent.data);
+}
 
-  };
+const ok = { source: require("../../assets/ui/ok.png"), style: { tintColor: '#006400' } }
+const unknow = { source: require("../../assets/ui/help.png"), style: { tintColor: '#696969' } }
+const no = { source: require("../../assets/ui/no.png"), style: { tintColor: '#FA8072' } }
+
+const NoteItem = ({ note, onDelete, onClick }: { note: Note; onDelete: (note: Note) => void; onClick: (note: Note) => void }): React.ReactElement<any> => {
+  let img: ImageProps = unknow;
+  switch (note.result) {
+    case "ok":
+      img = ok;
+      break;
+    case "unknow":
+      img = unknow;
+      break;
+    case "no":
+      img = no;
+      break;
+    default:
+      break;
+  }
+  return (
+    <SwipeAction
+      right={[{
+        text: "删除",
+        onPress: () => {
+          onDelete(note);
+        },
+        style: {
+          backgroundColor: "red",
+          color: "#fff"
+        }
+      }]}
+    >
+      <List.Item
+        thumb={<Image {...img} />}
+        multipleLine={true}
+        onClick={() => onClick(note)}
+      >{note.thing}<List.Item.Brief>{`${quanGua2xZhiX(note.quanGua)} | ${note.datetime.getFullYear()}-${note.datetime.getMonth() + 1}-${note.datetime.getDate()} ${note.datetime.getHours()}:${note.datetime.getMinutes().toString().length === 1 ? '0' + note.datetime.getMinutes() : note.datetime.getMinutes()}`}</List.Item.Brief></List.Item>
+    </SwipeAction>
+  )
 }
 
 const styles = StyleSheet.create({

@@ -9,17 +9,14 @@ import {
   FlatList,
   Text,
   TextStyle,
-
   LayoutChangeEvent,
-  Dimensions,
-  BackHandler
-} from "react-native";
+  Dimensions} from "react-native";
 import { inject, observer } from "mobx-react/native";
 import { Store } from "../../store";
 import { Drawer, Button } from "antd-mobile-rn";
 import QiGua from "./QiGua/index";
 import { observable } from "mobx";
-import { withNavigation, NavigationInjectedProps, createSwitchNavigator } from 'react-navigation';
+import { NavigationInjectedProps } from 'react-navigation';
 
 const { NavigationBar } = require("teaset");
 
@@ -31,19 +28,19 @@ const { height, width } = Dimensions.get("window");
 class Home extends React.Component<NavigationInjectedProps & {
   store: Store;
 }> {
-  static router = QiGua.router; 
+  static router = QiGua.router;
 
-  state = { openDrawer: false, title: "起卦" };
-  @observable navigationBarHeight: number = 0;
+  @observable openDrawer: boolean = false;
+  @observable navigationBarHeight: number = 60;
 
   render() {
     return (
       <View style={styles.container}>
         <Drawer
           drawerBackgroundColor={"#fff"}
-          open={this.state.openDrawer}
+          open={this.openDrawer}
           onOpenChange={(opened) => {
-            this.setState({ openDrawer: opened });
+            this.openDrawer=opened; 
           }}
           drawerWidth={width * 0.6}
           sidebar={
@@ -60,32 +57,32 @@ class Home extends React.Component<NavigationInjectedProps & {
                   {
                     title: "起卦",
                     route: () => {
-                      this.setState({ openDrawer: false });
+                      this.openDrawer = false; 
                     }
                   },
                   {
                     title: "万物类象",
                     route: () => {
                       this.props.navigation.push("LeiXiang");
-                      this.setState({ openDrawer: false });
+                      this.openDrawer = false; 
                     }
                   },
                   {
                     title: "卦例笔记",
                     route: () => {
                       this.props.navigation.push("GuaLiNote");
-                      this.setState({ openDrawer: false });
+                      this.openDrawer = false; 
                     }
                   },
                   {
                     title: "《梅花易数》",
                     route: () => {
                       this.props.navigation.push("MeiHuaYiShu");
-                      this.setState({ openDrawer: false });
+                      this.openDrawer = false; 
                     }
                   }
                 ]}
-                renderItem={({ item, index }) => {
+                renderItem={({ item }) => {
                   return (
                     <Button type="primary" style={{ borderRadius: 0 }} onClick={item.route}>{item.title}</Button>
                   );
@@ -103,11 +100,11 @@ class Home extends React.Component<NavigationInjectedProps & {
               onLayout={(event: LayoutChangeEvent) => {
                 this.navigationBarHeight = event.nativeEvent.layout.height;
               }}
-              title={this.state.title}
+              title={"起卦"}
               leftView={
                 <TouchableOpacity
                   onPress={() => {
-                    this.setState({ openDrawer: true });
+                    this.openDrawer = true; 
                   }}
                 >
                   <Image
@@ -118,7 +115,7 @@ class Home extends React.Component<NavigationInjectedProps & {
               }
             />
             <View style={{ flex: 1, marginTop: this.navigationBarHeight }} >
-              <QiGua store={this.props.store} navigation={this.props.navigation} /> 
+              <QiGua store={this.props.store} navigation={this.props.navigation} />
             </View>
           </View>
         </Drawer>

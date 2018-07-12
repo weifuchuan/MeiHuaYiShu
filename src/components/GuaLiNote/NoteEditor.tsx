@@ -33,7 +33,7 @@ export default class NoteEditor extends React.Component<NavigationInjectedProps 
     routes: { key: string; title: string; }[];
   };
 }> {
-  @observable navigationBarHeight: number = 0;
+  @observable navigationBarHeight: number = 60;
 
   state = {
     tabViewNavigationState: {
