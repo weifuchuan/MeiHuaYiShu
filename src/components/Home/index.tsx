@@ -63,21 +63,21 @@ class Home extends React.Component<NavigationInjectedProps & {
                   {
                     title: "万物类象",
                     route: () => {
-                      this.props.navigation.push("LeiXiang");
+                      this.props.navigation.navigate("LeiXiang");
                       this.openDrawer = false; 
                     }
                   },
                   {
                     title: "卦例笔记",
                     route: () => {
-                      this.props.navigation.push("GuaLiNote");
+                      this.props.navigation.navigate("GuaLiNote");
                       this.openDrawer = false; 
                     }
                   },
                   {
                     title: "《梅花易数》",
                     route: () => {
-                      this.props.navigation.push("MeiHuaYiShu");
+                      this.props.navigation.navigate("MeiHuaYiShu");
                       this.openDrawer = false; 
                     }
                   }

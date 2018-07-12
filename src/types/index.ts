@@ -1,7 +1,7 @@
-import { observable } from "mobx";
+import { observable } from 'mobx';
 import { getGuaByGua } from '../kit';
 import { IGuaItem } from '../assets/yijing';
-const solarLunar = require("../assets/solarlunar.min.js");
+const solarLunar = require('../assets/solarlunar.min.js');
 
 export namespace gua {
 	// 乾☰兑☱离☲震☳巽☴坎☵艮☶坤☷
@@ -9,10 +9,10 @@ export namespace gua {
 	export type Yao = 1 | 2 | 3 | 4 | 5 | 6;
 	export type DiZhi = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
 	export type YMDH = [DiZhi, DiZhi, Tian, DiZhi];
-	export const diZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', "未", "申", '酉', '戌', '亥'];
-	export const diZhiNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-	export const tianGan = ['甲', '乙', '丙', "丁", '戊', '己', '庚', '辛', "壬", '癸']
-	export const tianGanNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	export const diZhi = [ '子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥' ];
+	export const diZhiNumber = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ];
+	export const tianGan = [ '甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸' ];
+	export const tianGanNumber = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
 	export type Tian =
 		| 1
 		| 2
@@ -51,54 +51,61 @@ export namespace gua {
 		bian: Yao; // 变爻
 	}
 	export type GuaNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-	export type GuaS = "☷" | "☰" | "☱" | "☲" | "☳" | "☴" | "☵" | "☶" | "☷";
-	export type GuaW =
-		| "坤"
-		| "乾"
-		| "兑"
-		| "离"
-		| "震"
-		| "巽"
-		| "坎"
-		| "艮"
-		| "坤";
-	export type GuaType = "时间卦" | "二数加时辰卦" | "二数卦" | "后天卦";
-	export type Relation = "生" | "克" | "比和" | "被生" | "被克";
-	export type WuXing = "金" | "木" | "水" | "火" | "土";
-	export const signs: GuaS[] = ["☷", "☰", "☱", "☲", "☳", "☴", "☵", "☶", "☷"];
-	export const words: GuaW[] = [
-		"坤",
-		"乾",
-		"兑",
-		"离",
-		"震",
-		"巽",
-		"坎",
-		"艮",
-		"坤"
-	];
-	export const directions: string[] = ['西南', '西北', '西', '南', '东', '东南', '北', '东北', '西南']
+	export type GuaS = '☷' | '☰' | '☱' | '☲' | '☳' | '☴' | '☵' | '☶' | '☷';
+	export type GuaW = '坤' | '乾' | '兑' | '离' | '震' | '巽' | '坎' | '艮' | '坤';
+	export type GuaType = '时间卦' | '二数加时辰卦' | '二数卦' | '后天卦';
+	export type Relation = '生' | '克' | '比和' | '被生' | '被克';
+	export type WuXing = '金' | '木' | '水' | '火' | '土';
+	export const signs: GuaS[] = [ '☷', '☰', '☱', '☲', '☳', '☴', '☵', '☶', '☷' ];
+	export const words: GuaW[] = [ '坤', '乾', '兑', '离', '震', '巽', '坎', '艮', '坤' ];
+	export const directions: string[] = [ '西南', '西北', '西', '南', '东', '东南', '北', '东北', '西南' ];
 	export const guas: Gua[] = [
-		[false, false, false],
-		[true, true, true],
-		[true, true, false],
-		[true, false, true],
-		[true, false, false],
-		[false, true, true],
-		[false, true, false],
-		[false, false, true],
-		[false, false, false]
+		[ false, false, false ],
+		[ true, true, true ],
+		[ true, true, false ],
+		[ true, false, true ],
+		[ true, false, false ],
+		[ false, true, true ],
+		[ false, true, false ],
+		[ false, false, true ],
+		[ false, false, false ]
 	];
 	export const gua2wuXing = new Map<string | GuaW | GuaS, WuXing>()
-		.set(guas[1].toString(), "金").set(guas[2].toString(), "金").set(guas[3].toString(), "火").set(guas[4].toString(), "木")
-		.set(guas[5].toString(), "木").set(guas[6].toString(), "水").set(guas[7].toString(), "土").set(guas[8].toString(), "土")
-		.set(signs[1], "金").set(signs[2], "金").set(signs[3], "火").set(signs[4], "木")
-		.set(signs[5], "木").set(signs[6], "水").set(signs[7], "土").set(signs[8], "土")
-		.set(words[1], "金").set(words[2], "金").set(words[3], "火").set(words[4], "木")
-		.set(words[5], "木").set(words[6], "水").set(words[7], "土").set(words[8], "土");
+		.set(guas[1].toString(), '金')
+		.set(guas[2].toString(), '金')
+		.set(guas[3].toString(), '火')
+		.set(guas[4].toString(), '木')
+		.set(guas[5].toString(), '木')
+		.set(guas[6].toString(), '水')
+		.set(guas[7].toString(), '土')
+		.set(guas[8].toString(), '土')
+		.set(signs[1], '金')
+		.set(signs[2], '金')
+		.set(signs[3], '火')
+		.set(signs[4], '木')
+		.set(signs[5], '木')
+		.set(signs[6], '水')
+		.set(signs[7], '土')
+		.set(signs[8], '土')
+		.set(words[1], '金')
+		.set(words[2], '金')
+		.set(words[3], '火')
+		.set(words[4], '木')
+		.set(words[5], '木')
+		.set(words[6], '水')
+		.set(words[7], '土')
+		.set(words[8], '土');
 	export const dayGan2hourGanAtZhi = new Map<string, string>()
-		.set("甲", '甲').set("乙", '丙').set("丙", '戊').set("丁", '庚').set("戊", '壬')
-		.set("己", '甲').set("庚", '丙').set("辛", '戊').set("壬", '庚').set("癸", '壬')
+		.set('甲', '甲')
+		.set('乙', '丙')
+		.set('丙', '戊')
+		.set('丁', '庚')
+		.set('戊', '壬')
+		.set('己', '甲')
+		.set('庚', '丙')
+		.set('辛', '戊')
+		.set('壬', '庚')
+		.set('癸', '壬');
 	// export const Q = "☰";
 	// export const q: Gua = [true, true, true];
 	// export const D = "☱";
@@ -146,7 +153,7 @@ export namespace gua {
 	// 		.set(8, { sign: "☷", word: "坤", yao: kun });
 }
 
-export type GuaResult = "ok" | "no" | "unknow";
+export type GuaResult = 'ok' | 'no' | 'unknow';
 
 export interface INote {
 	quanGua: gua.QuanGua;
@@ -170,9 +177,26 @@ export class Note implements INote {
 	@observable datetime: Date;
 	// 一般时间
 	@observable time: gua.YMDH;
-	@observable result: GuaResult = "unknow";
+	@observable result: GuaResult = 'unknow';
 
-	constructor(quanGua: gua.QuanGua, thing: string, datetime: Date, time: gua.YMDH, content: any = { "ops": [{ "insert": "分析" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n断语" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n结果" }, { "attributes": { "header": 3 }, "insert": "\n" }, { "insert": "\n\n" }] }, result: GuaResult = "unknow") {
+	constructor(
+		quanGua: gua.QuanGua,
+		thing: string,
+		datetime: Date,
+		time: gua.YMDH,
+		content: any = {
+			ops: [
+				{ insert: '分析' },
+				{ attributes: { header: 3 }, insert: '\n' },
+				{ insert: '\n断语' },
+				{ attributes: { header: 3 }, insert: '\n' },
+				{ insert: '\n结果' },
+				{ attributes: { header: 3 }, insert: '\n' },
+				{ insert: '\n\n' }
+			]
+		},
+		result: GuaResult = 'unknow'
+	) {
 		this.quanGua = quanGua;
 		this.thing = thing;
 		this.content = content;
@@ -197,13 +221,20 @@ export class Note implements INote {
 		bianGua: IGuaItem;
 	} {
 		let hasShiZhi = false;
-		let gzYear: string = '', gzMonth: string = '', gzDay: string = '', gzHour: string = '';
+		let gzYear: string = '',
+			gzMonth: string = '',
+			gzDay: string = '',
+			gzHour: string = '';
 		if (this.datetime) {
 			hasShiZhi = true;
-			const o: { gzYear: string, gzMonth: string, gzDay: string } = solarLunar.solar2lunar(this.datetime.getFullYear(), this.datetime.getMonth() + 1, this.datetime.getDate());
-			gzYear = o.gzYear
-			gzMonth = o.gzMonth
-			gzDay = o.gzDay
+			const o: { gzYear: string; gzMonth: string; gzDay: string } = solarLunar.solar2lunar(
+				this.datetime.getFullYear(),
+				this.datetime.getMonth() + 1,
+				this.datetime.getDate()
+			);
+			gzYear = o.gzYear;
+			gzMonth = o.gzMonth;
+			gzDay = o.gzDay;
 			const zhiShiGan = gua.dayGan2hourGanAtZhi.get(gzDay[0])!;
 			let i = gua.tianGan.indexOf(zhiShiGan) + 1;
 			i = i + this.time[3] - 1;
@@ -215,9 +246,16 @@ export class Note implements INote {
 		const bianGua = getGuaByGua(this.quanGua.gua[5], this.quanGua.gua[4]);
 
 		return {
-			hasShiZhi, shiZhi: { gzYear, gzMonth, gzDay, gzHour }, zhuGua, huGua, bianGua
-		}
+			hasShiZhi,
+			shiZhi: { gzYear, gzMonth, gzDay, gzHour },
+			zhuGua,
+			huGua,
+			bianGua
+		};
 	}
+}
 
-
+export namespace FromType {
+	export const list = 'list';
+	export const gua = 'gua';
 }
