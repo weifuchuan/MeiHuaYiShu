@@ -61,6 +61,7 @@
     "lodash": "^4.17.10",
     "mobx": "4.2.1",
     "mobx-react": "5.1.2",
+    "quill-delta-to-html": "^0.8.4",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-storage": "^0.2.2",

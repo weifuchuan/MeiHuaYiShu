@@ -188,11 +188,11 @@ export class Note implements INote {
 		content: any = {
 			ops: [
 				{ insert: '分析' },
-				{ attributes: { header: 3 }, insert: '\n' },
+				{ attributes: { header: 2 }, insert: '\n' },
 				{ insert: '\n断语' },
-				{ attributes: { header: 3 }, insert: '\n' },
+				{ attributes: { header: 2 }, insert: '\n' },
 				{ insert: '\n结果' },
-				{ attributes: { header: 3 }, insert: '\n' },
+				{ attributes: { header: 2 }, insert: '\n' },
 				{ insert: '\n\n' }
 			]
 		},

@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native';
 import Storage from './storage';
 import { observable, toJS } from 'mobx';
 import { Note, INote } from '../types';
-import { GuaResult } from '../types/index';
+import { GuaResult } from '../types';
 import { SQLite } from 'expo';
 
 export namespace fixedKey {

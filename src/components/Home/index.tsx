@@ -15,7 +15,7 @@ import {
 import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../store';
 import { Drawer, Button } from 'antd-mobile-rn';
-import QiGua from './QiGua/index';
+import QiGua from './QiGua';
 import { observable } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import meihuabase64 from '../../assets/ui/meihua-base64'; 

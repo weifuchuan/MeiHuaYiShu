@@ -10,6 +10,7 @@ import { List } from 'antd-mobile-rn';
 import Tabs from '../Tabs';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import LeiXiang from '../LeiXiang/LeiXiang';
+import QuillViewer from '../QuillViewer';
 
 const { NavigationBar } = require('teaset');
 const { WebViewQuillViewer } = require('react-native-webview-quilljs');
@@ -85,11 +86,7 @@ export default class NoteComp extends React.Component<NavigationInjectedProps> {
 								title: '笔记',
 								elem: (
 									<View style={{ flex: 1 }}>
-										<WebViewQuillViewer
-											style={{ flex: 1 }}
-											ref={(component: any) => (this.webViewQuillViewer = component)}
-											contentToDisplay={toJS(note.content)}
-										/>
+										<QuillViewer text={toJS(note.content)} />
 									</View>
 								)
 							},

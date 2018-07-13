@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, WebView, Platform, StyleSheet, ActivityIndicator, Alert, Text, ViewProps } from 'react-native';
 import { FileSystem } from 'expo';
-import EDITOR_JS from '../assets/QuillEditorJS';
-import EDITOR_HTML_BUILDER from '../assets/QuillEditorHTML';
+import EDITOR_JS from './QuillEditorJS';
+import EDITOR_HTML_BUILDER from './QuillEditorHTML';
 
 const editorUri = FileSystem.documentDirectory + 'editor.html';
 const editorJSUri = FileSystem.documentDirectory + 'quill.js';
@@ -55,7 +55,7 @@ export default class QuillEditor extends React.Component<IQuillEditorProps> {
 				<WebView
 					ref={(r) => (this.web = r)}
 					style={{ flex: 1 }}
-					source={Platform.OS === 'ios' ? require('../assets/QuillEditor.html') : { uri: editorUri }}
+					source={Platform.OS === 'ios' ? require('./QuillEditor.html') : { uri: editorUri }}
 					javaScriptEnabled={true}
 					domStorageEnabled={true}
 					scalesPageToFit={false}

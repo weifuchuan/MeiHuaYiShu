@@ -11,7 +11,7 @@ import { InputItem, Modal, Toast, ActivityIndicator } from 'antd-mobile-rn';
 import Tabs from '../Tabs';
 import { G } from '../Gua';
 import LeiXiang from '../LeiXiang/LeiXiang';
-const { WebViewQuillEditor } = require('../../assets/rich-editor');
+import QuillEditor from '../QuillEditor';
 const { NavigationBar } = require('teaset');
 const { width } = Dimensions.get('window');
 
@@ -43,6 +43,7 @@ export default class NoteEditor extends React.Component<
 	};
 	webViewQuillEditor: any;
 	@observable saving: boolean = false;
+	editor: QuillEditor | null = null;
 
 	render() {
 		const navigation = this.props.navigation;
@@ -64,7 +65,8 @@ export default class NoteEditor extends React.Component<
 								Keyboard.dismiss();
 								if (note.thing.trim()) {
 									this.saving = true;
-									note.content = (await this.getContent()).delta;
+									// note.content = (await this.getContent()).delta;
+									note.content = await this.editor!.getText(); 
 									try {
 										await this.props.store.saveNote(note);
 									} catch (err) {
@@ -131,11 +133,7 @@ export default class NoteEditor extends React.Component<
 										<InputItem value={note.thing} onChangeText={(t) => (note.thing = t)}>
 											问事：
 										</InputItem>
-										<WebViewQuillEditor
-											ref={(component: any) => (this.webViewQuillEditor = component)}
-											getDeltaCallback={this.getDeltaCallback}
-											contentToDisplay={note.content}
-										/>
+										<QuillEditor ref={(r) => (this.editor = r)} />
 									</View>
 								)
 							},
@@ -168,7 +166,7 @@ export default class NoteEditor extends React.Component<
 														<Text style={{ color: '#000' }}>
 															{(params.route as any).title}
 														</Text>
-													)}
+													)}                   
 												/>
 											)}
 										/>
@@ -211,10 +209,12 @@ export default class NoteEditor extends React.Component<
 				}
 			}
 		]);
-		return true; 
+		return true;
 	};
 
 	componentDidMount() {
+		const note: Note = this.props.navigation.getParam('note');
+		this.editor!.setText(note.content);
 		BackHandler.addEventListener('hardwareBackPress', this.back);
 	}
 

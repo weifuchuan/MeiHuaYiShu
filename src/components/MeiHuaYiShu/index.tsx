@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import { observer } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import book from '../../assets/meiHuaYiShuBookHTML'
-import { Drawer, Button } from '../../../node_modules/antd-mobile-rn';
+import { Drawer, Button } from 'antd-mobile-rn';
 import meihuabase64 from '../../assets/ui/meihua-base64'; 
 
 const { NavigationBar } = require("teaset");
