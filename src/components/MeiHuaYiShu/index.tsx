@@ -5,6 +5,7 @@ import { observer } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import book from '../../assets/meiHuaYiShuBookHTML'
 import { Drawer, Button } from '../../../node_modules/antd-mobile-rn';
+import meihuabase64 from '../../assets/ui/meihua-base64'; 
 
 const { NavigationBar } = require("teaset");
 const { height, width } = Dimensions.get("window")
@@ -28,7 +29,7 @@ export default class MeiHuaYiShu extends React.Component<NavigationInjectedProps
           sidebar={
             <View style={{ alignItems: "center" }} >
               <Image
-                source={require("../../assets/ui/meihua.png")}
+                source={{uri:meihuabase64}}
                 style={{
                   width: width * 0.4,
                   height: width * 0.4,

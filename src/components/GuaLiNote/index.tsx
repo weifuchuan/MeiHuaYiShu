@@ -16,9 +16,14 @@ import { observer, inject } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Store } from '../../store';
 import { Note, FromType, GuaResult } from '../../types';
-import { SwipeAction, Button, List, Drawer } from '../../../node_modules/antd-mobile-rn';
+import { SwipeAction, Button, List, Drawer } from 'antd-mobile-rn';
 import { quanGua2xZhiX } from '../../kit';
 import { Modal } from 'antd-mobile-rn';
+import meihuabase64 from '../../assets/ui/meihua-base64';
+import okbase64 from '../../assets/ui/ok-base64';
+import unknowbase64 from '../../assets/ui/unknow-base64';
+import nobase64 from '../../assets/ui/no-base64';
+import _ from 'lodash';
 
 const { NavigationBar } = require('teaset');
 const { height, width } = Dimensions.get('window');
@@ -48,7 +53,7 @@ export default class GuaLiNote extends React.Component<
 					sidebar={
 						<View style={{ alignItems: 'center' }}>
 							<Image
-								source={require('../../assets/ui/meihua.png')}
+								source={{ uri: meihuabase64 }}
 								style={{
 									width: width * 0.4,
 									height: width * 0.4,
@@ -159,7 +164,27 @@ export default class GuaLiNote extends React.Component<
 								);
 							}}
 							keyExtractor={(item) => item.id.toString()}
-							ListHeaderComponent={<View />}
+							ListHeaderComponent={
+								<View style={{ alignItems: 'flex-end' }}>
+									<Text style={{ color: 'gray', marginRight: 5 }}>{`准确率：${store.notes.reduce(
+										(cnt, note) => (note.result !== 'unknow' ? cnt + 1 : cnt),
+										0
+									) === 0
+										? '—'
+										: _.ceil(
+												store.notes.reduce(
+													(cnt, note) => (note.result === 'ok' ? cnt + 1 : cnt),
+													0
+												) /
+													store.notes.reduce(
+														(cnt, note) => (note.result !== 'unknow' ? cnt + 1 : cnt),
+														0
+													) *
+													100,
+												2
+											) + '%'}`}</Text>
+								</View>
+							}
 							ListEmptyComponent={
 								<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 									<Text>无</Text>
@@ -173,9 +198,12 @@ export default class GuaLiNote extends React.Component<
 	}
 }
 
-const ok = { source: require('../../assets/ui/ok.png'), style: { tintColor: '#006400', marginRight: 5 } };
-const unknow = { source: require('../../assets/ui/unknow.png'), style: { tintColor: '#696969', marginRight: 5 } };
-const no = { source: require('../../assets/ui/no.png'), style: { tintColor: '#FA8072', marginRight: 5 } };
+const ok = { source: { uri: okbase64 }, style: { tintColor: '#006400', marginRight: 5, width: 25, height: 25 } };
+const unknow = {
+	source: { uri: unknowbase64 },
+	style: { tintColor: '#696969', marginRight: 5, width: 25, height: 25 }
+};
+const no = { source: { uri: nobase64 }, style: { tintColor: '#FA8072', marginRight: 5, width: 25, height: 25 } };
 
 const NoteItem = observer(
 	({

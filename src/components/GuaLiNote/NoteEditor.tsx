@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, View, StyleSheet, ViewStyle, Dimensions, LayoutChangeEvent, Keyboard } from 'react-native';
+import { Text, View, StyleSheet, ViewStyle, Dimensions, LayoutChangeEvent, Keyboard, BackHandler } from 'react-native';
 import { observable } from 'mobx';
 import { observer, inject } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
@@ -211,7 +211,16 @@ export default class NoteEditor extends React.Component<
 				}
 			}
 		]);
+		return true; 
 	};
+
+	componentDidMount() {
+		BackHandler.addEventListener('hardwareBackPress', this.back);
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.back);
+	}
 }
 
 const styles = StyleSheet.create({

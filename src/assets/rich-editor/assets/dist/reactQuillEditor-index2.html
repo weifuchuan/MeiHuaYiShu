@@ -1,4 +1,3 @@
-export default `
 <!DOCTYPE html>
 <html>
 
@@ -290,7 +289,7 @@ exports.SlowBuffer = SlowBuffer
 exports.INSPECT_MAX_BYTES = 50
 
 /**
- * If \`Buffer.TYPED_ARRAY_SUPPORT\`:
+ * If `Buffer.TYPED_ARRAY_SUPPORT`:
  *   === true    Use Uint8Array implementation (fastest)
  *   === false   Use Object implementation (most compatible, even IE6)
  *
@@ -302,15 +301,15 @@ exports.INSPECT_MAX_BYTES = 50
  *
  * Note:
  *
- *   - Firefox 4-29 lacks support for adding new properties to \`Uint8Array\` instances,
+ *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
  *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
  *
- *   - Chrome 9-10 is missing the \`TypedArray.prototype.subarray\` function.
+ *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
  *
- *   - IE10 has a broken \`TypedArray.prototype.subarray\` function which returns arrays of
+ *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
  *     incorrect length in some situations.
 
- * We detect these buggy browsers and set \`Buffer.TYPED_ARRAY_SUPPORT\` to \`false\` so they
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
  * get the Object implementation, which is slower but behaves correctly.
  */
 Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
@@ -327,8 +326,8 @@ function typedArraySupport () {
     var arr = new Uint8Array(1)
     arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
     return arr.foo() === 42 && // typed array instances can be augmented
-        typeof arr.subarray === 'function' && // chrome 9-10 lack \`subarray\`
-        arr.subarray(1, 1).byteLength === 0 // ie10 has broken \`subarray\`
+        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
   } catch (e) {
     return false
   }
@@ -345,7 +344,7 @@ function createBuffer (that, length) {
     throw new RangeError('Invalid typed array length')
   }
   if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented \`Uint8Array\` instance, for best performance
+    // Return an augmented `Uint8Array` instance, for best performance
     that = new Uint8Array(length)
     that.__proto__ = Buffer.prototype
   } else {
@@ -360,13 +359,13 @@ function createBuffer (that, length) {
 }
 
 /**
- * The Buffer constructor returns instances of \`Uint8Array\` that have their
- * prototype changed to \`Buffer.prototype\`. Furthermore, \`Buffer\` is a subclass of
- * \`Uint8Array\`, so the returned instances will have all the node \`Buffer\` methods
- * and the \`Uint8Array\` methods. Square bracket notation works as expected -- it
+ * The Buffer constructor returns instances of `Uint8Array` that have their
+ * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+ * and the `Uint8Array` methods. Square bracket notation works as expected -- it
  * returns a single octet.
  *
- * The \`Uint8Array\` prototype remains unmodified.
+ * The `Uint8Array` prototype remains unmodified.
  */
 
 function Buffer (arg, encodingOrOffset, length) {
@@ -525,7 +524,7 @@ function fromArrayLike (that, array) {
 }
 
 function fromArrayBuffer (that, array, byteOffset, length) {
-  array.byteLength // this throws if \`array\` is not a valid ArrayBuffer
+  array.byteLength // this throws if `array` is not a valid ArrayBuffer
 
   if (byteOffset < 0 || array.byteLength < byteOffset) {
     throw new RangeError('\'offset\' is out of bounds')
@@ -544,7 +543,7 @@ function fromArrayBuffer (that, array, byteOffset, length) {
   }
 
   if (Buffer.TYPED_ARRAY_SUPPORT) {
-    // Return an augmented \`Uint8Array\` instance, for best performance
+    // Return an augmented `Uint8Array` instance, for best performance
     that = array
     that.__proto__ = Buffer.prototype
   } else {
@@ -585,7 +584,7 @@ function fromObject (that, obj) {
 }
 
 function checked (length) {
-  // Note: cannot use \`length < kMaxLength()\` here because that fails when
+  // Note: cannot use `length < kMaxLength()` here because that fails when
   // length is NaN (which is otherwise coerced to zero.)
   if (length >= kMaxLength()) {
     throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
@@ -792,7 +791,7 @@ function slowToString (encoding, start, end) {
   }
 }
 
-// The property is used by \`Buffer.isBuffer\` and \`is-buffer\` (in Safari 5-7) to detect
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
 // Buffer instances.
 Buffer.prototype._isBuffer = true
 
@@ -921,13 +920,13 @@ Buffer.prototype.compare = function compare (target, start, end, thisStart, this
   return 0
 }
 
-// Finds either the first index of \`val\` in \`buffer\` at offset >= \`byteOffset\`,
-// OR the last index of \`val\` in \`buffer\` at offset <= \`byteOffset\`.
+// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
+// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
 //
 // Arguments:
 // - buffer - a Buffer to search
 // - val - a string, Buffer, or number
-// - byteOffset - an index into \`buffer\`; will be clamped to an int32
+// - byteOffset - an index into `buffer`; will be clamped to an int32
 // - encoding - an optional encoding, relevant is val is a string
 // - dir - true for indexOf, false for lastIndexOf
 function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
@@ -2195,7 +2194,7 @@ var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.do
  * Simple, lightweight module assisting with the detection and context of
  * Worker. Helps avoid circular dependencies and allows code to reason about
  * whether or not they are in a Worker, even if they never include the main
- * \`ReactWorker\` dependency.
+ * `ReactWorker` dependency.
  */
 var ExecutionEnvironment = {
 
@@ -2289,8 +2288,8 @@ var msPattern = /^-ms-/;
  *   < "msTransition"
  *
  * As Andi Smith suggests
- * (http://www.andismith.com/blog/2012/02/modernizr-prefixed/), an \`-ms\` prefix
- * is converted to lowercase \`ms\`.
+ * (http://www.andismith.com/blog/2012/02/modernizr-prefixed/), an `-ms` prefix
+ * is converted to lowercase `ms`.
  *
  * @param {string} string
  * @return {string}
@@ -2500,8 +2499,8 @@ var _uppercasePattern = /([A-Z])/g;
  *   > hyphenate('backgroundColor')
  *   < "background-color"
  *
- * For CSS style names, use \`hyphenateStyleName\` instead which works properly
- * with all vendor prefixes, including \`ms\`.
+ * For CSS style names, use `hyphenateStyleName` instead which works properly
+ * with all vendor prefixes, including `ms`.
  *
  * @param {string} string
  * @return {string}
@@ -2547,8 +2546,8 @@ var msPattern = /^ms-/;
  *   > hyphenateStyleName('msTransition')
  *   < "-ms-transition"
  *
- * As Modernizr suggests (http://modernizr.com/docs/#prefixed), an \`ms\` prefix
- * is converted to \`-ms-\`.
+ * As Modernizr suggests (http://modernizr.com/docs/#prefixed), an `ms` prefix
+ * is converted to `-ms-`.
  *
  * @param {string} string
  * @return {string}
@@ -2819,7 +2818,7 @@ if (true) {
 
   warning = function warning(condition, format) {
     if (format === undefined) {
-      throw new Error('\`warning(condition, format, ...args)\` requires a warning ' + 'message argument');
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
     }
 
     if (format.indexOf('Failed Composite propType: ') === 0) {
@@ -3294,12 +3293,12 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
         try {
           // This is intentionally an invariant that gets caught. It's the same
           // behavior as without this statement except with a better message.
-          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type \`%s\` is invalid; it must be a function, usually from ' + 'the \`prop-types\` package, but received \`%s\`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
+          invariant(typeof typeSpecs[typeSpecName] === 'function', '%s: %s type `%s` is invalid; it must be a function, usually from ' + 'the `prop-types` package, but received `%s`.', componentName || 'React class', location, typeSpecName, typeof typeSpecs[typeSpecName]);
           error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
         } catch (ex) {
           error = ex;
         }
-        warning(!error || error instanceof Error, '%s: type specification of %s \`%s\` is invalid; the type checker ' + 'function must return \`null\` or an \`Error\` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
+        warning(!error || error instanceof Error, '%s: type specification of %s `%s` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a %s. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).', componentName || 'React class', location, typeSpecName, typeof error);
         if (error instanceof Error && !(error.message in loggedTypeFailures)) {
           // Only monitor this failure once because there tends to be a lot of the
           // same error.
@@ -3420,7 +3419,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   var ANONYMOUS = '<<anonymous>>';
 
   // Important!
-  // Keep this list in sync with production version in \`./factoryWithThrowingShims.js\`.
+  // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
   var ReactPropTypes = {
     array: createPrimitiveTypeChecker('array'),
     bool: createPrimitiveTypeChecker('boolean'),
@@ -3471,7 +3470,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     this.message = message;
     this.stack = '';
   }
-  // Make \`instanceof Error\` still work for returned errors.
+  // Make `instanceof Error` still work for returned errors.
   PropTypeError.prototype = Error.prototype;
 
   function createChainableTypeChecker(validate) {
@@ -3485,11 +3484,11 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
       if (secret !== ReactPropTypesSecret) {
         if (throwOnDirectAccess) {
-          // New behavior only for users of \`prop-types\` package
+          // New behavior only for users of `prop-types` package
           invariant(
             false,
-            'Calling PropTypes validators directly is not supported by the \`prop-types\` package. ' +
-            'Use \`PropTypes.checkPropTypes()\` to call them. ' +
+            'Calling PropTypes validators directly is not supported by the `prop-types` package. ' +
+            'Use `PropTypes.checkPropTypes()` to call them. ' +
             'Read more at http://fb.me/use-check-prop-types'
           );
         } else if ("development" !== 'production' && typeof console !== 'undefined') {
@@ -3503,8 +3502,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
             warning(
               false,
               'You are manually calling a React.PropTypes validation ' +
-              'function for the \`%s\` prop on \`%s\`. This is deprecated ' +
-              'and will throw in the standalone \`prop-types\` package. ' +
+              'function for the `%s` prop on `%s`. This is deprecated ' +
+              'and will throw in the standalone `prop-types` package. ' +
               'You may be seeing this warning due to a third-party PropTypes ' +
               'library. See https://fb.me/react-warning-dont-call-proptypes ' + 'for details.',
               propFullName,
@@ -3518,9 +3517,9 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (props[propName] == null) {
         if (isRequired) {
           if (props[propName] === null) {
-            return new PropTypeError('The ' + location + ' \`' + propFullName + '\` is marked as required ' + ('in \`' + componentName + '\`, but its value is \`null\`.'));
+            return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required ' + ('in `' + componentName + '`, but its value is `null`.'));
           }
-          return new PropTypeError('The ' + location + ' \`' + propFullName + '\` is marked as required in ' + ('\`' + componentName + '\`, but its value is \`undefined\`.'));
+          return new PropTypeError('The ' + location + ' `' + propFullName + '` is marked as required in ' + ('`' + componentName + '`, but its value is `undefined`.'));
         }
         return null;
       } else {
@@ -3539,12 +3538,12 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== expectedType) {
-        // \`propValue\` being instance of, say, date/regexp, pass the 'object'
+        // `propValue` being instance of, say, date/regexp, pass the 'object'
         // check, but we can offer a more precise error message here rather than
-        // 'of type \`object\`'.
+        // 'of type `object`'.
         var preciseType = getPreciseType(propValue);
 
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type ' + ('\`' + preciseType + '\` supplied to \`' + componentName + '\`, expected ') + ('\`' + expectedType + '\`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `' + componentName + '`, expected ') + ('`' + expectedType + '`.'));
       }
       return null;
     }
@@ -3558,12 +3557,12 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   function createArrayOfTypeChecker(typeChecker) {
     function validate(props, propName, componentName, location, propFullName) {
       if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property \`' + propFullName + '\` of component \`' + componentName + '\` has invalid PropType notation inside arrayOf.');
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
       }
       var propValue = props[propName];
       if (!Array.isArray(propValue)) {
         var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type ' + ('\`' + propType + '\` supplied to \`' + componentName + '\`, expected an array.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an array.'));
       }
       for (var i = 0; i < propValue.length; i++) {
         var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
@@ -3581,7 +3580,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       if (!isValidElement(propValue)) {
         var propType = getPropType(propValue);
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type ' + ('\`' + propType + '\` supplied to \`' + componentName + '\`, expected a single ReactElement.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected a single ReactElement.'));
       }
       return null;
     }
@@ -3593,7 +3592,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       if (!(props[propName] instanceof expectedClass)) {
         var expectedClassName = expectedClass.name || ANONYMOUS;
         var actualClassName = getClassName(props[propName]);
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type ' + ('\`' + actualClassName + '\` supplied to \`' + componentName + '\`, expected ') + ('instance of \`' + expectedClassName + '\`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `' + componentName + '`, expected ') + ('instance of `' + expectedClassName + '`.'));
       }
       return null;
     }
@@ -3615,7 +3614,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       }
 
       var valuesString = JSON.stringify(expectedValues);
-      return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of value \`' + propValue + '\` ' + ('supplied to \`' + componentName + '\`, expected one of ' + valuesString + '.'));
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + propValue + '` ' + ('supplied to `' + componentName + '`, expected one of ' + valuesString + '.'));
     }
     return createChainableTypeChecker(validate);
   }
@@ -3623,12 +3622,12 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   function createObjectOfTypeChecker(typeChecker) {
     function validate(props, propName, componentName, location, propFullName) {
       if (typeof typeChecker !== 'function') {
-        return new PropTypeError('Property \`' + propFullName + '\` of component \`' + componentName + '\` has invalid PropType notation inside objectOf.');
+        return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
       }
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type ' + ('\`' + propType + '\` supplied to \`' + componentName + '\`, expected an object.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `' + componentName + '`, expected an object.'));
       }
       for (var key in propValue) {
         if (propValue.hasOwnProperty(key)) {
@@ -3671,7 +3670,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         }
       }
 
-      return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` supplied to ' + ('\`' + componentName + '\`.'));
+      return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`.'));
     }
     return createChainableTypeChecker(validate);
   }
@@ -3679,7 +3678,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   function createNodeChecker() {
     function validate(props, propName, componentName, location, propFullName) {
       if (!isNode(props[propName])) {
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` supplied to ' + ('\`' + componentName + '\`, expected a ReactNode.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` supplied to ' + ('`' + componentName + '`, expected a ReactNode.'));
       }
       return null;
     }
@@ -3691,7 +3690,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type \`' + propType + '\` ' + ('supplied to \`' + componentName + '\`, expected \`object\`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
       }
       for (var key in shapeTypes) {
         var checker = shapeTypes[key];
@@ -3713,7 +3712,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
       var propValue = props[propName];
       var propType = getPropType(propValue);
       if (propType !== 'object') {
-        return new PropTypeError('Invalid ' + location + ' \`' + propFullName + '\` of type \`' + propType + '\` ' + ('supplied to \`' + componentName + '\`, expected \`object\`.'));
+        return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type `' + propType + '` ' + ('supplied to `' + componentName + '`, expected `object`.'));
       }
       // We need to check all keys in case some are required but missing from
       // props.
@@ -3722,7 +3721,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
         var checker = shapeTypes[key];
         if (!checker) {
           return new PropTypeError(
-            'Invalid ' + location + ' \`' + propFullName + '\` key \`' + key + '\` supplied to \`' + componentName + '\`.' +
+            'Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + '`.' +
             '\nBad object: ' + JSON.stringify(props[propName], null, '  ') +
             '\nValid keys: ' +  JSON.stringify(Object.keys(shapeTypes), null, '  ')
           );
@@ -3804,7 +3803,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     return false;
   }
 
-  // Equivalent of \`typeof\` but with special handling for array and regexp.
+  // Equivalent of `typeof` but with special handling for array and regexp.
   function getPropType(propValue) {
     var propType = typeof propValue;
     if (Array.isArray(propValue)) {
@@ -3822,8 +3821,8 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
     return propType;
   }
 
-  // This handles more types than \`getPropType\`. Only used for error messages.
-  // See \`createPrimitiveTypeChecker\`.
+  // This handles more types than `getPropType`. Only used for error messages.
+  // See `createPrimitiveTypeChecker`.
   function getPreciseType(propValue) {
     if (typeof propValue === 'undefined' || propValue === null) {
       return '' + propValue;
@@ -3899,7 +3898,7 @@ if (true) {
       object.$$typeof === REACT_ELEMENT_TYPE;
   };
 
-  // By explicitly using \`prop-types\` you are opting into new development behavior.
+  // By explicitly using `prop-types` you are opting into new development behavior.
   // http://fb.me/prop-types-in-prod
   var throwOnDirectAccess = true;
   module.exports = __webpack_require__(/*! ./factoryWithTypeCheckers */ "./node_modules/prop-types/factoryWithTypeCheckers.js")(isValidElement, throwOnDirectAccess);
@@ -3971,7 +3970,7 @@ var emptyObject = __webpack_require__(/*! fbjs/lib/emptyObject */ "./node_module
 var hyphenateStyleName = __webpack_require__(/*! fbjs/lib/hyphenateStyleName */ "./node_modules/fbjs/lib/hyphenateStyleName.js");
 var camelizeStyleName = __webpack_require__(/*! fbjs/lib/camelizeStyleName */ "./node_modules/fbjs/lib/camelizeStyleName.js");
 
-// Relying on the \`invariant()\` implementation lets us
+// Relying on the `invariant()` implementation lets us
 // have preserve the format and params in the www builds.
 
 !React ? invariant(false, 'ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.') : void 0;
@@ -4018,24 +4017,24 @@ var invokeGuardedCallback = function (name, func, context, a, b, c, d, e, f) {
       // when we call document.createEvent(). However this can cause confusing
       // errors: https://github.com/facebookincubator/create-react-app/issues/3482
       // So we preemptively throw with a better message instead.
-      !(typeof document !== 'undefined') ? invariant(false, 'The \`document\` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in \`componentWillUnmount\`), or you can change the test itself to be asynchronous.') : void 0;
+      !(typeof document !== 'undefined') ? invariant(false, 'The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.') : void 0;
       var evt = document.createEvent('Event');
 
       // Keeps track of whether the user-provided callback threw an error. We
       // set this to true at the beginning, then set it to false right after
-      // calling the function. If the function errors, \`didError\` will never be
+      // calling the function. If the function errors, `didError` will never be
       // set to false. This strategy works even if the browser is flaky and
       // fails to call our global error handler, because it doesn't rely on
       // the error event at all.
       var didError = true;
 
       // Create an event handler for our fake event. We will synchronously
-      // dispatch our fake event using \`dispatchEvent\`. Inside the handler, we
+      // dispatch our fake event using `dispatchEvent`. Inside the handler, we
       // call the user-provided callback.
       var funcArgs = Array.prototype.slice.call(arguments, 3);
       function callCallback() {
         // We immediately remove the callback from event listeners so that
-        // nested \`invokeGuardedCallback\` calls do not clash. Otherwise, a
+        // nested `invokeGuardedCallback` calls do not clash. Otherwise, a
         // nested call would trigger the fake event handlers of any call higher
         // in the stack.
         fakeNode.removeEventListener(evtType, callCallback, false);
@@ -4045,15 +4044,15 @@ var invokeGuardedCallback = function (name, func, context, a, b, c, d, e, f) {
 
       // Create a global error event handler. We use this to capture the value
       // that was thrown. It's possible that this error handler will fire more
-      // than once; for example, if non-React code also calls \`dispatchEvent\`
+      // than once; for example, if non-React code also calls `dispatchEvent`
       // and a handler for that event throws. We should be resilient to most of
       // those cases. Even if our error event handler fires more than once, the
       // last error event is always used. If the callback actually does error,
       // we know that the last error event is the correct one, because it's not
       // possible for anything else to have happened in between our callback
-      // erroring and the code that follows the \`dispatchEvent\` call below. If
+      // erroring and the code that follows the `dispatchEvent` call below. If
       // the callback doesn't error, but the error event was fired, we know to
-      // ignore it because \`didError\` will be false, as described above.
+      // ignore it because `didError` will be false, as described above.
       var error = void 0;
       // Use this to track whether the error event is ever called.
       var didSetError = false;
@@ -4131,7 +4130,7 @@ var ReactErrorUtils = {
 
   /**
    * Same as invokeGuardedCallback, but instead of returning an error, it stores
-   * it in a global so it can be rethrown by \`rethrowCaughtError\` later.
+   * it in a global so it can be rethrown by `rethrowCaughtError` later.
    * TODO: See if _caughtError and _rethrowError can be unified.
    *
    * @param {String} name of the guard to use for logging or debugging
@@ -4200,21 +4199,21 @@ var namesToPlugins = {};
  */
 function recomputePluginOrdering() {
   if (!eventPluginOrder) {
-    // Wait until an \`eventPluginOrder\` is injected.
+    // Wait until an `eventPluginOrder` is injected.
     return;
   }
   for (var pluginName in namesToPlugins) {
     var pluginModule = namesToPlugins[pluginName];
     var pluginIndex = eventPluginOrder.indexOf(pluginName);
-    !(pluginIndex > -1) ? invariant(false, 'EventPluginRegistry: Cannot inject event plugins that do not exist in the plugin ordering, \`%s\`.', pluginName) : void 0;
+    !(pluginIndex > -1) ? invariant(false, 'EventPluginRegistry: Cannot inject event plugins that do not exist in the plugin ordering, `%s`.', pluginName) : void 0;
     if (plugins[pluginIndex]) {
       continue;
     }
-    !pluginModule.extractEvents ? invariant(false, 'EventPluginRegistry: Event plugins must implement an \`extractEvents\` method, but \`%s\` does not.', pluginName) : void 0;
+    !pluginModule.extractEvents ? invariant(false, 'EventPluginRegistry: Event plugins must implement an `extractEvents` method, but `%s` does not.', pluginName) : void 0;
     plugins[pluginIndex] = pluginModule;
     var publishedEvents = pluginModule.eventTypes;
     for (var eventName in publishedEvents) {
-      !publishEventForPlugin(publishedEvents[eventName], pluginModule, eventName) ? invariant(false, 'EventPluginRegistry: Failed to publish event \`%s\` for plugin \`%s\`.', eventName, pluginName) : void 0;
+      !publishEventForPlugin(publishedEvents[eventName], pluginModule, eventName) ? invariant(false, 'EventPluginRegistry: Failed to publish event `%s` for plugin `%s`.', eventName, pluginName) : void 0;
     }
   }
 }
@@ -4228,7 +4227,7 @@ function recomputePluginOrdering() {
  * @private
  */
 function publishEventForPlugin(dispatchConfig, pluginModule, eventName) {
-  !!eventNameDispatchConfigs.hasOwnProperty(eventName) ? invariant(false, 'EventPluginHub: More than one plugin attempted to publish the same event name, \`%s\`.', eventName) : void 0;
+  !!eventNameDispatchConfigs.hasOwnProperty(eventName) ? invariant(false, 'EventPluginHub: More than one plugin attempted to publish the same event name, `%s`.', eventName) : void 0;
   eventNameDispatchConfigs[eventName] = dispatchConfig;
 
   var phasedRegistrationNames = dispatchConfig.phasedRegistrationNames;
@@ -4255,7 +4254,7 @@ function publishEventForPlugin(dispatchConfig, pluginModule, eventName) {
  * @private
  */
 function publishRegistrationName(registrationName, pluginModule, eventName) {
-  !!registrationNameModules[registrationName] ? invariant(false, 'EventPluginHub: More than one plugin attempted to publish the same registration name, \`%s\`.', registrationName) : void 0;
+  !!registrationNameModules[registrationName] ? invariant(false, 'EventPluginHub: More than one plugin attempted to publish the same registration name, `%s`.', registrationName) : void 0;
   registrationNameModules[registrationName] = pluginModule;
   registrationNameDependencies[registrationName] = pluginModule.eventTypes[eventName].dependencies;
 
@@ -4321,8 +4320,8 @@ function injectEventPluginOrder(injectedEventPluginOrder) {
 }
 
 /**
- * Injects plugins to be used by \`EventPluginHub\`. The plugin names must be
- * in the ordering injected by \`injectEventPluginOrder\`.
+ * Injects plugins to be used by `EventPluginHub`. The plugin names must be
+ * in the ordering injected by `injectEventPluginOrder`.
  *
  * Plugins can be injected as part of page initialization or on-the-fly.
  *
@@ -4338,7 +4337,7 @@ function injectEventPluginsByName(injectedNamesToPlugins) {
     }
     var pluginModule = injectedNamesToPlugins[pluginName];
     if (!namesToPlugins.hasOwnProperty(pluginName) || namesToPlugins[pluginName] !== pluginModule) {
-      !!namesToPlugins[pluginName] ? invariant(false, 'EventPluginRegistry: Cannot inject two different event plugins using the same name, \`%s\`.', pluginName) : void 0;
+      !!namesToPlugins[pluginName] ? invariant(false, 'EventPluginRegistry: Cannot inject two different event plugins using the same name, `%s`.', pluginName) : void 0;
       namesToPlugins[pluginName] = pluginModule;
       isOrderingDirty = true;
     }
@@ -4386,7 +4385,7 @@ var validateEventDispatches = void 0;
     var instancesIsArr = Array.isArray(dispatchInstances);
     var instancesLen = instancesIsArr ? dispatchInstances.length : dispatchInstances ? 1 : 0;
 
-    !(instancesIsArr === listenersIsArr && instancesLen === listenersLen) ? warning(false, 'EventPluginUtils: Invalid \`event\`.') : void 0;
+    !(instancesIsArr === listenersIsArr && instancesLen === listenersLen) ? warning(false, 'EventPluginUtils: Invalid `event`.') : void 0;
   };
 }
 
@@ -4452,12 +4451,12 @@ function executeDispatchesInOrder(event, simulated) {
 /**
  * Accumulates items that must not be null or undefined into the first one. This
  * is used to conserve memory by avoiding array allocations, and thus sacrifices
- * API cleanness. Since \`current\` can be null before being passed in and not
- * null after this function, make sure to assign it back to \`current\`:
+ * API cleanness. Since `current` can be null before being passed in and not
+ * null after this function, make sure to assign it back to `current`:
  *
- * \`a = accumulateInto(a, b);\`
+ * `a = accumulateInto(a, b);`
  *
- * This API should be sparingly used. Try \`accumulate\` for something cleaner.
+ * This API should be sparingly used. Try `accumulate` for something cleaner.
  *
  * @return {*|array<*>} An accumulation of items.
  */
@@ -4481,7 +4480,7 @@ function accumulateInto(current, next) {
   }
 
   if (Array.isArray(next)) {
-    // A bit too dangerous to mutate \`next\`.
+    // A bit too dangerous to mutate `next`.
     return [current].concat(next);
   }
 
@@ -4490,12 +4489,12 @@ function accumulateInto(current, next) {
 
 /**
  * @param {array} arr an "accumulation" of items which is either an Array or
- * a single item. Useful when paired with the \`accumulate\` module. This is a
+ * a single item. Useful when paired with the `accumulate` module. This is a
  * simple utility that allows us to reason about a collection of items, but
  * handling the case when there is exactly one item (and we do not need to
  * allocate an array).
  * @param {function} cb Callback invoked with each element or a collection.
- * @param {?} [scope] Scope used as \`this\` in a callback.
+ * @param {?} [scope] Scope used as `this` in a callback.
  */
 function forEachAccumulated(arr, cb, scope) {
   if (Array.isArray(arr)) {
@@ -4561,20 +4560,20 @@ function shouldPreventMouseEvent(name, type, props) {
  *
  * Event plugins can implement the following properties:
  *
- *   \`extractEvents\` {function(string, DOMEventTarget, string, object): *}
+ *   `extractEvents` {function(string, DOMEventTarget, string, object): *}
  *     Required. When a top-level event is fired, this method is expected to
  *     extract synthetic events that will in turn be queued and dispatched.
  *
- *   \`eventTypes\` {object}
+ *   `eventTypes` {object}
  *     Optional, plugins that fire events must publish a mapping of registration
  *     names that are used to register listeners. Values of this mapping must
- *     be objects that contain \`registrationName\` or \`phasedRegistrationNames\`.
+ *     be objects that contain `registrationName` or `phasedRegistrationNames`.
  *
- *   \`executeDispatch\` {function(object, function, string)}
+ *   `executeDispatch` {function(object, function, string)}
  *     Optional, allows plugins to override how an event gets dispatched. By
  *     default, the listener is simply invoked.
  *
- * Each plugin that is injected into \`EventsPluginHub\` is immediately operable.
+ * Each plugin that is injected into `EventsPluginHub` is immediately operable.
  *
  * @public
  */
@@ -4597,7 +4596,7 @@ var injection = {
 
 /**
  * @param {object} inst The instance, which is the source of events.
- * @param {string} registrationName Name of listener (e.g. \`onClick\`).
+ * @param {string} registrationName Name of listener (e.g. `onClick`).
  * @return {?function} The stored callback.
  */
 function getListener(inst, registrationName) {
@@ -4619,7 +4618,7 @@ function getListener(inst, registrationName) {
   if (shouldPreventMouseEvent(registrationName, inst.type, props)) {
     return null;
   }
-  !(!listener || typeof listener === 'function') ? invariant(false, 'Expected \`%s\` listener to be a function, instead got a value of \`%s\` type.', registrationName, typeof listener) : void 0;
+  !(!listener || typeof listener === 'function') ? invariant(false, 'Expected `%s` listener to be a function, instead got a value of `%s` type.', registrationName, typeof listener) : void 0;
   return listener;
 }
 
@@ -4650,7 +4649,7 @@ function runEventsInBatch(events, simulated) {
     eventQueue = accumulateInto(eventQueue, events);
   }
 
-  // Set \`eventQueue\` to null before processing it so that we can tell if more
+  // Set `eventQueue` to null before processing it so that we can tell if more
   // events get enqueued while processing.
   var processingEventQueue = eventQueue;
   eventQueue = null;
@@ -4868,8 +4867,8 @@ function traverseTwoPhase(inst, fn, arg) {
 }
 
 /**
- * Traverses the ID hierarchy and invokes the supplied \`cb\` on any IDs that
- * should would receive a \`mouseEnter\` or \`mouseLeave\` event.
+ * Traverses the ID hierarchy and invokes the supplied `cb` on any IDs that
+ * should would receive a `mouseEnter` or `mouseLeave` event.
  *
  * Does not invoke the callback on the nearest common ancestor because nothing
  * "entered" or "left" that element.
@@ -4934,7 +4933,7 @@ function listenerAtPhase(inst, event, propagationPhase) {
  */
 
 /**
- * Tags a \`SyntheticEvent\` with dispatched listeners. Creating this function
+ * Tags a `SyntheticEvent` with dispatched listeners. Creating this function
  * here, allows us to not have to bind or create functions for each event.
  * Mutating the event's members allows us to not have to create a wrapping
  * "dispatch" object that pairs the event with the listener.
@@ -4964,7 +4963,7 @@ function accumulateTwoPhaseDispatchesSingle(event) {
 }
 
 /**
- * Same as \`accumulateTwoPhaseDispatchesSingle\`, but skips over the targetID.
+ * Same as `accumulateTwoPhaseDispatchesSingle`, but skips over the targetID.
  */
 function accumulateTwoPhaseDispatchesSingleSkipTarget(event) {
   if (event && event.dispatchConfig.phasedRegistrationNames) {
@@ -4976,8 +4975,8 @@ function accumulateTwoPhaseDispatchesSingleSkipTarget(event) {
 
 /**
  * Accumulates without regard to direction, does not look for phased
- * registration names. Same as \`accumulateDirectDispatchesSingle\` but without
- * requiring that the \`dispatchMarker\` be the same as the dispatched ID.
+ * registration names. Same as `accumulateDirectDispatchesSingle` but without
+ * requiring that the `dispatchMarker` be the same as the dispatched ID.
  */
 function accumulateDispatches(inst, ignoredDirection, event) {
   if (inst && event && event.dispatchConfig.registrationName) {
@@ -4991,8 +4990,8 @@ function accumulateDispatches(inst, ignoredDirection, event) {
 }
 
 /**
- * Accumulates dispatches on an \`SyntheticEvent\`, but only for the
- * \`dispatchMarker\`.
+ * Accumulates dispatches on an `SyntheticEvent`, but only for the
+ * `dispatchMarker`.
  * @param {SyntheticEvent} event
  */
 function accumulateDirectDispatchesSingle(event) {
@@ -5212,7 +5211,7 @@ var TOP_WHEEL = unsafeCastStringToDOMTopLevelType('wheel');
 
 // List of events that need to be individually attached to media elements.
 // Note that events in this list will *not* be listened to at the top level
-// unless they're explicitly whitelisted in \`ReactBrowserEventEmitter.listenTo\`.
+// unless they're explicitly whitelisted in `ReactBrowserEventEmitter.listenTo`.
 var mediaEventTypes = [TOP_ABORT, TOP_CAN_PLAY, TOP_CAN_PLAY_THROUGH, TOP_DURATION_CHANGE, TOP_EMPTIED, TOP_ENCRYPTED, TOP_ENDED, TOP_ERROR, TOP_LOADED_DATA, TOP_LOADED_METADATA, TOP_LOAD_START, TOP_PAUSE, TOP_PLAY, TOP_PLAYING, TOP_PROGRESS, TOP_RATE_CHANGE, TOP_SEEKED, TOP_SEEKING, TOP_STALLED, TOP_SUSPEND, TOP_TIME_UPDATE, TOP_VOLUME_CHANGE, TOP_WAITING];
 
 function getRawEventName(topLevelType) {
@@ -5333,9 +5332,9 @@ var EventInterface = {
  * top-level event delegation handler.
  *
  * These systems should generally use pooling to reduce the frequency of garbage
- * collection. The system should check \`isPersistent\` to determine whether the
+ * collection. The system should check `isPersistent` to determine whether the
  * event should be released into the pool after being dispatched. Users that
- * need a persisted event should invoke \`persist\`.
+ * need a persisted event should invoke `persist`.
  *
  * Synthetic events (and subclasses) implement the DOM Level 3 Events API by
  * normalizing browser quirks. Subclasses do not necessarily have to implement a
@@ -5425,7 +5424,7 @@ _assign(SyntheticEvent.prototype, {
   },
 
   /**
-   * We release all dispatched \`SyntheticEvent\`s after each event loop, adding
+   * We release all dispatched `SyntheticEvent`s after each event loop, adding
    * them back into the pool. This allows a way to hold onto a reference that
    * won't be added back into the pool.
    */
@@ -5441,7 +5440,7 @@ _assign(SyntheticEvent.prototype, {
   isPersistent: emptyFunction.thatReturnsFalse,
 
   /**
-   * \`PooledClass\` looks for \`destructor\` on each instance it releases.
+   * `PooledClass` looks for `destructor` on each instance it releases.
    */
   destructor: function () {
     var Interface = this.constructor.Interface;
@@ -5551,7 +5550,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
 
   function warn(action, result) {
     var warningCondition = false;
-    !warningCondition ? warning(false, "This synthetic event is reused for performance reasons. If you're seeing this, " + "you're %s \`%s\` on a released/nullified synthetic event. %s. " + 'If you must keep the original synthetic event around, use event.persist(). ' + 'See https://fb.me/react-event-pooling for more information.', action, propName, result) : void 0;
+    !warningCondition ? warning(false, "This synthetic event is reused for performance reasons. If you're seeing this, " + "you're %s `%s` on a released/nullified synthetic event. %s. " + 'If you must keep the original synthetic event around, use event.persist(). ' + 'See https://fb.me/react-event-pooling for more information.', action, propName, result) : void 0;
   }
 }
 
@@ -5609,8 +5608,8 @@ if (ExecutionEnvironment.canUseDOM && 'documentMode' in document) {
   documentMode = document.documentMode;
 }
 
-// Webkit offers a very useful \`textInput\` event that can be used to
-// directly represent \`beforeInput\`. The IE \`textinput\` event is not as
+// Webkit offers a very useful `textInput` event that can be used to
+// directly represent `beforeInput`. The IE `textinput` event is not as
 // useful, so we don't use it.
 var canUseTextInputEvent = ExecutionEnvironment.canUseDOM && 'TextEvent' in window && !documentMode;
 
@@ -5659,7 +5658,7 @@ var hasSpaceKeypress = false;
 
 /**
  * Return whether a native keypress event is assumed to be a command.
- * This is required because Firefox fires \`keypress\` events for key commands
+ * This is required because Firefox fires `keypress` events for key commands
  * (cut, copy, select-all, etc.) even though no character is inserted.
  */
 function isKeypressCommand(nativeEvent) {
@@ -5725,7 +5724,7 @@ function isFallbackCompositionEnd(topLevelType, nativeEvent) {
 
 /**
  * Google Input Tools provides composition data via a CustomEvent,
- * with the \`data\` property populated in the \`detail\` object. If this
+ * with the `data` property populated in the `detail` object. If this
  * is available on the event object, use it. If not, this is a plain
  * composition event and we have nothing special to extract.
  *
@@ -5794,9 +5793,9 @@ function extractCompositionEvent(topLevelType, targetInst, nativeEvent, nativeEv
 }
 
 /**
- * @param {TopLevelType} topLevelType Number from \`TopLevelType\`.
+ * @param {TopLevelType} topLevelType Number from `TopLevelType`.
  * @param {object} nativeEvent Native browser event.
- * @return {?string} The string corresponding to this \`beforeInput\` event.
+ * @return {?string} The string corresponding to this `beforeInput` event.
  */
 function getNativeBeforeInputChars(topLevelType, nativeEvent) {
   switch (topLevelType) {
@@ -5804,9 +5803,9 @@ function getNativeBeforeInputChars(topLevelType, nativeEvent) {
       return getDataFromCustomEvent(nativeEvent);
     case TOP_KEY_PRESS:
       /**
-       * If native \`textInput\` events are available, our goal is to make
+       * If native `textInput` events are available, our goal is to make
        * use of them. However, there is a special case: the spacebar key.
-       * In Webkit, preventing default on a spacebar \`textInput\` event
+       * In Webkit, preventing default on a spacebar `textInput` event
        * cancels character insertion, but it *also* causes the browser
        * to fall back to its default spacebar behavior of scrolling the
        * page.
@@ -5814,7 +5813,7 @@ function getNativeBeforeInputChars(topLevelType, nativeEvent) {
        * Tracking at:
        * https://code.google.com/p/chromium/issues/detail?id=355103
        *
-       * To avoid this issue, use the keypress event as if no \`textInput\`
+       * To avoid this issue, use the keypress event as if no `textInput`
        * event is available.
        */
       var which = nativeEvent.which;
@@ -5845,12 +5844,12 @@ function getNativeBeforeInputChars(topLevelType, nativeEvent) {
 }
 
 /**
- * For browsers that do not provide the \`textInput\` event, extract the
+ * For browsers that do not provide the `textInput` event, extract the
  * appropriate string to use for SyntheticInputEvent.
  *
- * @param {number} topLevelType Number from \`TopLevelEventTypes\`.
+ * @param {number} topLevelType Number from `TopLevelEventTypes`.
  * @param {object} nativeEvent Native browser event.
- * @return {?string} The fallback string for this \`beforeInput\` event.
+ * @return {?string} The fallback string for this `beforeInput` event.
  */
 function getFallbackBeforeInputChars(topLevelType, nativeEvent) {
   // If we are currently composing (IME) and using a fallback to do so,
@@ -5877,25 +5876,25 @@ function getFallbackBeforeInputChars(topLevelType, nativeEvent) {
        * As of v27, Firefox may fire keypress events even when no character
        * will be inserted. A few possibilities:
        *
-       * - \`which\` is \`0\`. Arrow keys, Esc key, etc.
+       * - `which` is `0`. Arrow keys, Esc key, etc.
        *
-       * - \`which\` is the pressed key code, but no char is available.
-       *   Ex: 'AltGr + d\` in Polish. There is no modified character for
+       * - `which` is the pressed key code, but no char is available.
+       *   Ex: 'AltGr + d` in Polish. There is no modified character for
        *   this key combination and no character is inserted into the
-       *   document, but FF fires the keypress for char code \`100\` anyway.
-       *   No \`input\` event will occur.
+       *   document, but FF fires the keypress for char code `100` anyway.
+       *   No `input` event will occur.
        *
-       * - \`which\` is the pressed key code, but a command combination is
-       *   being used. Ex: \`Cmd+C\`. No character is inserted, and no
-       *   \`input\` event will occur.
+       * - `which` is the pressed key code, but a command combination is
+       *   being used. Ex: `Cmd+C`. No character is inserted, and no
+       *   `input` event will occur.
        */
       if (!isKeypressCommand(nativeEvent)) {
-        // IE fires the \`keypress\` event when a user types an emoji via
-        // Touch keyboard of Windows.  In such a case, the \`char\` property
-        // holds an emoji character like \`\uD83D\uDE0A\`.  Because its length
-        // is 2, the property \`which\` does not represent an emoji correctly.
-        // In such a case, we directly return the \`char\` property instead of
-        // using \`which\`.
+        // IE fires the `keypress` event when a user types an emoji via
+        // Touch keyboard of Windows.  In such a case, the `char` property
+        // holds an emoji character like `\uD83D\uDE0A`.  Because its length
+        // is 2, the property `which` does not represent an emoji correctly.
+        // In such a case, we directly return the `char` property instead of
+        // using `which`.
         if (nativeEvent.char && nativeEvent.char.length > 1) {
           return nativeEvent.char;
         } else if (nativeEvent.which) {
@@ -5911,8 +5910,8 @@ function getFallbackBeforeInputChars(topLevelType, nativeEvent) {
 }
 
 /**
- * Extract a SyntheticInputEvent for \`beforeInput\`, based on either native
- * \`textInput\` or fallback behavior.
+ * Extract a SyntheticInputEvent for `beforeInput`, based on either native
+ * `textInput` or fallback behavior.
  *
  * @return {?object} A SyntheticInputEvent.
  */
@@ -5939,22 +5938,22 @@ function extractBeforeInputEvent(topLevelType, targetInst, nativeEvent, nativeEv
 }
 
 /**
- * Create an \`onBeforeInput\` event to match
+ * Create an `onBeforeInput` event to match
  * http://www.w3.org/TR/2013/WD-DOM-Level-3-Events-20131105/#events-inputevents.
  *
- * This event plugin is based on the native \`textInput\` event
+ * This event plugin is based on the native `textInput` event
  * available in Chrome, Safari, Opera, and IE. This event fires after
- * \`onKeyPress\` and \`onCompositionEnd\`, but before \`onInput\`.
+ * `onKeyPress` and `onCompositionEnd`, but before `onInput`.
  *
- * \`beforeInput\` is spec'd but not implemented in any browsers, and
- * the \`input\` event does not provide any useful information about what has
- * actually been added, contrary to the spec. Thus, \`textInput\` is the best
+ * `beforeInput` is spec'd but not implemented in any browsers, and
+ * the `input` event does not provide any useful information about what has
+ * actually been added, contrary to the spec. Thus, `textInput` is the best
  * available event to identify the characters that have actually been inserted
  * into the target node.
  *
- * This plugin is also responsible for emitting \`composition\` events, thus
- * allowing us to share composition fallback code for both \`beforeInput\` and
- * \`composition\` event types.
+ * This plugin is also responsible for emitting `composition` events, thus
+ * allowing us to share composition fallback code for both `beforeInput` and
+ * `composition` event types.
  */
 var BeforeInputEventPlugin = {
   eventTypes: eventTypes,
@@ -6170,8 +6169,8 @@ function getEventTarget(nativeEvent) {
 /**
  * Checks if an event is supported in the current execution environment.
  *
- * NOTE: This will not work correctly for non-generic events such as \`change\`,
- * \`reset\`, \`load\`, \`error\`, and \`select\`.
+ * NOTE: This will not work correctly for non-generic events such as `change`,
+ * `reset`, `load`, `error`, and `select`.
  *
  * Borrows from Modernizr.
  *
@@ -6525,7 +6524,7 @@ function isAttributeNameSafe(attributeName) {
   }
   illegalAttributeNameCache[attributeName] = true;
   {
-    warning(false, 'Invalid attribute name: \`%s\`', attributeName);
+    warning(false, 'Invalid attribute name: `%s`', attributeName);
   }
   return false;
 }
@@ -6609,7 +6608,7 @@ function PropertyInfoRecord(name, type, mustUseProperty, attributeName, attribut
 }
 
 // When adding attributes to this list, be sure to also add them to
-// the \`possibleStandardNames\` module to ensure casing and incorrect
+// the `possibleStandardNames` module to ensure casing and incorrect
 // name warnings.
 var properties = {};
 
@@ -6638,7 +6637,7 @@ var properties = {};
 );
 
 // These are "enumerated" HTML attributes that accept "true" and "false".
-// In React, we let users pass \`true\` and \`false\` even though technically
+// In React, we let users pass `true` and `false` even though technically
 // these aren't boolean attributes (they are coerced to strings).
 ['contentEditable', 'draggable', 'spellCheck', 'value'].forEach(function (name) {
   properties[name] = new PropertyInfoRecord(name, BOOLEANISH_STRING, false, // mustUseProperty
@@ -6648,7 +6647,7 @@ var properties = {};
 );
 
 // These are "enumerated" SVG attributes that accept "true" and "false".
-// In React, we let users pass \`true\` and \`false\` even though technically
+// In React, we let users pass `true` and `false` even though technically
 // these aren't boolean attributes (they are coerced to strings).
 // Since these are SVG attributes, their attribute names are case-sensitive.
 ['autoReverse', 'externalResourcesRequired', 'preserveAlpha'].forEach(function (name) {
@@ -6674,8 +6673,8 @@ var properties = {};
 // These are the few React props that we set as DOM properties
 // rather than attributes. These are all booleans.
 ['checked',
-// Note: \`option.selected\` is not updated if \`select.multiple\` is
-// disabled with \`removeAttribute\`. We have special logic for handling this.
+// Note: `option.selected` is not updated if `select.multiple` is
+// disabled with `removeAttribute`. We have special logic for handling this.
 'multiple', 'muted', 'selected'].forEach(function (name) {
   properties[name] = new PropertyInfoRecord(name, BOOLEAN, true, // mustUseProperty
   name.toLowerCase(), // attributeName
@@ -6741,7 +6740,7 @@ var capitalize = function (token) {
 
 // Special case: this attribute exists both in HTML and SVG.
 // Its "tabindex" attribute name is case-sensitive in SVG so we can't just use
-// its React \`tabIndex\` name, like we do for attributes that exist only in HTML.
+// its React `tabIndex` name, like we do for attributes that exist only in HTML.
 properties.tabIndex = new PropertyInfoRecord('tabIndex', STRING, false, // mustUseProperty
 'tabindex', // attributeName
 null);
@@ -6863,8 +6862,8 @@ function setValueForProperty(node, name, value, isCustomComponentTag) {
 
       node[propertyName] = type === BOOLEAN ? false : '';
     } else {
-      // Contrary to \`setAttribute\`, object properties are properly
-      // \`toString\`ed by IE8/9.
+      // Contrary to `setAttribute`, object properties are properly
+      // `toString`ed by IE8/9.
       node[propertyName] = value;
     }
     return;
@@ -6882,7 +6881,7 @@ function setValueForProperty(node, name, value, isCustomComponentTag) {
     if (_type === BOOLEAN || _type === OVERLOADED_BOOLEAN && value === true) {
       attributeValue = '';
     } else {
-      // \`setAttribute\` with objects becomes only \`[object]\` in IE8/9,
+      // `setAttribute` with objects becomes only `[object]` in IE8/9,
       // ('' + value) makes it output the correct toString()-value.
       attributeValue = '' + value;
     }
@@ -6914,18 +6913,18 @@ var ReactControlledValuePropTypes = {
       if (!props[propName] || hasReadOnlyValue[props.type] || props.onChange || props.readOnly || props.disabled) {
         return null;
       }
-      return new Error('You provided a \`value\` prop to a form field without an ' + '\`onChange\` handler. This will render a read-only field. If ' + 'the field should be mutable use \`defaultValue\`. Otherwise, ' + 'set either \`onChange\` or \`readOnly\`.');
+      return new Error('You provided a `value` prop to a form field without an ' + '`onChange` handler. This will render a read-only field. If ' + 'the field should be mutable use `defaultValue`. Otherwise, ' + 'set either `onChange` or `readOnly`.');
     },
     checked: function (props, propName, componentName) {
       if (!props[propName] || props.onChange || props.readOnly || props.disabled) {
         return null;
       }
-      return new Error('You provided a \`checked\` prop to a form field without an ' + '\`onChange\` handler. This will render a read-only field. If ' + 'the field should be mutable use \`defaultChecked\`. Otherwise, ' + 'set either \`onChange\` or \`readOnly\`.');
+      return new Error('You provided a `checked` prop to a form field without an ' + '`onChange` handler. This will render a read-only field. If ' + 'the field should be mutable use `defaultChecked`. Otherwise, ' + 'set either `onChange` or `readOnly`.');
     }
   };
 
   /**
-   * Provide a linked \`value\` attribute for controlled forms. You should not use
+   * Provide a linked `value` attribute for controlled forms. You should not use
    * this outside of the ReactDOM controlled form components.
    */
   ReactControlledValuePropTypes.checkPropTypes = function (tagName, props, getStack) {
@@ -6949,17 +6948,17 @@ function isControlled(props) {
 
 /**
  * Implements an <input> host component that allows setting these optional
- * props: \`checked\`, \`value\`, \`defaultChecked\`, and \`defaultValue\`.
+ * props: `checked`, `value`, `defaultChecked`, and `defaultValue`.
  *
- * If \`checked\` or \`value\` are not supplied (or null/undefined), user actions
+ * If `checked` or `value` are not supplied (or null/undefined), user actions
  * that affect the checked state or value will trigger updates to the element.
  *
  * If they are supplied (and not null/undefined), the rendered element will not
  * trigger updates to the element. Instead, the props must change in order for
  * the rendered element to be updated.
  *
- * The rendered element will be initialized as unchecked (or \`defaultChecked\`)
- * with an empty value (or \`defaultValue\`).
+ * The rendered element will be initialized as unchecked (or `defaultChecked`)
+ * with an empty value (or `defaultValue`).
  *
  * See http://www.w3.org/TR/2012/WD-html5-20121025/the-input-element.html
  */
@@ -7068,7 +7067,7 @@ function postMountWrapper(element, props) {
     node.defaultValue = '' + node._wrapperState.initialValue;
   }
 
-  // Normally, we'd just do \`node.checked = node.checked\` upon initial mount, less this bug
+  // Normally, we'd just do `node.checked = node.checked` upon initial mount, less this bug
   // this is needed to work around a chrome bug where setting defaultChecked
   // will sometimes influence the value of checked (even after detachment).
   // Reference: https://bugs.chromium.org/p/chromium/issues/detail?id=608416
@@ -7099,12 +7098,12 @@ function updateNamedCousins(rootNode, props) {
       queryRoot = queryRoot.parentNode;
     }
 
-    // If \`rootNode.form\` was non-null, then we could try \`form.elements\`,
+    // If `rootNode.form` was non-null, then we could try `form.elements`,
     // but that sometimes behaves strangely in IE8. We could also try using
-    // \`form.getElementsByName\`, but that will only return direct children
-    // and won't include inputs that use the HTML5 \`form=\` attribute. Since
+    // `form.getElementsByName`, but that will only return direct children
+    // and won't include inputs that use the HTML5 `form=` attribute. Since
     // the input might not even be in a form. It might not even be in the
-    // document. Let's just use the local \`querySelectorAll\` to ensure we don't
+    // document. Let's just use the local `querySelectorAll` to ensure we don't
     // miss anything.
     var group = queryRoot.querySelectorAll('input[name=' + JSON.stringify('' + name) + '][type="radio"]');
 
@@ -7118,7 +7117,7 @@ function updateNamedCousins(rootNode, props) {
       // That's probably okay; we don't support it just as we don't support
       // mixing React radio buttons with non-React ones.
       var otherProps = getFiberCurrentPropsFromNode$1(otherNode);
-      !otherProps ? invariant(false, 'ReactDOMInput: Mixing React and non-React radio inputs with the same \`name\` is not supported.') : void 0;
+      !otherProps ? invariant(false, 'ReactDOMInput: Mixing React and non-React radio inputs with the same `name` is not supported.') : void 0;
 
       // We need update the tracked value on the named cousin since the value
       // was changed but the input saw no event or value set
@@ -7191,7 +7190,7 @@ var activeElement = null;
 var activeElementInst = null;
 
 /**
- * SECTION: handle \`change\` event
+ * SECTION: handle `change` event
  */
 function shouldUseChangeEvent(elem) {
   var nodeName = elem.nodeName && elem.nodeName.toLowerCase();
@@ -7233,7 +7232,7 @@ function getTargetInstForChangeEvent(topLevelType, targetInst) {
 }
 
 /**
- * SECTION: handle \`input\` event
+ * SECTION: handle `input` event
  */
 var isInputEventSupported = false;
 if (ExecutionEnvironment.canUseDOM) {
@@ -7267,7 +7266,7 @@ function stopWatchingForValueChange() {
 }
 
 /**
- * (For IE <=9) Handles a propertychange event, sending a \`change\` event if
+ * (For IE <=9) Handles a propertychange event, sending a `change` event if
  * the value of the active element has changed.
  */
 function handlePropertyChange(nativeEvent) {
@@ -7286,7 +7285,7 @@ function handleEventsForInputEventPolyfill(topLevelType, target, targetInst) {
     // appears to fire in all of the remaining cases so we catch those and
     // forward the event if the value has changed
     // In either case, we don't want to call the event handler if the value
-    // is changed from JS so we redefine a setter for \`.value\` that updates
+    // is changed from JS so we redefine a setter for `.value` that updates
     // our activeElementValue variable, allowing us to ignore those changes
     //
     // stopWatching() should be a noop here but we call it just in case we
@@ -7305,7 +7304,7 @@ function getTargetInstForInputEventPolyfill(topLevelType, targetInst) {
     // helpful for us so just check activeElement instead.
     //
     // 99% of the time, keydown and keyup aren't necessary. IE8 fails to fire
-    // propertychange on the first input event after setting \`value\` from a
+    // propertychange on the first input event after setting `value` from a
     // script and fires only keydown, keypress, keyup. Catching keyup usually
     // gets it and catching keydown lets us fire an event for the first
     // keystroke if user does a key repeat (it'll be a little delayed: right
@@ -7316,12 +7315,12 @@ function getTargetInstForInputEventPolyfill(topLevelType, targetInst) {
 }
 
 /**
- * SECTION: handle \`click\` event
+ * SECTION: handle `click` event
  */
 function shouldUseClickEvent(elem) {
-  // Use the \`click\` event to detect changes to checkbox and radio inputs.
-  // This approach works across all browsers, whereas \`change\` does not fire
-  // until \`blur\` in IE8.
+  // Use the `click` event to detect changes to checkbox and radio inputs.
+  // This approach works across all browsers, whereas `change` does not fire
+  // until `blur` in IE8.
   var nodeName = elem.nodeName;
   return nodeName && nodeName.toLowerCase() === 'input' && (elem.type === 'checkbox' || elem.type === 'radio');
 }
@@ -7356,12 +7355,12 @@ function handleControlledInputBlur(inst, node) {
 }
 
 /**
- * This plugin creates an \`onChange\` event that normalizes change events
+ * This plugin creates an `onChange` event that normalizes change events
  * across form elements. This event fires at a time when it's possible to
  * change the element's value without seeing a flicker.
  *
  * Supported elements are:
- * - input (see \`isTextInputElement\`)
+ * - input (see `isTextInputElement`)
  * - textarea
  * - select
  */
@@ -7408,13 +7407,13 @@ var ChangeEventPlugin = {
 };
 
 /**
- * Module that is injectable into \`EventPluginHub\`, that specifies a
- * deterministic ordering of \`EventPlugin\`s. A convenient way to reason about
+ * Module that is injectable into `EventPluginHub`, that specifies a
+ * deterministic ordering of `EventPlugin`s. A convenient way to reason about
  * plugins, without having to package every one of them. This is better than
  * having plugins be ordered in the same order that they are injected because
  * that ordering would be influenced by the packaging order.
- * \`ResponderEventPlugin\` must occur before \`SimpleEventPlugin\` so that
- * preventing default on events is convenient in \`SimpleEventPlugin\` handlers.
+ * `ResponderEventPlugin` must occur before `SimpleEventPlugin` so that
+ * preventing default on events is convenient in `SimpleEventPlugin` handlers.
  */
 var DOMEventPluginOrder = ['ResponderEventPlugin', 'SimpleEventPlugin', 'TapEventPlugin', 'EnterLeaveEventPlugin', 'ChangeEventPlugin', 'SelectEventPlugin', 'BeforeInputEventPlugin'];
 
@@ -7514,10 +7513,10 @@ var EnterLeaveEventPlugin = {
 
   /**
    * For almost every interaction we care about, there will be both a top-level
-   * \`mouseover\` and \`mouseout\` event that occurs. Only use \`mouseout\` so that
+   * `mouseover` and `mouseout` event that occurs. Only use `mouseout` so that
    * we do not extract duplicate events. However, moving the mouse into the
-   * browser from outside will not fire a \`mouseout\` event. In this case, we use
-   * the \`mouseover\` top-level event.
+   * browser from outside will not fire a `mouseout` event. In this case, we use
+   * the `mouseover` top-level event.
    */
   extractEvents: function (topLevelType, targetInst, nativeEvent, nativeEventTarget) {
     var isOverEvent = topLevelType === TOP_MOUSE_OVER || topLevelType === TOP_POINTER_OVER;
@@ -7534,10 +7533,10 @@ var EnterLeaveEventPlugin = {
 
     var win = void 0;
     if (nativeEventTarget.window === nativeEventTarget) {
-      // \`nativeEventTarget\` is probably a window object.
+      // `nativeEventTarget` is probably a window object.
       win = nativeEventTarget;
     } else {
-      // TODO: Figure out why \`ownerDocument\` is sometimes undefined in IE8.
+      // TODO: Figure out why `ownerDocument` is sometimes undefined in IE8.
       var doc = nativeEventTarget.ownerDocument;
       if (doc) {
         win = doc.defaultView || doc.parentWindow;
@@ -7600,7 +7599,7 @@ var EnterLeaveEventPlugin = {
 };
 
 /**
- * \`ReactInstanceMap\` maintains a mapping from a public facing stateful
+ * `ReactInstanceMap` maintains a mapping from a public facing stateful
  * instance (key) and the internal representation (value). This allows public
  * methods to accept the user facing instance as an argument and map them back
  * to internal methods.
@@ -7610,7 +7609,7 @@ var EnterLeaveEventPlugin = {
  */
 
 /**
- * This API should be called \`delete\` but we'd have to make sure to always
+ * This API should be called `delete` but we'd have to make sure to always
  * transform these to strings for IE support. When this transform is fully
  * supported we can rename it.
  */
@@ -7924,14 +7923,14 @@ var SyntheticFocusEvent = SyntheticUIEvent.extend({
 });
 
 /**
- * \`charCode\` represents the actual "character code" and is safe to use with
- * \`String.fromCharCode\`. As such, only keys that correspond to printable
- * characters produce a valid \`charCode\`, the only exception to this is Enter.
- * The Tab-key is considered non-printable and does not have a \`charCode\`,
+ * `charCode` represents the actual "character code" and is safe to use with
+ * `String.fromCharCode`. As such, only keys that correspond to printable
+ * characters produce a valid `charCode`, the only exception to this is Enter.
+ * The Tab-key is considered non-printable and does not have a `charCode`,
  * presumably because it does not produce a tab-character in browsers.
  *
  * @param {object} nativeEvent Native browser event.
- * @return {number} Normalized \`charCode\` property.
+ * @return {number} Normalized `charCode` property.
  */
 function getEventCharCode(nativeEvent) {
   var charCode = void 0;
@@ -7940,12 +7939,12 @@ function getEventCharCode(nativeEvent) {
   if ('charCode' in nativeEvent) {
     charCode = nativeEvent.charCode;
 
-    // FF does not set \`charCode\` for the Enter-key, check against \`keyCode\`.
+    // FF does not set `charCode` for the Enter-key, check against `keyCode`.
     if (charCode === 0 && keyCode === 13) {
       charCode = 13;
     }
   } else {
-    // IE8 does not implement \`charCode\`, but \`keyCode\` has the correct value.
+    // IE8 does not implement `charCode`, but `keyCode` has the correct value.
     charCode = keyCode;
   }
 
@@ -7955,7 +7954,7 @@ function getEventCharCode(nativeEvent) {
     charCode = 13;
   }
 
-  // Some non-printable keys are reported in \`charCode\`/\`keyCode\`, discard them.
+  // Some non-printable keys are reported in `charCode`/`keyCode`, discard them.
   // Must not discard the (non-)printable Enter-key.
   if (charCode >= 32 || charCode === 13) {
     return charCode;
@@ -7965,7 +7964,7 @@ function getEventCharCode(nativeEvent) {
 }
 
 /**
- * Normalization of deprecated HTML5 \`key\` values
+ * Normalization of deprecated HTML5 `key` values
  * @see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent#Key_names
  */
 var normalizeKey = {
@@ -7984,7 +7983,7 @@ var normalizeKey = {
 };
 
 /**
- * Translation from legacy \`keyCode\` to HTML5 \`key\`
+ * Translation from legacy `keyCode` to HTML5 `key`
  * Only special keys supported, all others depend on keyboard layout or browser
  * @see https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent#Key_names
  */
@@ -8029,32 +8028,32 @@ var translateToKey = {
 
 /**
  * @param {object} nativeEvent Native browser event.
- * @return {string} Normalized \`key\` property.
+ * @return {string} Normalized `key` property.
  */
 function getEventKey(nativeEvent) {
   if (nativeEvent.key) {
     // Normalize inconsistent values reported by browsers due to
     // implementations of a working draft specification.
 
-    // FireFox implements \`key\` but returns \`MozPrintableKey\` for all
-    // printable characters (normalized to \`Unidentified\`), ignore it.
+    // FireFox implements `key` but returns `MozPrintableKey` for all
+    // printable characters (normalized to `Unidentified`), ignore it.
     var key = normalizeKey[nativeEvent.key] || nativeEvent.key;
     if (key !== 'Unidentified') {
       return key;
     }
   }
 
-  // Browser does not implement \`key\`, polyfill as much of it as we can.
+  // Browser does not implement `key`, polyfill as much of it as we can.
   if (nativeEvent.type === 'keypress') {
     var charCode = getEventCharCode(nativeEvent);
 
     // The enter-key is technically both printable and non-printable and can
-    // thus be captured by \`keypress\`, no other non-printable key should.
+    // thus be captured by `keypress`, no other non-printable key should.
     return charCode === 13 ? 'Enter' : String.fromCharCode(charCode);
   }
   if (nativeEvent.type === 'keydown' || nativeEvent.type === 'keyup') {
     // While user keyboard layout determines the actual meaning of each
-    // \`keyCode\` value, almost all function keys have a universal value.
+    // `keyCode` value, almost all function keys have a universal value.
     return translateToKey[nativeEvent.keyCode] || 'Unidentified';
   }
   return '';
@@ -8076,7 +8075,7 @@ var SyntheticKeyboardEvent = SyntheticUIEvent.extend({
   getModifierState: getEventModifierState,
   // Legacy Interface
   charCode: function (event) {
-    // \`charCode\` is the result of a KeyPress event and represents the value of
+    // `charCode` is the result of a KeyPress event and represents the value of
     // the actual printable character.
 
     // KeyPress is deprecated, but its replacement is not yet final and not
@@ -8087,7 +8086,7 @@ var SyntheticKeyboardEvent = SyntheticUIEvent.extend({
     return 0;
   },
   keyCode: function (event) {
-    // \`keyCode\` is the result of a KeyDown/Up event and represents the value of
+    // `keyCode` is the result of a KeyDown/Up event and represents the value of
     // physical keyboard key.
 
     // The actual meaning of the value depends on the users' keyboard layout
@@ -8100,7 +8099,7 @@ var SyntheticKeyboardEvent = SyntheticUIEvent.extend({
     return 0;
   },
   which: function (event) {
-    // \`which\` is an alias for either \`keyCode\` or \`charCode\` depending on the
+    // `which` is an alias for either `keyCode` or `charCode` depending on the
     // type of the event.
     if (event.type === 'keypress') {
       return getEventCharCode(event);
@@ -8152,12 +8151,12 @@ var SyntheticTransitionEvent = SyntheticEvent$1.extend({
  */
 var SyntheticWheelEvent = SyntheticMouseEvent.extend({
   deltaX: function (event) {
-    return 'deltaX' in event ? event.deltaX : // Fallback to \`wheelDeltaX\` for Webkit and normalize (right is positive).
+    return 'deltaX' in event ? event.deltaX : // Fallback to `wheelDeltaX` for Webkit and normalize (right is positive).
     'wheelDeltaX' in event ? -event.wheelDeltaX : 0;
   },
   deltaY: function (event) {
-    return 'deltaY' in event ? event.deltaY : // Fallback to \`wheelDeltaY\` for Webkit and normalize (down is positive).
-    'wheelDeltaY' in event ? -event.wheelDeltaY : // Fallback to \`wheelDelta\` for IE<9 and normalize (down is positive).
+    return 'deltaY' in event ? event.deltaY : // Fallback to `wheelDeltaY` for Webkit and normalize (down is positive).
+    'wheelDeltaY' in event ? -event.wheelDeltaY : // Fallback to `wheelDelta` for IE<9 and normalize (down is positive).
     'wheelDelta' in event ? -event.wheelDelta : 0;
   },
 
@@ -8322,7 +8321,7 @@ var SimpleEventPlugin = {
       default:
         {
           if (knownHTMLTopLevelTypes.indexOf(topLevelType) === -1) {
-            warning(false, 'SimpleEventPlugin: Unhandled event type, \`%s\`. This warning ' + 'is likely caused by a bug in React. Please file an issue.', topLevelType);
+            warning(false, 'SimpleEventPlugin: Unhandled event type, `%s`. This warning ' + 'is likely caused by a bug in React. Please file an issue.', topLevelType);
           }
         }
         // HTML Events
@@ -8429,7 +8428,7 @@ function isEnabled() {
 /**
  * Traps top-level events by using event bubbling.
  *
- * @param {number} topLevelType Number from \`TopLevelEventTypes\`.
+ * @param {number} topLevelType Number from `TopLevelEventTypes`.
  * @param {object} element Element on which to attach listener.
  * @return {?object} An object with a remove function which will forcefully
  *                  remove the listener.
@@ -8449,7 +8448,7 @@ function trapBubbledEvent(topLevelType, element) {
 /**
  * Traps a top-level event by using event capturing.
  *
- * @param {number} topLevelType Number from \`TopLevelEventTypes\`.
+ * @param {number} topLevelType Number from `TopLevelEventTypes`.
  * @param {object} element Element on which to attach listener.
  * @return {?object} An object with a remove function which will forcefully
  *                  remove the listener.
@@ -8489,7 +8488,7 @@ function dispatchEvent(topLevelType, nativeEvent) {
 
   try {
     // Event queue being processed in the same cycle allows
-    // \`preventDefault\`.
+    // `preventDefault`.
     batchedUpdates(handleTopLevel, bookKeeping);
   } finally {
     releaseTopLevelCallbackBookKeeping(bookKeeping);
@@ -8506,7 +8505,7 @@ var ReactDOMEventListener = Object.freeze({
 });
 
 /**
- * Summary of \`ReactBrowserEventEmitter\` event handling:
+ * Summary of `ReactBrowserEventEmitter` event handling:
  *
  *  - Top-level delegation is used to trap most native browser events. This
  *    may only occur in the main thread and is the responsibility of
@@ -8518,13 +8517,13 @@ var ReactDOMEventListener = Object.freeze({
  *    may be done in the worker thread.
  *
  *  - Forward these native events (with the associated top-level type used to
- *    trap it) to \`EventPluginHub\`, which in turn will ask plugins if they want
+ *    trap it) to `EventPluginHub`, which in turn will ask plugins if they want
  *    to extract any synthetic events.
  *
- *  - The \`EventPluginHub\` will then process each event by annotating them with
+ *  - The `EventPluginHub` will then process each event by annotating them with
  *    "dispatches", a sequence of listeners and IDs that care about that event.
  *
- *  - The \`EventPluginHub\` then dispatches the events.
+ *  - The `EventPluginHub` then dispatches the events.
  *
  * Overview of React and the event system:
  *
@@ -8570,7 +8569,7 @@ var reactTopListenersCounter = 0;
 var topListenersIDKey = '_reactListenersID' + ('' + Math.random()).slice(2);
 
 function getListeningForDocument(mountAt) {
-  // In IE8, \`mountAt\` is a host object and doesn't have \`hasOwnProperty\`
+  // In IE8, `mountAt` is a host object and doesn't have `hasOwnProperty`
   // directly.
   if (!Object.prototype.hasOwnProperty.call(mountAt, topListenersIDKey)) {
     mountAt[topListenersIDKey] = reactTopListenersCounter++;
@@ -8583,21 +8582,21 @@ function getListeningForDocument(mountAt) {
  * We listen for bubbled touch events on the document object.
  *
  * Firefox v8.01 (and possibly others) exhibited strange behavior when
- * mounting \`onmousemove\` events at some node that was not the document
+ * mounting `onmousemove` events at some node that was not the document
  * element. The symptoms were that if your mouse is not moving over something
  * contained within that mount point (for example on the background) the
- * top-level listeners for \`onmousemove\` won't be called. However, if you
- * register the \`mousemove\` on the document object, then it will of course
- * catch all \`mousemove\`s. This along with iOS quirks, justifies restricting
+ * top-level listeners for `onmousemove` won't be called. However, if you
+ * register the `mousemove` on the document object, then it will of course
+ * catch all `mousemove`s. This along with iOS quirks, justifies restricting
  * top-level listeners to the document object only, at least for these
  * movement types of events and possibly all events.
  *
  * @see http://www.quirksmode.org/blog/archives/2010/09/click_event_del.html
  *
- * Also, \`keyup\`/\`keypress\`/\`keydown\` do not bubble to the window on IE, but
+ * Also, `keyup`/`keypress`/`keydown` do not bubble to the window on IE, but
  * they bubble to document.
  *
- * @param {string} registrationName Name of listener (e.g. \`onClick\`).
+ * @param {string} registrationName Name of listener (e.g. `onClick`).
  * @param {object} mountAt Container where to mount the listener
  */
 function listenTo(registrationName, mountAt) {
@@ -8754,9 +8753,9 @@ function getOffsets(outerNode) {
 }
 
 /**
- * Returns {start, end} where \`start\` is the character/codepoint index of
- * (anchorNode, anchorOffset) within the textContent of \`outerNode\`, and
- * \`end\` is the index of (focusNode, focusOffset).
+ * Returns {start, end} where `start` is the character/codepoint index of
+ * (anchorNode, anchorOffset) within the textContent of `outerNode`, and
+ * `end` is the index of (focusNode, focusOffset).
  *
  * Returns null if you pass in garbage input but we should probably just crash.
  *
@@ -8789,14 +8788,14 @@ function getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNo
       if ((next = node.firstChild) === null) {
         break;
       }
-      // Moving from \`node\` to its first child \`next\`.
+      // Moving from `node` to its first child `next`.
       parentNode = node;
       node = next;
     }
 
     while (true) {
       if (node === outerNode) {
-        // If \`outerNode\` has children, this is always the second time visiting
+        // If `outerNode` has children, this is always the second time visiting
         // it. If it has no children, this is still the first loop, and the only
         // valid selection is anchorNode and focusNode both equal to this node
         // and both offsets 0, in which case we will have handled above.
@@ -8815,7 +8814,7 @@ function getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNo
       parentNode = node.parentNode;
     }
 
-    // Moving from \`node\` to its next sibling \`next\`.
+    // Moving from `node` to its next sibling `next`.
     node = next;
   }
 
@@ -8836,7 +8835,7 @@ function getModernOffsetsFromPoints(outerNode, anchorNode, anchorOffset, focusNo
  * selections.
  *
  * Note: IE10+ supports the Selection object, but it does not support
- * the \`extend\` method, which means that even in modern IE, it's not possible
+ * the `extend` method, which means that even in modern IE, it's not possible
  * to programmatically create a backward selection. Thus, for all IE
  * versions, we use the old IE API to create our selections.
  *
@@ -9039,7 +9038,7 @@ function getSelection(node) {
  */
 function constructSelectEvent(nativeEvent, nativeEventTarget) {
   // Ensure we have the right element, and that the user is not dragging a
-  // selection (this matches native \`select\` event behavior). In HTML5, select
+  // selection (this matches native `select` event behavior). In HTML5, select
   // fires only on input and textarea thus if there's no focused element we
   // won't dispatch.
   if (mouseDown || activeElement$1 == null || activeElement$1 !== getActiveElement()) {
@@ -9065,11 +9064,11 @@ function constructSelectEvent(nativeEvent, nativeEventTarget) {
 }
 
 /**
- * This plugin creates an \`onSelect\` event that normalizes select events
+ * This plugin creates an `onSelect` event that normalizes select events
  * across form elements.
  *
  * Supported elements are:
- * - input (see \`isTextInputElement\`)
+ * - input (see `isTextInputElement`)
  * - textarea
  * - contentEditable
  *
@@ -9443,14 +9442,14 @@ function flattenChildren(children) {
 }
 
 /**
- * Implements an <option> host component that warns when \`selected\` is set.
+ * Implements an <option> host component that warns when `selected` is set.
  */
 
 function validateProps(element, props) {
-  // TODO (yungsters): Remove support for \`selected\` in <option>.
+  // TODO (yungsters): Remove support for `selected` in <option>.
   {
     if (props.selected != null && !didWarnSelectedSetOnOption) {
-      warning(false, 'Use the \`defaultValue\` or \`value\` props on <select> instead of ' + 'setting \`selected\` on <option>.');
+      warning(false, 'Use the `defaultValue` or `value` props on <select> instead of ' + 'setting `selected` on <option>.');
       didWarnSelectedSetOnOption = true;
     }
   }
@@ -9488,7 +9487,7 @@ var didWarnValueDefaultValue$1 = void 0;
 function getDeclarationErrorAddendum() {
   var ownerName = getCurrentFiberOwnerName$3();
   if (ownerName) {
-    return '\n\nCheck the render method of \`' + ownerName + '\`.';
+    return '\n\nCheck the render method of `' + ownerName + '`.';
   }
   return '';
 }
@@ -9496,7 +9495,7 @@ function getDeclarationErrorAddendum() {
 var valuePropNames = ['value', 'defaultValue'];
 
 /**
- * Validation function for \`value\` and \`defaultValue\`.
+ * Validation function for `value` and `defaultValue`.
  */
 function checkSelectPropTypes(props) {
   ReactControlledValuePropTypes.checkPropTypes('select', props, getCurrentFiberStackAddendum$3);
@@ -9508,9 +9507,9 @@ function checkSelectPropTypes(props) {
     }
     var isArray = Array.isArray(props[propName]);
     if (props.multiple && !isArray) {
-      warning(false, 'The \`%s\` prop supplied to <select> must be an array if ' + '\`multiple\` is true.%s', propName, getDeclarationErrorAddendum());
+      warning(false, 'The `%s` prop supplied to <select> must be an array if ' + '`multiple` is true.%s', propName, getDeclarationErrorAddendum());
     } else if (!props.multiple && isArray) {
-      warning(false, 'The \`%s\` prop supplied to <select> must be a scalar ' + 'value if \`multiple\` is false.%s', propName, getDeclarationErrorAddendum());
+      warning(false, 'The `%s` prop supplied to <select> must be a scalar ' + 'value if `multiple` is false.%s', propName, getDeclarationErrorAddendum());
     }
   }
 }
@@ -9535,7 +9534,7 @@ function updateOptions(node, multiple, propValue, setDefaultSelected) {
       }
     }
   } else {
-    // Do not set \`select.value\` as exact behavior isn't consistent across all
+    // Do not set `select.value` as exact behavior isn't consistent across all
     // browsers for all cases.
     var _selectedValue = '' + propValue;
     var defaultSelected = null;
@@ -9559,17 +9558,17 @@ function updateOptions(node, multiple, propValue, setDefaultSelected) {
 
 /**
  * Implements a <select> host component that allows optionally setting the
- * props \`value\` and \`defaultValue\`. If \`multiple\` is false, the prop must be a
- * stringable. If \`multiple\` is true, the prop must be an array of stringables.
+ * props `value` and `defaultValue`. If `multiple` is false, the prop must be a
+ * stringable. If `multiple` is true, the prop must be an array of stringables.
  *
- * If \`value\` is not supplied (or null/undefined), user actions that change the
+ * If `value` is not supplied (or null/undefined), user actions that change the
  * selected option will trigger updates to the rendered options.
  *
  * If it is supplied (and not null/undefined), the rendered options will not
- * update in response to user actions. Instead, the \`value\` prop must change in
+ * update in response to user actions. Instead, the `value` prop must change in
  * order for the rendered options to update.
  *
- * If \`defaultValue\` is provided, any options with the supplied values will be
+ * If `defaultValue` is provided, any options with the supplied values will be
  * selected.
  */
 
@@ -9623,7 +9622,7 @@ function postUpdateWrapper(element, props) {
   if (value != null) {
     updateOptions(node, !!props.multiple, value, false);
   } else if (wasMultiple !== !!props.multiple) {
-    // For simplicity, reapply \`defaultValue\` if \`multiple\` is toggled.
+    // For simplicity, reapply `defaultValue` if `multiple` is toggled.
     if (props.defaultValue != null) {
       updateOptions(node, !!props.multiple, props.defaultValue, true);
     } else {
@@ -9648,27 +9647,27 @@ var getCurrentFiberStackAddendum$4 = ReactDebugCurrentFiber.getCurrentFiberStack
 var didWarnValDefaultVal = false;
 
 /**
- * Implements a <textarea> host component that allows setting \`value\`, and
- * \`defaultValue\`. This differs from the traditional DOM API because value is
+ * Implements a <textarea> host component that allows setting `value`, and
+ * `defaultValue`. This differs from the traditional DOM API because value is
  * usually set as PCDATA children.
  *
- * If \`value\` is not supplied (or null/undefined), user actions that affect the
+ * If `value` is not supplied (or null/undefined), user actions that affect the
  * value will trigger updates to the element.
  *
- * If \`value\` is supplied (and not null/undefined), the rendered element will
- * not trigger updates to the element. Instead, the \`value\` prop must change in
+ * If `value` is supplied (and not null/undefined), the rendered element will
+ * not trigger updates to the element. Instead, the `value` prop must change in
  * order for the rendered element to be updated.
  *
  * The rendered element will be initialized with an empty value, the prop
- * \`defaultValue\` if specified, or the children content (deprecated).
+ * `defaultValue` if specified, or the children content (deprecated).
  */
 
 function getHostProps$3(element, props) {
   var node = element;
-  !(props.dangerouslySetInnerHTML == null) ? invariant(false, '\`dangerouslySetInnerHTML\` does not make sense on <textarea>.') : void 0;
+  !(props.dangerouslySetInnerHTML == null) ? invariant(false, '`dangerouslySetInnerHTML` does not make sense on <textarea>.') : void 0;
 
   // Always set children to the same thing. In IE9, the selection range will
-  // get reset if \`textContent\` is mutated.  We could add a check in setTextContent
+  // get reset if `textContent` is mutated.  We could add a check in setTextContent
   // to only set the value if/when the value differs from the node value (which would
   // completely solve this IE9 bug), but Sebastian+Sophie seemed to like this
   // solution. The value can be a boolean or object so that's why it's forced
@@ -9701,9 +9700,9 @@ function initWrapperState$2(element, props) {
     var children = props.children;
     if (children != null) {
       {
-        warning(false, 'Use the \`defaultValue\` or \`value\` props instead of setting ' + 'children on <textarea>.');
+        warning(false, 'Use the `defaultValue` or `value` props instead of setting ' + 'children on <textarea>.');
       }
-      !(defaultValue == null) ? invariant(false, 'If you supply \`defaultValue\` on a <textarea>, do not pass children.') : void 0;
+      !(defaultValue == null) ? invariant(false, 'If you supply `defaultValue` on a <textarea>, do not pass children.') : void 0;
       if (Array.isArray(children)) {
         !(children.length <= 1) ? invariant(false, '<textarea> can only have at most one child.') : void 0;
         children = children[0];
@@ -9726,7 +9725,7 @@ function updateWrapper$1(element, props) {
   var node = element;
   var value = props.value;
   if (value != null) {
-    // Cast \`value\` to a string to ensure the value is set correctly. While
+    // Cast `value` to a string to ensure the value is set correctly. While
     // browsers typically do this as necessary, jsdom doesn't.
     var newValue = '' + value;
 
@@ -9847,8 +9846,8 @@ var setInnerHTML = createMicrosoftUnsafeLocalFunction(function (node, html) {
 
 /**
  * Set the textContent property of a node. For text updates, it's faster
- * to set the \`nodeValue\` of the Text node directly instead of using
- * \`.textContent\` which will remove the existing node and create a new one.
+ * to set the `nodeValue` of the Text node directly instead of using
+ * `.textContent` which will remove the existing node and create a new one.
  *
  * @param {DOMElement} node
  * @param {string} text
@@ -9918,7 +9917,7 @@ var isUnitlessNumber = {
 /**
  * @param {string} prefix vendor-specific prefix, eg: Webkit
  * @param {string} key style name, eg: transitionDuration
- * @return {string} style name prefixed with \`prefix\`, properly camelCased, eg:
+ * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
  * WebkitTransitionDuration
  */
 function prefixKey(prefix, key) {
@@ -9940,12 +9939,12 @@ Object.keys(isUnitlessNumber).forEach(function (prop) {
 });
 
 /**
- * Convert a value into the proper css writable value. The style name \`name\`
+ * Convert a value into the proper css writable value. The style name `name`
  * should be logical (no hyphens), as specified
- * in \`CSSProperty.isUnitlessNumber\`.
+ * in `CSSProperty.isUnitlessNumber`.
  *
- * @param {string} name CSS property name such as \`topMargin\`.
- * @param {*} value CSS property value such as \`10px\`.
+ * @param {string} name CSS property name such as `topMargin`.
+ * @param {*} value CSS property value such as `10px`.
  * @return {string} Normalized style value with dimensions applied.
  */
 function dangerousStyleValue(name, value, isCustomProperty) {
@@ -10018,7 +10017,7 @@ var warnValidStyle = emptyFunction;
     }
 
     warnedForNaNValue = true;
-    warning(false, '\`NaN\` is an invalid value for the \`%s\` css style property.%s', name, getStack());
+    warning(false, '`NaN` is an invalid value for the `%s` css style property.%s', name, getStack());
   };
 
   var warnStyleValueIsInfinity = function (name, value, getStack) {
@@ -10027,7 +10026,7 @@ var warnValidStyle = emptyFunction;
     }
 
     warnedForInfinityValue = true;
-    warning(false, '\`Infinity\` is an invalid value for the \`%s\` css style property.%s', name, getStack());
+    warning(false, '`Infinity` is an invalid value for the `%s` css style property.%s', name, getStack());
   };
 
   warnValidStyle = function (name, value, getStack) {
@@ -10136,7 +10135,7 @@ var omittedCloseTags = {
 };
 
 // For HTML, certain tags cannot have children. This has the same purpose as
-// \`omittedCloseTags\` except that \`menuitem\` should still have its closing tag.
+// `omittedCloseTags` except that `menuitem` should still have its closing tag.
 
 var voidElementTags = _assign({
   menuitem: true
@@ -10148,18 +10147,18 @@ function assertValidProps(tag, props, getStack) {
   if (!props) {
     return;
   }
-  // Note the use of \`==\` which checks for null or undefined.
+  // Note the use of `==` which checks for null or undefined.
   if (voidElementTags[tag]) {
-    !(props.children == null && props.dangerouslySetInnerHTML == null) ? invariant(false, '%s is a void element tag and must neither have \`children\` nor use \`dangerouslySetInnerHTML\`.%s', tag, getStack()) : void 0;
+    !(props.children == null && props.dangerouslySetInnerHTML == null) ? invariant(false, '%s is a void element tag and must neither have `children` nor use `dangerouslySetInnerHTML`.%s', tag, getStack()) : void 0;
   }
   if (props.dangerouslySetInnerHTML != null) {
-    !(props.children == null) ? invariant(false, 'Can only set one of \`children\` or \`props.dangerouslySetInnerHTML\`.') : void 0;
-    !(typeof props.dangerouslySetInnerHTML === 'object' && HTML$1 in props.dangerouslySetInnerHTML) ? invariant(false, '\`props.dangerouslySetInnerHTML\` must be in the form \`{__html: ...}\`. Please visit https://fb.me/react-invariant-dangerously-set-inner-html for more information.') : void 0;
+    !(props.children == null) ? invariant(false, 'Can only set one of `children` or `props.dangerouslySetInnerHTML`.') : void 0;
+    !(typeof props.dangerouslySetInnerHTML === 'object' && HTML$1 in props.dangerouslySetInnerHTML) ? invariant(false, '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. Please visit https://fb.me/react-invariant-dangerously-set-inner-html for more information.') : void 0;
   }
   {
-    !(props.suppressContentEditableWarning || !props.contentEditable || props.children == null) ? warning(false, 'A component is \`contentEditable\` and contains \`children\` managed by ' + 'React. It is now your responsibility to guarantee that none of ' + 'those nodes are unexpectedly modified or duplicated. This is ' + 'probably not intentional.%s', getStack()) : void 0;
+    !(props.suppressContentEditableWarning || !props.contentEditable || props.children == null) ? warning(false, 'A component is `contentEditable` and contains `children` managed by ' + 'React. It is now your responsibility to guarantee that none of ' + 'those nodes are unexpectedly modified or duplicated. This is ' + 'probably not intentional.%s', getStack()) : void 0;
   }
-  !(props.style == null || typeof props.style === 'object') ? invariant(false, 'The \`style\` prop expects a mapping from style properties to values, not a string. For example, style={{marginRight: spacing + \'em\'}} when using JSX.%s', getStack()) : void 0;
+  !(props.style == null || typeof props.style === 'object') ? invariant(false, 'The `style` prop expects a mapping from style properties to values, not a string. For example, style={{marginRight: spacing + \'em\'}} when using JSX.%s', getStack()) : void 0;
 }
 
 function isCustomComponent(tagName, props) {
@@ -10752,13 +10751,13 @@ function validateProperty(tagName, name) {
     // If this is an aria-* attribute, but is not listed in the known DOM
     // DOM properties, then it is an invalid aria-* attribute.
     if (correctName == null) {
-      warning(false, 'Invalid ARIA attribute \`%s\`. ARIA attributes follow the pattern aria-* and must be lowercase.%s', name, getStackAddendum());
+      warning(false, 'Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.%s', name, getStackAddendum());
       warnedProperties[name] = true;
       return true;
     }
     // aria-* attributes should be lowercase; suggest the lowercase version.
     if (name !== correctName) {
-      warning(false, 'Invalid ARIA attribute \`%s\`. Did you mean \`%s\`?%s', name, correctName, getStackAddendum());
+      warning(false, 'Invalid ARIA attribute `%s`. Did you mean `%s`?%s', name, correctName, getStackAddendum());
       warnedProperties[name] = true;
       return true;
     }
@@ -10776,7 +10775,7 @@ function validateProperty(tagName, name) {
     }
     // aria-* attributes should be lowercase; suggest the lowercase version.
     if (name !== standardName) {
-      warning(false, 'Unknown ARIA attribute \`%s\`. Did you mean \`%s\`?%s', name, standardName, getStackAddendum());
+      warning(false, 'Unknown ARIA attribute `%s`. Did you mean `%s`?%s', name, standardName, getStackAddendum());
       warnedProperties[name] = true;
       return true;
     }
@@ -10796,7 +10795,7 @@ function warnInvalidARIAProps(type, props) {
   }
 
   var unknownPropString = invalidProps.map(function (prop) {
-    return '\`' + prop + '\`';
+    return '`' + prop + '`';
   }).join(', ');
 
   if (invalidProps.length === 1) {
@@ -10828,9 +10827,9 @@ function validateProperties$1(type, props) {
   if (props != null && props.value === null && !didWarnValueNull) {
     didWarnValueNull = true;
     if (type === 'select' && props.multiple) {
-      warning(false, '\`value\` prop on \`%s\` should not be null. ' + 'Consider using an empty array when \`multiple\` is set to \`true\` ' + 'to clear the component or \`undefined\` for uncontrolled components.%s', type, getStackAddendum$1());
+      warning(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty array when `multiple` is set to `true` ' + 'to clear the component or `undefined` for uncontrolled components.%s', type, getStackAddendum$1());
     } else {
-      warning(false, '\`value\` prop on \`%s\` should not be null. ' + 'Consider using an empty string to clear the component or \`undefined\` ' + 'for uncontrolled components.%s', type, getStackAddendum$1());
+      warning(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty string to clear the component or `undefined` ' + 'for uncontrolled components.%s', type, getStackAddendum$1());
     }
   }
 }
@@ -10869,21 +10868,21 @@ var validateProperty$1 = function () {};
       }
       var registrationName = possibleRegistrationNames.hasOwnProperty(lowerCasedName) ? possibleRegistrationNames[lowerCasedName] : null;
       if (registrationName != null) {
-        warning(false, 'Invalid event handler property \`%s\`. Did you mean \`%s\`?%s', name, registrationName, getStackAddendum$2());
+        warning(false, 'Invalid event handler property `%s`. Did you mean `%s`?%s', name, registrationName, getStackAddendum$2());
         warnedProperties$1[name] = true;
         return true;
       }
       if (EVENT_NAME_REGEX.test(name)) {
-        warning(false, 'Unknown event handler property \`%s\`. It will be ignored.%s', name, getStackAddendum$2());
+        warning(false, 'Unknown event handler property `%s`. It will be ignored.%s', name, getStackAddendum$2());
         warnedProperties$1[name] = true;
         return true;
       }
     } else if (EVENT_NAME_REGEX.test(name)) {
       // If no event plugins have been injected, we are in a server environment.
       // So we can't tell if the event name is correct for sure, but we can filter
-      // out known bad ones like \`onclick\`. We can't suggest a specific replacement though.
+      // out known bad ones like `onclick`. We can't suggest a specific replacement though.
       if (INVALID_EVENT_NAME_REGEX.test(name)) {
-        warning(false, 'Invalid event handler property \`%s\`. ' + 'React events use the camelCase naming convention, for example \`onClick\`.%s', name, getStackAddendum$2());
+        warning(false, 'Invalid event handler property `%s`. ' + 'React events use the camelCase naming convention, for example `onClick`.%s', name, getStackAddendum$2());
       }
       warnedProperties$1[name] = true;
       return true;
@@ -10895,25 +10894,25 @@ var validateProperty$1 = function () {};
     }
 
     if (lowerCasedName === 'innerhtml') {
-      warning(false, 'Directly setting property \`innerHTML\` is not permitted. ' + 'For more information, lookup documentation on \`dangerouslySetInnerHTML\`.');
+      warning(false, 'Directly setting property `innerHTML` is not permitted. ' + 'For more information, lookup documentation on `dangerouslySetInnerHTML`.');
       warnedProperties$1[name] = true;
       return true;
     }
 
     if (lowerCasedName === 'aria') {
-      warning(false, 'The \`aria\` attribute is reserved for future use in React. ' + 'Pass individual \`aria-\` attributes instead.');
+      warning(false, 'The `aria` attribute is reserved for future use in React. ' + 'Pass individual `aria-` attributes instead.');
       warnedProperties$1[name] = true;
       return true;
     }
 
     if (lowerCasedName === 'is' && value !== null && value !== undefined && typeof value !== 'string') {
-      warning(false, 'Received a \`%s\` for a string attribute \`is\`. If this is expected, cast ' + 'the value to a string.%s', typeof value, getStackAddendum$2());
+      warning(false, 'Received a `%s` for a string attribute `is`. If this is expected, cast ' + 'the value to a string.%s', typeof value, getStackAddendum$2());
       warnedProperties$1[name] = true;
       return true;
     }
 
     if (typeof value === 'number' && isNaN(value)) {
-      warning(false, 'Received NaN for the \`%s\` attribute. If this is expected, cast ' + 'the value to a string.%s', name, getStackAddendum$2());
+      warning(false, 'Received NaN for the `%s` attribute. If this is expected, cast ' + 'the value to a string.%s', name, getStackAddendum$2());
       warnedProperties$1[name] = true;
       return true;
     }
@@ -10925,23 +10924,23 @@ var validateProperty$1 = function () {};
     if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
       var standardName = possibleStandardNames[lowerCasedName];
       if (standardName !== name) {
-        warning(false, 'Invalid DOM property \`%s\`. Did you mean \`%s\`?%s', name, standardName, getStackAddendum$2());
+        warning(false, 'Invalid DOM property `%s`. Did you mean `%s`?%s', name, standardName, getStackAddendum$2());
         warnedProperties$1[name] = true;
         return true;
       }
     } else if (!isReserved && name !== lowerCasedName) {
       // Unknown attributes should have lowercase casing since that's how they
       // will be cased anyway with server rendering.
-      warning(false, 'React does not recognize the \`%s\` prop on a DOM element. If you ' + 'intentionally want it to appear in the DOM as a custom ' + 'attribute, spell it as lowercase \`%s\` instead. ' + 'If you accidentally passed it from a parent component, remove ' + 'it from the DOM element.%s', name, lowerCasedName, getStackAddendum$2());
+      warning(false, 'React does not recognize the `%s` prop on a DOM element. If you ' + 'intentionally want it to appear in the DOM as a custom ' + 'attribute, spell it as lowercase `%s` instead. ' + 'If you accidentally passed it from a parent component, remove ' + 'it from the DOM element.%s', name, lowerCasedName, getStackAddendum$2());
       warnedProperties$1[name] = true;
       return true;
     }
 
     if (typeof value === 'boolean' && shouldRemoveAttributeWithWarning(name, value, propertyInfo, false)) {
       if (value) {
-        warning(false, 'Received \`%s\` for a non-boolean attribute \`%s\`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.%s', value, name, name, value, name, getStackAddendum$2());
+        warning(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.%s', value, name, name, value, name, getStackAddendum$2());
       } else {
-        warning(false, 'Received \`%s\` for a non-boolean attribute \`%s\`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', value, name, name, value, name, name, name, getStackAddendum$2());
+        warning(false, 'Received `%s` for a non-boolean attribute `%s`.\n\n' + 'If you want to write it to the DOM, pass a string instead: ' + '%s="%s" or %s={value.toString()}.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', value, name, name, value, name, name, name, getStackAddendum$2());
       }
       warnedProperties$1[name] = true;
       return true;
@@ -10973,7 +10972,7 @@ var warnUnknownProperties = function (type, props, canUseEventSystem) {
   }
 
   var unknownPropString = unknownProps.map(function (prop) {
-    return '\`' + prop + '\`';
+    return '`' + prop + '`';
   }).join(', ');
   if (unknownProps.length === 1) {
     warning(false, 'Invalid value for prop %s on <%s> tag. Either remove it from the element, ' + 'or pass a string or number value to keep it in the DOM. ' + 'For details, see https://fb.me/react-attribute-behavior%s', unknownPropString, type, getStackAddendum$2());
@@ -11076,7 +11075,7 @@ var normalizeHTML = void 0;
       return;
     }
     didWarnInvalidHydration = true;
-    warning(false, 'Prop \`%s\` did not match. Server: %s Client: %s', propName, JSON.stringify(normalizedServerValue), JSON.stringify(normalizedClientValue));
+    warning(false, 'Prop `%s` did not match. Server: %s Client: %s', propName, JSON.stringify(normalizedServerValue), JSON.stringify(normalizedClientValue));
   };
 
   warnForExtraAttributes = function (attributeNames) {
@@ -11093,9 +11092,9 @@ var normalizeHTML = void 0;
 
   warnForInvalidEventListener = function (registrationName, listener) {
     if (listener === false) {
-      warning(false, 'Expected \`%s\` listener to be a function, instead got \`false\`.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', registrationName, registrationName, registrationName, getCurrentFiberStackAddendum$2());
+      warning(false, 'Expected `%s` listener to be a function, instead got `false`.\n\n' + 'If you used to conditionally omit it with %s={condition && value}, ' + 'pass %s={condition ? value : undefined} instead.%s', registrationName, registrationName, registrationName, getCurrentFiberStackAddendum$2());
     } else {
-      warning(false, 'Expected \`%s\` listener to be a function, instead got a value of \`%s\` type.%s', registrationName, typeof listener, getCurrentFiberStackAddendum$2());
+      warning(false, 'Expected `%s` listener to be a function, instead got a value of `%s` type.%s', registrationName, typeof listener, getCurrentFiberStackAddendum$2());
     }
   };
 
@@ -11149,7 +11148,7 @@ function setInitialDOMProperties(tag, domElement, rootContainerElement, nextProp
           Object.freeze(nextProp);
         }
       }
-      // Relies on \`updateStylesByID\` not mutating \`styleUpdates\`.
+      // Relies on `updateStylesByID` not mutating `styleUpdates`.
       setValueForStyles(domElement, nextProp, getStack);
     } else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
       var nextHtml = nextProp ? nextProp[HTML] : undefined;
@@ -11232,10 +11231,10 @@ function createElement$1(type, props, rootContainerElement, parentNamespace) {
       var firstChild = div.firstChild;
       domElement = div.removeChild(firstChild);
     } else if (typeof props.is === 'string') {
-      // $FlowIssue \`createElement\` should be updated for Web Components
+      // $FlowIssue `createElement` should be updated for Web Components
       domElement = ownerDocument.createElement(type, { is: props.is });
     } else {
-      // Separate else branch instead of using \`props.is || undefined\` above because of a Firefox bug.
+      // Separate else branch instead of using `props.is || undefined` above because of a Firefox bug.
       // See discussion in https://github.com/facebook/react/pull/6896
       // and discussion in https://bugzilla.mozilla.org/show_bug.cgi?id=1276240
       domElement = ownerDocument.createElement(type);
@@ -11464,7 +11463,7 @@ function diffProperties$1(domElement, tag, lastRawProps, nextRawProps, rootConta
         }
       }
       if (lastProp) {
-        // Unset styles on \`lastProp\` but not on \`nextProp\`.
+        // Unset styles on `lastProp` but not on `nextProp`.
         for (styleName in lastProp) {
           if (lastProp.hasOwnProperty(styleName) && (!nextProp || !nextProp.hasOwnProperty(styleName))) {
             if (!styleUpdates) {
@@ -11473,7 +11472,7 @@ function diffProperties$1(domElement, tag, lastRawProps, nextRawProps, rootConta
             styleUpdates[styleName] = '';
           }
         }
-        // Update styles that changed since \`lastProp\`.
+        // Update styles that changed since `lastProp`.
         for (styleName in nextProp) {
           if (nextProp.hasOwnProperty(styleName) && lastProp[styleName] !== nextProp[styleName]) {
             if (!styleUpdates) {
@@ -11483,7 +11482,7 @@ function diffProperties$1(domElement, tag, lastRawProps, nextRawProps, rootConta
           }
         }
       } else {
-        // Relies on \`updateStylesByID\` not mutating \`styleUpdates\`.
+        // Relies on `updateStylesByID` not mutating `styleUpdates`.
         if (!styleUpdates) {
           if (!updatePayload) {
             updatePayload = [];
@@ -11554,7 +11553,7 @@ function updateProperties$1(domElement, updatePayload, tag, lastRawProps, nextRa
   switch (tag) {
     case 'input':
       // Update the wrapper around inputs *after* updating props. This has to
-      // happen after \`updateDOMProperties\`. Otherwise HTML5 input validations
+      // happen after `updateDOMProperties`. Otherwise HTML5 input validations
       // raise warnings and prevent the new value from being assigned.
       updateWrapper(domElement, nextRawProps);
       break;
@@ -12401,9 +12400,9 @@ var supportsMutation = true;
 
 function commitMount(domElement, type, newProps, internalInstanceHandle) {
   // Despite the naming that might imply otherwise, this method only
-  // fires if there is an \`Update\` effect scheduled during mounting.
-  // This happens if \`finalizeInitialChildren\` returns \`true\` (which it
-  // does to implement the \`autoFocus\` attribute on the client). But
+  // fires if there is an `Update` effect scheduled during mounting.
+  // This happens if `finalizeInitialChildren` returns `true` (which it
+  // does to implement the `autoFocus` attribute on the client). But
   // there are also other cases when this might happen (such as patching
   // up text content during hydration mismatch). So we'll check this again.
   if (shouldAutoFocusHostComponent(type, newProps)) {
@@ -12623,7 +12622,7 @@ var supportsUserTiming = typeof performance !== 'undefined' && typeof performanc
 // TODO: this looks the same as nextUnitOfWork in scheduler. Can we unify them?
 var currentFiber = null;
 // If we're in the middle of user code, which fiber and method is it?
-// Reusing \`currentFiber\` would be confusing for this because user code fiber
+// Reusing `currentFiber` would be confusing for this because user code fiber
 // can change during commit phase too, but we don't need to unwind it (since
 // lifecycles in the commit phase don't resemble a tree).
 var currentPhase = null;
@@ -13432,7 +13431,7 @@ function FiberNode(tag, pendingProps, key, mode) {
 // 1) Nobody should add any instance methods on this. Instance methods can be
 //    more difficult to predict when they get optimized and they are almost
 //    never inlined properly in static compilers.
-// 2) Nobody should rely on \`instanceof Fiber\` for type testing. We should
+// 2) Nobody should rely on `instanceof Fiber` for type testing. We should
 //    always know when it is a fiber.
 // 3) We might want to experiment with using numeric keys since they are easier
 //    to optimize in a non-JIT environment.
@@ -13583,7 +13582,7 @@ function getFiberTagFromObjectType(type, owner) {
           }
           var ownerName = owner ? getComponentName(owner) : null;
           if (ownerName) {
-            info += '\n\nCheck the render method of \`' + ownerName + '\`.';
+            info += '\n\nCheck the render method of `' + ownerName + '`.';
           }
         }
         invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', type == null ? type : typeof type, info);
@@ -13824,7 +13823,7 @@ var lowPriorityWarning = function () {};
 
   lowPriorityWarning = function (condition, format) {
     if (format === undefined) {
-      throw new Error('\`warning(condition, format, ...args)\` requires a warning ' + 'message argument');
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
     }
     if (!condition) {
       for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
@@ -14335,9 +14334,9 @@ var ReplaceState = 1;
 var ForceUpdate = 2;
 var CaptureUpdate = 3;
 
-// Global state that is reset at the beginning of calling \`processUpdateQueue\`.
-// It should only be read right after calling \`processUpdateQueue\`, via
-// \`checkHasForceUpdateAfterProcessing\`.
+// Global state that is reset at the beginning of calling `processUpdateQueue`.
+// It should only be read right after calling `processUpdateQueue`, via
+// `checkHasForceUpdateAfterProcessing`.
 var hasForceUpdate = false;
 
 var didWarnUpdateInsideUpdate = void 0;
@@ -14466,7 +14465,7 @@ function enqueueUpdate(fiber, update, expirationTime) {
       // Both queues are non-empty. The last update is the same in both lists,
       // because of structural sharing. So, only append to one of the lists.
       appendUpdateToQueue(queue1, update, expirationTime);
-      // But we still need to update the \`lastUpdate\` pointer of queue2.
+      // But we still need to update the `lastUpdate` pointer of queue2.
       queue2.lastUpdate = update;
     }
   }
@@ -15052,7 +15051,7 @@ var warnOnInvalidCallback$1 = void 0;
     var key = callerName + '_' + callback;
     if (!didWarnOnInvalidCallback.has(key)) {
       didWarnOnInvalidCallback.add(key);
-      warning(false, '%s(...): Expected the last optional \`callback\` argument to be a ' + 'function. Instead received: %s.', callerName, callback);
+      warning(false, '%s(...): Expected the last optional `callback` argument to be a ' + 'function. Instead received: %s.', callerName, callback);
     }
   };
 
@@ -15196,9 +15195,9 @@ function checkClassInstance(workInProgress) {
 
     if (!renderPresent) {
       if (type.prototype && typeof type.prototype.render === 'function') {
-        warning(false, '%s(...): No \`render\` method found on the returned component ' + 'instance: did you accidentally return an object from the constructor?', name);
+        warning(false, '%s(...): No `render` method found on the returned component ' + 'instance: did you accidentally return an object from the constructor?', name);
       } else {
-        warning(false, '%s(...): No \`render\` method found on the returned component ' + 'instance: you may have forgotten to define \`render\`.', name);
+        warning(false, '%s(...): No `render` method found on the returned component ' + 'instance: you may have forgotten to define `render`.', name);
       }
     }
 
@@ -15224,7 +15223,7 @@ function checkClassInstance(workInProgress) {
     var noUnsafeComponentWillRecieveProps = typeof instance.UNSAFE_componentWillRecieveProps !== 'function';
     !noUnsafeComponentWillRecieveProps ? warning(false, '%s has a method called ' + 'UNSAFE_componentWillRecieveProps(). Did you mean UNSAFE_componentWillReceiveProps()?', name) : void 0;
     var hasMutatedProps = instance.props !== workInProgress.pendingProps;
-    !(instance.props === undefined || !hasMutatedProps) ? warning(false, '%s(...): When calling super() in \`%s\`, make sure to pass ' + "up the same props that your component's constructor was passed.", name, name) : void 0;
+    !(instance.props === undefined || !hasMutatedProps) ? warning(false, '%s(...): When calling super() in `%s`, make sure to pass ' + "up the same props that your component's constructor was passed.", name, name) : void 0;
     var noInstanceDefaultProps = !instance.defaultProps;
     !noInstanceDefaultProps ? warning(false, 'Setting defaultProps as an instance property on %s is not supported and will be ignored.' + ' Instead, define defaultProps as a static property on %s.', name, name) : void 0;
 
@@ -16073,7 +16072,7 @@ function ChildReconciler(shouldTrackSideEffects) {
             knownKeys.add(key);
             break;
           }
-          warning(false, 'Encountered two children with the same key, \`%s\`. ' + 'Keys should be unique so that components maintain their identity ' + 'across updates. Non-unique keys may cause children to be ' + 'duplicated and/or omitted — the behavior is unsupported and ' + 'could change in a future version.%s', key, getCurrentFiberStackAddendum$7());
+          warning(false, 'Encountered two children with the same key, `%s`. ' + 'Keys should be unique so that components maintain their identity ' + 'across updates. Non-unique keys may cause children to be ' + 'duplicated and/or omitted — the behavior is unsupported and ' + 'could change in a future version.%s', key, getCurrentFiberStackAddendum$7());
           break;
         default:
           break;
@@ -17249,7 +17248,7 @@ function mountIndeterminateComponent(current, workInProgress, renderExpirationTi
         var info = '';
         var ownerName = ReactDebugCurrentFiber.getCurrentFiberOwnerName();
         if (ownerName) {
-          info += '\n\nCheck the render method of \`' + ownerName + '\`.';
+          info += '\n\nCheck the render method of `' + ownerName + '`.';
         }
 
         var warningKey = ownerName || workInProgress._debugID || '';
@@ -17529,9 +17528,9 @@ function updateContextConsumer(current, workInProgress, renderExpirationTime) {
     // if we began working on it because of a deeper matching child.
     return bailoutOnAlreadyFinishedWork(current, workInProgress);
   }
-  // There is no bailout on \`children\` equality because we expect people
+  // There is no bailout on `children` equality because we expect people
   // to often pass a bound method as a child, but it may reference
-  // \`this.state\` or \`this.props\` (and thus needs to re-render on \`setState\`).
+  // `this.state` or `this.props` (and thus needs to re-render on `setState`).
 
   var render = newProps.children;
 
@@ -17894,7 +17893,7 @@ function completeWork(current, workInProgress, renderExpirationTime) {
           var currentHostContext = getHostContext();
           // TODO: Experiencing an error where oldProps is null. Suggests a host
           // component is hitting the resume path. Figure out why. Possibly
-          // related to \`hidden\`.
+          // related to `hidden`.
           var updatePayload = prepareUpdate(instance, type, oldProps, newProps, rootContainerInstance, currentHostContext);
 
           updateHostComponent$1(current, workInProgress, updatePayload, type, oldProps, newProps, rootContainerInstance, currentHostContext);
@@ -18004,8 +18003,8 @@ function completeWork(current, workInProgress, renderExpirationTime) {
 }
 
 // This module is forked in different environments.
-// By default, return \`true\` to log errors to the console.
-// Forks can return \`false\` if this isn't desirable.
+// By default, return `true` to log errors to the console.
+// Forks can return `false` if this isn't desirable.
 function showErrorDialog(capturedError) {
   return true;
 }
@@ -19045,7 +19044,7 @@ var warnAboutInvalidUpdates = void 0;
         if (didWarnAboutStateTransition) {
           return;
         }
-        warning(false, 'Cannot update during an existing state transition (such as within ' + "\`render\` or another component's constructor). Render methods should " + 'be a pure function of props and state; constructor side-effects are ' + 'an anti-pattern, but can be moved to \`componentWillMount\`.');
+        warning(false, 'Cannot update during an existing state transition (such as within ' + "`render` or another component's constructor). Render methods should " + 'be a pure function of props and state; constructor side-effects are ' + 'an anti-pattern, but can be moved to `componentWillMount`.');
         didWarnAboutStateTransition = true;
         break;
     }
@@ -20597,7 +20596,7 @@ function scheduleRootUpdate(current, element, expirationTime, callback) {
 
   callback = callback === undefined ? null : callback;
   if (callback !== null) {
-    !(typeof callback === 'function') ? warning(false, 'render(...): Expected the last optional \`callback\` argument to be a ' + 'function. Instead received: %s.', callback) : void 0;
+    !(typeof callback === 'function') ? warning(false, 'render(...): Expected the last optional `callback` argument to be a ' + 'function. Instead received: %s.', callback) : void 0;
     update.callback = callback;
   }
   enqueueUpdate(current, update, expirationTime);
@@ -20702,7 +20701,7 @@ function injectIntoDevTools(devToolsConfig) {
 }
 
 // This file intentionally does *not* have the Flow annotation.
-// Don't add it. See \`./inline-typed.js\` for an explanation.
+// Don't add it. See `./inline-typed.js` for an explanation.
 
 
 
@@ -20779,7 +20778,7 @@ var didWarnAboutUnstableCreatePortal = false;
   };
 
   warnOnInvalidCallback = function (callback, callerName) {
-    !(callback === null || typeof callback === 'function') ? warning(false, '%s(...): Expected the last optional \`callback\` argument to be a ' + 'function. Instead received: %s.', callerName, callback) : void 0;
+    !(callback === null || typeof callback === 'function') ? warning(false, '%s(...): Expected the last optional `callback` argument to be a ' + 'function. Instead received: %s.', callerName, callback) : void 0;
   };
 }
 
@@ -21061,7 +21060,7 @@ function legacyRenderSubtreeIntoContainer(parentComponent, children, container, 
     topLevelUpdateWarnings(container);
   }
 
-  // TODO: Without \`any\` type, Flow says "Property cannot be accessed on any
+  // TODO: Without `any` type, Flow says "Property cannot be accessed on any
   // member of intersection type." Whyyyyyy.
   var root = container._reactRootContainer;
   if (!root) {
@@ -21157,7 +21156,7 @@ var ReactDOM = {
         });
       });
       // If you call unmountComponentAtNode twice in quick succession, you'll
-      // get \`true\` twice. That's probably fine?
+      // get `true` twice. That's probably fine?
       return true;
     } else {
       {
@@ -21361,7 +21360,7 @@ function getIteratorFn(maybeIterable) {
 
 /**
  * WARNING: DO NOT manually require this module.
- * This is a replacement for \`invariant(...)\` used by the error code system
+ * This is a replacement for `invariant(...)` used by the error code system
  * and will _only_ be required by the corresponding babel pass.
  * It always throws.
  */
@@ -21405,7 +21404,7 @@ var lowPriorityWarning = function () {};
 
   lowPriorityWarning = function (condition, format) {
     if (format === undefined) {
-      throw new Error('\`warning(condition, format, ...args)\` requires a warning ' + 'message argument');
+      throw new Error('`warning(condition, format, ...args)` requires a warning ' + 'message argument');
     }
     if (!condition) {
       for (var _len2 = arguments.length, args = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
@@ -21454,10 +21453,10 @@ var ReactNoopUpdateQueue = {
    * certainty that we are **not** in a DOM transaction.
    *
    * You may want to call this when you know that some deeper aspect of the
-   * component's state has changed but \`setState\` was not called.
+   * component's state has changed but `setState` was not called.
    *
-   * This will not invoke \`shouldComponentUpdate\`, but it will invoke
-   * \`componentWillUpdate\` and \`componentDidUpdate\`.
+   * This will not invoke `shouldComponentUpdate`, but it will invoke
+   * `componentWillUpdate` and `componentDidUpdate`.
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
    * @param {?function} callback Called after component is updated.
@@ -21469,11 +21468,11 @@ var ReactNoopUpdateQueue = {
   },
 
   /**
-   * Replaces all of the state. Always use this or \`setState\` to mutate state.
-   * You should treat \`this.state\` as immutable.
+   * Replaces all of the state. Always use this or `setState` to mutate state.
+   * You should treat `this.state` as immutable.
    *
-   * There is no guarantee that \`this.state\` will be immediately updated, so
-   * accessing \`this.state\` after calling this method may return the old value.
+   * There is no guarantee that `this.state` will be immediately updated, so
+   * accessing `this.state` after calling this method may return the old value.
    *
    * @param {ReactClass} publicInstance The instance that should rerender.
    * @param {object} completeState Next state.
@@ -21518,12 +21517,12 @@ Component.prototype.isReactComponent = {};
 
 /**
  * Sets a subset of the state. Always use this to mutate
- * state. You should treat \`this.state\` as immutable.
+ * state. You should treat `this.state` as immutable.
  *
- * There is no guarantee that \`this.state\` will be immediately updated, so
- * accessing \`this.state\` after calling this method may return the old value.
+ * There is no guarantee that `this.state` will be immediately updated, so
+ * accessing `this.state` after calling this method may return the old value.
  *
- * There is no guarantee that calls to \`setState\` will run synchronously,
+ * There is no guarantee that calls to `setState` will run synchronously,
  * as they may eventually be batched together.  You can provide an optional
  * callback that will be executed when the call to setState is actually
  * completed.
@@ -21551,10 +21550,10 @@ Component.prototype.setState = function (partialState, callback) {
  * certainty that we are **not** in a DOM transaction.
  *
  * You may want to call this when you know that some deeper aspect of the
- * component's state has changed but \`setState\` was not called.
+ * component's state has changed but `setState` was not called.
  *
- * This will not invoke \`shouldComponentUpdate\`, but it will invoke
- * \`componentWillUpdate\` and \`componentDidUpdate\`.
+ * This will not invoke `shouldComponentUpdate`, but it will invoke
+ * `componentWillUpdate` and `componentDidUpdate`.
  *
  * @param {?function} callback Called after update is complete.
  * @final
@@ -21673,7 +21672,7 @@ function defineKeyPropWarningGetter(props, displayName) {
   var warnAboutAccessingKey = function () {
     if (!specialPropKeyWarningShown) {
       specialPropKeyWarningShown = true;
-      warning(false, '%s: \`key\` is not a prop. Trying to access it will result ' + 'in \`undefined\` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
+      warning(false, '%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
     }
   };
   warnAboutAccessingKey.isReactWarning = true;
@@ -21687,7 +21686,7 @@ function defineRefPropWarningGetter(props, displayName) {
   var warnAboutAccessingRef = function () {
     if (!specialPropRefWarningShown) {
       specialPropRefWarningShown = true;
-      warning(false, '%s: \`ref\` is not a prop. Trying to access it will result ' + 'in \`undefined\` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
+      warning(false, '%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
     }
   };
   warnAboutAccessingRef.isReactWarning = true;
@@ -21706,10 +21705,10 @@ function defineRefPropWarningGetter(props, displayName) {
  * @param {*} type
  * @param {*} key
  * @param {string|object} ref
- * @param {*} self A *temporary* helper to detect places where \`this\` is
- * different from the \`owner\` when React.createElement is called, so that we
- * can warn. We want to get rid of owner and replace string \`ref\`s with arrow
- * functions, and as long as \`this\` and owner are the same, there will be no
+ * @param {*} self A *temporary* helper to detect places where `this` is
+ * different from the `owner` when React.createElement is called, so that we
+ * can warn. We want to get rid of owner and replace string `ref`s with arrow
+ * functions, and as long as `this` and owner are the same, there will be no
  * change in behavior.
  * @param {*} source An annotation object (added by a transpiler or otherwise)
  * indicating filename, line number, and/or other information.
@@ -21931,7 +21930,7 @@ function cloneElement(element, config, children) {
  * Verifies the object is a ReactElement.
  * See https://reactjs.org/docs/react-api.html#isvalidelement
  * @param {?object} object
- * @return {boolean} True if \`object\` is a valid component.
+ * @return {boolean} True if `object` is a valid component.
  * @final
  */
 function isValidElement(object) {
@@ -22107,13 +22106,13 @@ function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext)
 }
 
 /**
- * Traverses children that are typically specified as \`props.children\`, but
+ * Traverses children that are typically specified as `props.children`, but
  * might also be specified through attributes:
  *
- * - \`traverseAllChildren(this.props.children, ...)\`
- * - \`traverseAllChildren(this.props.leftPanelChildren, ...)\`
+ * - `traverseAllChildren(this.props.children, ...)`
+ * - `traverseAllChildren(this.props.leftPanelChildren, ...)`
  *
- * The \`traverseContext\` is an optional argument that is passed through the
+ * The `traverseContext` is an optional argument that is passed through the
  * entire traversal. It can be used to store accumulations or anything else that
  * the callback might find relevant.
  *
@@ -22156,7 +22155,7 @@ function forEachSingleChild(bookKeeping, child, name) {
 }
 
 /**
- * Iterates through children that are typically specified as \`props.children\`.
+ * Iterates through children that are typically specified as `props.children`.
  *
  * See https://reactjs.org/docs/react-api.html#react.children.foreach
  *
@@ -22208,7 +22207,7 @@ function mapIntoWithKeyPrefixInternal(children, array, prefix, func, context) {
 }
 
 /**
- * Maps children that are typically specified as \`props.children\`.
+ * Maps children that are typically specified as `props.children`.
  *
  * See https://reactjs.org/docs/react-api.html#react.children.map
  *
@@ -22231,7 +22230,7 @@ function mapChildren(children, func, context) {
 
 /**
  * Count the number of children that are typically specified as
- * \`props.children\`.
+ * `props.children`.
  *
  * See https://reactjs.org/docs/react-api.html#react.children.count
  *
@@ -22243,7 +22242,7 @@ function countChildren(children, context) {
 }
 
 /**
- * Flatten a children object (typically specified as \`props.children\`) and
+ * Flatten a children object (typically specified as `props.children`) and
  * return an array with appropriately re-keyed children.
  *
  * See https://reactjs.org/docs/react-api.html#react.children.toarray
@@ -22265,7 +22264,7 @@ function toArray(children) {
  * abstract away the particular structure of children.
  *
  * @param {?object} children Child collection structure.
- * @return {ReactElement} The first and only \`ReactElement\` contained in the
+ * @return {ReactElement} The first and only `ReactElement` contained in the
  * structure.
  */
 function onlyChild(children) {
@@ -22384,7 +22383,7 @@ function getDeclarationErrorAddendum() {
   if (ReactCurrentOwner.current) {
     var name = getComponentName(ReactCurrentOwner.current);
     if (name) {
-      return '\n\nCheck the render method of \`' + name + '\`.';
+      return '\n\nCheck the render method of `' + name + '`.';
     }
   }
   return '';
@@ -22520,10 +22519,10 @@ function validatePropTypes(element) {
     currentlyValidatingElement = null;
   } else if (componentClass.PropTypes !== undefined && !propTypesMisspellWarningShown) {
     propTypesMisspellWarningShown = true;
-    warning(false, 'Component %s declared \`PropTypes\` instead of \`propTypes\`. Did you misspell the property assignment?', name || 'Unknown');
+    warning(false, 'Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?', name || 'Unknown');
   }
   if (typeof componentClass.getDefaultProps === 'function') {
-    warning(componentClass.getDefaultProps.isReactClassApproved, 'getDefaultProps is only used on classic React.createClass ' + 'definitions. Use a static property named \`defaultProps\` instead.');
+    warning(componentClass.getDefaultProps.isReactClassApproved, 'getDefaultProps is only used on classic React.createClass ' + 'definitions. Use a static property named `defaultProps` instead.');
   }
 }
 
@@ -22538,13 +22537,13 @@ function validateFragmentProps(fragment) {
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i];
     if (!VALID_FRAGMENT_PROPS.has(key)) {
-      warning(false, 'Invalid prop \`%s\` supplied to \`React.Fragment\`. ' + 'React.Fragment can only have \`key\` and \`children\` props.%s', key, getStackAddendum());
+      warning(false, 'Invalid prop `%s` supplied to `React.Fragment`. ' + 'React.Fragment can only have `key` and `children` props.%s', key, getStackAddendum());
       break;
     }
   }
 
   if (fragment.ref !== null) {
-    warning(false, 'Invalid attribute \`ref\` supplied to \`React.Fragment\`.%s', getStackAddendum());
+    warning(false, 'Invalid attribute `ref` supplied to `React.Fragment`.%s', getStackAddendum());
   }
 
   currentlyValidatingElement = null;
@@ -23133,7 +23132,7 @@ function updateLink (link, options, obj) {
 
 
 /**
- * When source maps are enabled, \`style-loader\` uses a link element with a data-uri to
+ * When source maps are enabled, `style-loader` uses a link element with a data-uri to
  * embed the css on the page. This breaks all relative urls because now they are relative to a
  * bundle instead of the current page.
  *
@@ -23141,7 +23140,7 @@ function updateLink (link, options, obj) {
  *
  * Instead, this function "fixes" the relative urls to be absolute according to the current page location.
  *
- * A rudimentary test suite is located at \`test/fixUrls.js\` and can be run via the \`npm test\` command.
+ * A rudimentary test suite is located at `test/fixUrls.js` and can be run via the `npm test` command.
  *
  */
 
@@ -23728,8 +23727,8 @@ function reduceToSingleString(output, base, braces) {
 }
 
 
-// NOTE: These type checking functions intentionally don't use \`instanceof\`
-// because it is fragile and can be easily faked with \`Object.create()\`.
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
 function isArray(ar) {
   return Array.isArray(ar);
 }
@@ -28247,10 +28246,10 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
 
 			//
 			// We store our EE objects in a plain object whose properties are event names.
-			// If \`Object.create(null)\` is not supported we prefix the event names with a
-			// \`~\` to make sure that the built-in object properties are not overridden or
+			// If `Object.create(null)` is not supported we prefix the event names with a
+			// `~` to make sure that the built-in object properties are not overridden or
 			// used as an attack vector.
-			// We also assume that \`Object.create(null)\` is available when the event name
+			// We also assume that `Object.create(null)` is available when the event name
 			// is an ES6 Symbol.
 			//
 			var prefix = typeof Object.create !== 'function' ? '~' : false;
@@ -29698,15 +29697,15 @@ var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbo
      * there are no circular references in your object, you can save some CPU time
      * by calling clone(obj, false).
      *
-     * Caution: if \`circular\` is false and \`parent\` contains circular references,
+     * Caution: if `circular` is false and `parent` contains circular references,
      * your program may enter an infinite loop and crash.
      *
-     * @param \`parent\` - the object to be cloned
-     * @param \`circular\` - set to true if the object to be cloned may contain
+     * @param `parent` - the object to be cloned
+     * @param `circular` - set to true if the object to be cloned may contain
      *    circular references. (optional - true by default)
-     * @param \`depth\` - set to a number if the object is only to be cloned to
+     * @param `depth` - set to a number if the object is only to be cloned to
      *    a particular depth. (optional - defaults to Infinity)
-     * @param \`prototype\` - sets the prototype to be used when cloning an object.
+     * @param `prototype` - sets the prototype to be used when cloning an object.
      *    (optional - defaults to parent prototype).
     */
 
@@ -35831,4 +35830,3 @@ exports.default = ReactQuillEditor;
 </script></body>
 
 </html>
-`

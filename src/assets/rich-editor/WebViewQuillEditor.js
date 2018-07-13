@@ -5,14 +5,25 @@
  *
  */
 import React from 'react';
-import { View, ActivityIndicator, StyleSheet, WebView, Alert, Text } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, WebView, Alert, Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import renderIf from 'render-if';
+import { FileSystem } from 'expo';
+import INDEX_HTML from './assets/dist/reactQuillEditorHTML';
 
-// path to the file that the webview will load
-// import INDEX_FILE from './assets/dist/reactQuillEditorHTML';
-// @ts-ignore
-const INDEX_FILE = require('./assets/dist/reactQuillEditor-index.html');
+const editorUri = FileSystem.documentDirectory + 'editor.html';
+(async () => {
+	const info = await FileSystem.getInfoAsync(editorUri);
+	if (!info.exists) {
+		try {
+			await FileSystem.writeAsStringAsync(editorUri, INDEX_HTML);
+			const html = await FileSystem.readAsStringAsync(editorUri);
+		} catch (err) {
+			console.error(err);
+		}
+	}
+})();
+
 const MESSAGE_PREFIX = 'react-native-webview-quilljs';
 
 export default class WebViewQuillEditor extends React.Component {
@@ -146,13 +157,21 @@ export default class WebViewQuillEditor extends React.Component {
 				<WebView
 					style={{ ...StyleSheet.absoluteFillObject }}
 					ref={this.createWebViewRef}
-					source={INDEX_FILE}
+					source={
+						Platform.OS === 'ios' ? (
+							// @ts-ignore
+							require('./assets/dist/reactQuillEditor-index.html')
+						) : (
+							{ uri: editorUri }
+						)
+					}
 					onLoadEnd={this.onWebViewLoaded}
 					onMessage={this.handleMessage}
 					startInLoadingState={true}
 					renderLoading={this.showLoadingIndicator}
 					renderError={this.renderError}
 					javaScriptEnabled={true}
+					domStorageEnabled={true}
 					onError={this.onError}
 					scalesPageToFit={false}
 					mixedContentMode={'always'}

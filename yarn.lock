@@ -5669,10 +5669,6 @@ querystring@0.2.0, querystring@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
-quill-delta-to-html@^0.8.4:
-  version "0.8.4"
-  resolved "https://registry.yarnpkg.com/quill-delta-to-html/-/quill-delta-to-html-0.8.4.tgz#a98878d6e9c39da0e86b3baad201f6d4e47f2f85"
-
 quilljs@^0.18.1:
   version "0.18.1"
   resolved "https://registry.yarnpkg.com/quilljs/-/quilljs-0.18.1.tgz#7d7696ed95e0e1db79c439e5924b6eea5f67706c"
@@ -6797,10 +6793,6 @@ socks@^1.1.10:
   dependencies:
     ip "^1.1.4"
     smart-buffer "^1.0.13"
-
-solarlunar@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/solarlunar/-/solarlunar-2.0.2.tgz#6e1af45b2ba994ee9eb88f7238f8a3c2504de2da"
 
 source-map-resolve@^0.5.0:
   version "0.5.2"

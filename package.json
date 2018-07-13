@@ -54,13 +54,11 @@
   },
   "dependencies": {
     "antd-mobile-rn": "^2.2.0",
-    "crypto-js": "^3.1.9-1",
     "date-arithmetic": "^3.1.0",
     "expo": "^27.0.1",
     "lodash": "^4.17.10",
     "mobx": "4.2.1",
     "mobx-react": "5.1.2",
-    "quill-delta-to-html": "^0.8.4",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-storage": "^0.2.2",
@@ -69,7 +67,6 @@
     "react-navigation": "^2.5.5",
     "react-navigation-backhandler": "^1.1.1",
     "render-if": "^0.1.1",
-    "solarlunar": "^2.0.2",
     "teaset": "^0.5.8"
   }
 }
