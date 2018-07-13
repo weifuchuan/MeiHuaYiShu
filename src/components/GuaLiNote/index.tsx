@@ -158,7 +158,7 @@ export default class GuaLiNote extends React.Component<
 									/>
 								);
 							}}
-							keyExtractor={(item) => item.id}
+							keyExtractor={(item) => item.id.toString()}
 							ListHeaderComponent={<View />}
 							ListEmptyComponent={
 								<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

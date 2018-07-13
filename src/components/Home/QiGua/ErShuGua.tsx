@@ -6,7 +6,6 @@ import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { List, InputItem, Toast, Picker, DatePicker, Button, Card } from 'antd-mobile-rn';
 import { observable } from 'mobx';
 import RandomGetNumber from './RandomGetNumber';
-import { AndroidBackHandler } from 'react-navigation-backhandler';
 import nongLiUseableData from './nongLiUseableData'
 import { gua } from '../../../types';
 import { qiGuaByTwoNumber } from '../../../kit';
@@ -178,20 +177,6 @@ class ErShuGua extends React.Component<NavigationInjectedProps & {
   }
 
   backCount = 0;
-  private onBackButtonPressAndroid = () => {
-    if (this.backCount === 1) {
-      this.backCount = 0;
-      return false;
-    } else {
-      this.backCount = 1;
-      Toast.info("再按退出", 0);
-      setTimeout(() => {
-        this.backCount = 0;
-        Toast.hide();
-      }, 2000)
-      return true;
-    }
-  };
 
 }
 

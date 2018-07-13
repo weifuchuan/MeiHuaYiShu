@@ -9,7 +9,6 @@ import ErShuJiaShiChenGua from './ErShuJiaShiChenGua';
 import ErShuGua from './ErShuGua';
 import HouTianGua from './HouTianGua';
 import { NavigationRouter, NavigationInjectedProps, createStackNavigator } from 'react-navigation';
-import { AndroidBackHandler } from 'react-navigation-backhandler';
 
 const { ListRow, Select } = require("teaset")
 

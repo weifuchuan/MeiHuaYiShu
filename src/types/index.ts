@@ -156,6 +156,7 @@ export namespace gua {
 export type GuaResult = 'ok' | 'no' | 'unknow';
 
 export interface INote {
+	id?: number;
 	quanGua: gua.QuanGua;
 	thing: string;
 	content: any;
@@ -166,7 +167,7 @@ export interface INote {
 
 // 卦例笔记
 export class Note implements INote {
-	id: string = '';
+	id: number;
 	// 卦
 	quanGua: gua.QuanGua;
 	// 问事
@@ -195,7 +196,8 @@ export class Note implements INote {
 				{ insert: '\n\n' }
 			]
 		},
-		result: GuaResult = 'unknow'
+		result: GuaResult = 'unknow',
+		id: number = 0
 	) {
 		this.quanGua = quanGua;
 		this.thing = thing;
@@ -203,10 +205,11 @@ export class Note implements INote {
 		this.datetime = datetime;
 		this.time = time;
 		this.result = result;
+		this.id = id;
 	}
 
 	static of(obj: INote): Note {
-		return new Note(obj.quanGua, obj.thing, obj.datetime, obj.time, obj.content, obj.result);
+		return new Note(obj.quanGua, obj.thing, obj.datetime, obj.time, obj.content, obj.result, obj.id ? obj.id : 0);
 	}
 
 	help(): {
@@ -254,6 +257,72 @@ export class Note implements INote {
 			bianGua
 		};
 	}
+
+	static createTableSql = `
+		create table if not exists notes (
+			id integer primary key autoincrement not null,
+			quanGua text not null, 
+			thing text not null,
+			content text not null, 
+			datetime text not null, 
+			time text not null, 
+			result text not null
+		)
+	`;
+
+	static insertSQL = `
+		insert into notes(quanGua, thing, content, datetime, time, result) values(?,?,?,?,?,?)
+	`;
+
+	static updateThingAndContentSQL = `
+		update notes set thing=?, content=? where id=?
+	`;
+
+	static updateResultSQL = `
+		update notes set result=? where id=?
+	`;
+
+	static deleteByIdSQL = `
+		delete from notes where id=?
+	`;
+
+	static findAllSQL = `
+		select * from notes order by datetime desc
+	`;
+
+	toSQLable(): SQLableNote {
+		return {
+			id: this.id,
+			quanGua: JSON.stringify(this.quanGua),
+			thing: this.thing,
+			content: JSON.stringify(this.content),
+			datetime: this.datetime.getTime().toString(),
+			time: JSON.stringify(this.time),
+			result: this.result
+		};
+	}
+
+	static fromSQLable(sn: SQLableNote): Note {
+		return Note.of({
+			id: sn.id,
+			quanGua: JSON.parse(sn.quanGua),
+			thing: sn.thing,
+			content: JSON.parse(sn.content),
+			datetime: new Date(Number.parseInt(sn.datetime)),
+			time: JSON.parse(sn.time),
+			result: sn.result as GuaResult
+		});
+	}
+}
+
+interface SQLableNote {
+	id: number;
+	quanGua: string;
+	thing: string;
+	content: string;
+	datetime: string;
+	time: string;
+	result: string;
 }
 
 export namespace FromType {

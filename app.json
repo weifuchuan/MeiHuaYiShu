@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "sdkVersion": "27.0.0",
     "slug":"MeiHuaYiShu",
-    "icon":"./src/assets/ui/meihua2.png",
+    "icon":"./src/assets/ui/logo.png",
     "packagerOpts": {
       "sourceExts": ["ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"

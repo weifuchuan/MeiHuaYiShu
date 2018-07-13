@@ -1,20 +1,18 @@
 import * as React from 'react'
-import { Text, View, StyleSheet, ViewStyle, Image, ImageStyle, TouchableOpacity, Dimensions, ScrollView, WebView } from 'react-native';
+import { Text, View, StyleSheet, ViewStyle, Dimensions, WebView } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
-import { Switch, Button, DatePicker, Picker, List, Card, Toast } from 'antd-mobile-rn'
+import { Button, DatePicker, Picker, List, Card, Toast } from 'antd-mobile-rn'
 import { Store } from '../../../store';
-import { observable, IObservableValue, autorun, IReactionDisposer } from 'mobx';
+import { observable, IReactionDisposer } from 'mobx';
 import SunTime from './SunTime';
 import { NavigationInjectedProps, withNavigation } from 'react-navigation';
 import { gua } from "../../../types";
 import { qiGuaByTime } from '../../../kit';
-import { jiaZhi, jiaZhiDiZhiValue } from '../../../assets/jiazhi';
-import { AndroidBackHandler } from 'react-navigation-backhandler';
 import nongLiUseableData from './nongLiUseableData'
 import ModalWebView from '../../ModalWebVIew';
 
 const solarLunar = require("../../../assets/solarlunar.min.js");
-const { width, height } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 
 @inject("store")
@@ -143,20 +141,6 @@ class ShiJianGua extends React.Component<NavigationInjectedProps & {
   }
 
   private backCount = 0;
-  private onBackButtonPressAndroid = () => {
-    if (this.backCount === 1) {
-      this.backCount = 0;
-      return false;
-    } else {
-      this.backCount = 1;
-      Toast.info("再按退出", 0);
-      setTimeout(() => {
-        this.backCount = 0;
-        Toast.hide();
-      }, 2000)
-      return true;
-    }
-  };
 
 
 }

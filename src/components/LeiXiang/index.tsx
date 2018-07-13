@@ -4,7 +4,7 @@ import { observable } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import LeiXiangComponent from './LeiXiang'
 import { observer } from 'mobx-react/native';
-import { Drawer, Button } from '../../../node_modules/antd-mobile-rn';
+import { Drawer, Button } from 'antd-mobile-rn';
 
 const { NavigationBar } = require("teaset");
 const { height, width } = Dimensions.get("window");

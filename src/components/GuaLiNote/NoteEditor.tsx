@@ -11,7 +11,7 @@ import { InputItem, Modal, Toast, ActivityIndicator } from 'antd-mobile-rn';
 import Tabs from '../Tabs';
 import { G } from '../Gua';
 import LeiXiang from '../LeiXiang/LeiXiang';
-const { WebViewQuillEditor } = require('react-native-webview-quilljs');
+const { WebViewQuillEditor } = require('../../assets/rich-editor');
 const { NavigationBar } = require('teaset');
 const { width } = Dimensions.get('window');
 
@@ -177,7 +177,6 @@ export default class NoteEditor extends React.Component<
 							}
 						]}
 					/>
-					
 				</View>
 				<ActivityIndicator toast text="保存中..." animating={this.saving} />
 			</View>

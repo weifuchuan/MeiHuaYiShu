@@ -3,11 +3,11 @@ import { Text, View, StyleSheet, ViewStyle, Image, ImageStyle, TouchableOpacity,
 import { observer } from 'mobx-react/native';
 import { Switch, Picker, List } from 'antd-mobile-rn'
 import { observable } from 'mobx';
-import { sunTimeNow, sunTimeByLongtitude } from '../../../kit';
-import { Province, City, District, data as provinces } from '../../../assets/longitude';
+import { sunTimeByLongtitude } from '../../../kit';
+import { data as provinces } from '../../../assets/longitude';
 import { storage, fixedKey } from '../../../store';
 
-const { ListRow, Overlay, Label, PullPicker, Toast } = require("teaset")
+const { ListRow, Overlay } = require("teaset")
 
 const { width, height } = Dimensions.get("window")
 

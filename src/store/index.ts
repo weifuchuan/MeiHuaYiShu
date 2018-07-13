@@ -2,12 +2,8 @@ import { AsyncStorage } from 'react-native';
 import Storage from './storage';
 import { observable, toJS } from 'mobx';
 import { Note, INote } from '../types';
-import { MD5 } from 'crypto-js';
 import { GuaResult } from '../types/index';
-
-function idGenerator(): string {
-	return MD5(new Date().toLocaleTimeString() + Math.random().toString()).toString();
-}
+import { SQLite } from 'expo';
 
 export namespace fixedKey {
 	export const CURRENT_POSITION = 'currentPosition';
@@ -16,54 +12,64 @@ export namespace fixedKey {
 
 export class Store {
 	@observable notes: Note[] = [];
+	private db: Database;
 
 	constructor() {
+		this.db = SQLite.openDatabase('note.db');
+
 		(async () => {
 			try {
-				const notes = await storage.getAllDataForKey<INote>(fixedKey.NOTE);
-				notes.sort((a, b) => {
-					if (a.datetime.getMilliseconds() > b.datetime.getMilliseconds()) return -1;
-					else return 1;
-				});
-				(this.notes as any).clear();
-				this.notes.push(...notes.map(Note.of));
-			} catch (err) {
-				// no notes in storage
-				console.info('no notes in storage');
+				await this.execSQL(Note.createTableSql);
+				const rs = await this.execSQL(Note.findAllSQL);
+				for (let i = 0; i < rs.rows.length; i++) {
+					this.notes.push(Note.fromSQLable(rs.rows.item(i)));
+				}
+			} catch (e) {
+				console.error(e);
 			}
 		})();
 	}
 
 	async saveNote(note: Note) {
-		if (note.id) {
-		} else {
-			note.id = idGenerator();
+		const sn = note.toSQLable();
+		// add new note
+		if (note.id === 0) {
+			const rs = await this.execSQL(Note.insertSQL, [
+				sn.quanGua,
+				sn.thing,
+				sn.content,
+				sn.datetime,
+				sn.time,
+				sn.result
+			]);
+			note.id = rs.insertId;
 			this.notes.unshift(note);
+		} else {
+			// update thing and content
+			await this.execSQL(Note.updateThingAndContentSQL, [ sn.thing, sn.content, sn.id ]);
 		}
-		await storage.save({
-			key: fixedKey.NOTE,
-			id: note.id,
-			data: toJS(note)
-		});
 	}
 
 	async deleteNote(note: Note) {
-		const i = this.notes.findIndex((n) => n.id === note.id);
-		if (i !== -1) {
-			this.notes.splice(i, 1);
-			await storage.remove({
-				key: fixedKey.NOTE,
-				id: note.id
-			});
-		}
+		await this.execSQL(Note.deleteByIdSQL, [ note.id ]);
+		const i = this.notes.findIndex((n) => note.id === n.id);
+		i !== -1 && this.notes.splice(i, 1);
 	}
 
 	async changeNoteResult(note: Note, result: GuaResult) {
+		await this.execSQL(Note.updateResultSQL, [ result, note.id ]);
 		note.result = result;
-		await storage.save({
-			key: fixedKey.NOTE,
-			id: note.id,
-			data: toJS(note)
+	}
+
+	private execSQL(sql: string, args: Array<number | string> = []): Promise<ResultSet> {
+		return new Promise<ResultSet>((resolve, reject) => {
+			this.db.transaction(
+				(tx) => {
+					tx.executeSql(sql, args, (_, rs) => resolve(rs), (_, err) => reject(err));
+				},
+				reject,
+				() => null
+			);
 		});
 	}
 }
@@ -107,3 +113,25 @@ export const storage: IStorege = new Storage({
 		}
 	}
 });
+
+interface Database {
+	transaction(run: (tx: Transaction) => void, error: (err: any) => void, success: () => void): void;
+}
+
+interface Transaction {
+	executeSql(
+		sqlStatement: string,
+		args: Array<number | string>,
+		success: (tx: Transaction, resultSet: ResultSet) => void,
+		error: (tx: Transaction, err: any) => void
+	): void;
+}
+
+interface ResultSet {
+	insertId: number;
+	rowsAffected: number;
+	rows: {
+		length: number;
+		item: (index: number) => any;
+	};
+}

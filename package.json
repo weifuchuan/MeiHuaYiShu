@@ -68,6 +68,7 @@
     "react-native-webview-quilljs": "^0.8.34",
     "react-navigation": "^2.5.5",
     "react-navigation-backhandler": "^1.1.1",
+    "render-if": "^0.1.1",
     "solarlunar": "^2.0.2",
     "teaset": "^0.5.8"
   }

@@ -1,21 +1,19 @@
 import * as React from 'react';
-import { View, Dimensions, LayoutChangeEvent, Text, Button, Keyboard, BackHandler } from 'react-native';
+import { View, Dimensions, LayoutChangeEvent, Text, BackHandler } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
 import { quanGua2xZhiX } from '../../kit';
 import { observable, toJS } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Note, gua, FromType } from '../../types';
 import { ZhenGua, G } from '../Gua';
-import { List, InputItem } from 'antd-mobile-rn';
+import { List } from 'antd-mobile-rn';
 import Tabs from '../Tabs';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import LeiXiang from '../LeiXiang/LeiXiang';
-import { storage } from '../../store';
-import { INote } from '../../types/index';
 
 const { NavigationBar } = require('teaset');
-const { WebViewQuillEditor, WebViewQuillViewer } = require('react-native-webview-quilljs');
-const { height, width } = Dimensions.get('window');
+const { WebViewQuillViewer } = require('react-native-webview-quilljs');
+const { width } = Dimensions.get('window');
 
 @inject('store')
 @observer
