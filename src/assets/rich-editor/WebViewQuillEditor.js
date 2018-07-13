@@ -9,15 +9,25 @@ import { View, ActivityIndicator, StyleSheet, WebView, Alert, Text, Platform } f
 import PropTypes from 'prop-types';
 import renderIf from 'render-if';
 import { FileSystem } from 'expo';
-import INDEX_HTML from './assets/dist/reactQuillEditorHTML';
+import HTML_BUILDER from './assets/dist/reactQuillEditorHTML';
+import EDITOR_JS from './assets/dist/reactQuillEditorJS';
+
+const Buffer = require('buffer').Buffer;
 
 const editorUri = FileSystem.documentDirectory + 'editor.html';
+const editorJSUri = FileSystem.documentDirectory + 'quill.js';
 (async () => {
+	try {
+		await FileSystem.deleteAsync(editorUri);
+		await FileSystem.deleteAsync(editorJSUri);
+	} catch (err) {
+		console.info(err);
+	}
 	const info = await FileSystem.getInfoAsync(editorUri);
 	if (!info.exists) {
 		try {
-			await FileSystem.writeAsStringAsync(editorUri, INDEX_HTML);
-			const html = await FileSystem.readAsStringAsync(editorUri);
+			await FileSystem.writeAsStringAsync(editorJSUri, new Buffer(EDITOR_JS, 'base64').toString());
+			await FileSystem.writeAsStringAsync(editorUri, HTML_BUILDER(editorJSUri));
 		} catch (err) {
 			console.error(err);
 		}
@@ -162,6 +172,8 @@ export default class WebViewQuillEditor extends React.Component {
 							// @ts-ignore
 							require('./assets/dist/reactQuillEditor-index.html')
 						) : (
+							// @ts-ignore
+							// require('./assets/dist/reactQuillEditor-index.html')
 							{ uri: editorUri }
 						)
 					}

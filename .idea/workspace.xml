@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6b7dde36-21b0-4be0-9604-5fc180ca4974" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/samsung.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Home/QiGua/SunTime.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home/QiGua/SunTime.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Home/QiGua/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Home/QiGua/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/rich-editor/WebViewQuillEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/rich-editor/WebViewQuillEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditor-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditor-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditor-index2.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorHTML.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorHTML.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,12 +19,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="ShiJianGua.tsx" pinned="false" current-in-tab="true">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="ShiJianGua.tsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="92" column="40" lean-forward="true" selection-start-line="92" selection-start-column="40" selection-end-line="92" selection-end-column="40" />
+            <state relative-caret-position="523">
+              <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
               <folding>
                 <element signature="e#0#30#0" expanded="true" />
               </folding>
@@ -35,14 +32,29 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="reactQuillEditorHTML.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorHTML.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="189">
+              <caret line="29" column="4" lean-forward="true" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="reactQuillEditorJS.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorJS.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="439">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SunTime.tsx" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/SunTime.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="483">
-              <caret line="112" column="67" lean-forward="true" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="67" />
-              <folding>
-                <element signature="e#0#30#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1071">
+              <caret line="59" selection-start-line="59" selection-end-line="59" />
             </state>
           </provider>
         </entry>
@@ -56,6 +68,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx" />
+        <option value="$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorJS.js" />
       </list>
     </option>
   </component>
@@ -105,6 +118,36 @@
               <item name="MeiHuaYiShu" type="b2602c69:ProjectViewProjectNode" />
               <item name="MeiHuaYiShu" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MeiHuaYiShu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MeiHuaYiShu" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="rich-editor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MeiHuaYiShu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MeiHuaYiShu" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="rich-editor" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MeiHuaYiShu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MeiHuaYiShu" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="rich-editor" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="dist" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MeiHuaYiShu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MeiHuaYiShu" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -133,6 +176,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.HTML" />
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
     <property name="typescript-compiler-editor-notification" value="false" />
@@ -160,37 +204,39 @@
       <option name="presentableId" value="Default" />
       <updated>1530792456835</updated>
       <workItem from="1530792467368" duration="3028000" />
+      <workItem from="1531486887260" duration="78000" />
+      <workItem from="1531487086141" duration="1613000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3028000" />
+    <option name="totallyTimeSpent" value="4719000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info id="npm" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="RNConsole" />
-      <window_info anchor="bottom" id="TypeScript" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="RNConsole" order="7" />
+      <window_info anchor="bottom" id="TypeScript" order="7" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18601191" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info id="Storybook" side_tool="true" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info id="Storybook" order="2" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -205,65 +251,80 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/lunarInfo.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/lunarTerm.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/solarMonth.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/nStr4.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/zhi.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/animals.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/gan.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/lTermInfo.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/lib/solarlunar.min.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/src/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/src/solarLunar.js">
+    <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="2646">
+          <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#0#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/nStr1.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/SunTime.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="112" column="67" lean-forward="true" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="67" />
-          <folding>
-            <element signature="e#0#30#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="1239">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
+        <state relative-caret-position="1932">
           <caret line="92" column="40" lean-forward="true" selection-start-line="92" selection-start-column="40" selection-end-line="92" selection-end-column="40" />
           <folding>
             <element signature="e#0#30#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/SunTime.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2352">
+          <caret line="112" column="67" lean-forward="true" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/lunarInfo.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/lunarTerm.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/solarMonth.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/nStr4.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/zhi.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/animals.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/gan.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/lTermInfo.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/lib/solarlunar.min.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/src/index.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/src/solarLunar.js" />
+    <entry file="file://$PROJECT_DIR$/node_modules/solarlunar/const/nStr1.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/SunTime.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1071">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Home/QiGua/ShiJianGua.tsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="523">
+          <caret line="126" column="26" selection-start-line="126" selection-start-column="26" selection-end-line="126" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#30#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorHTML.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="29" column="4" lean-forward="true" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/rich-editor/assets/dist/reactQuillEditorJS.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
