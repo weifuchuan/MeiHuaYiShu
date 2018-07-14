@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, WebView, Platform, StyleSheet, ActivityIndicator, Alert, Text, ViewProps } from 'react-native';
+import { View, WebView, StyleSheet, ActivityIndicator } from 'react-native';
 const QuillDeltaToHtmlConverter = require('quill-delta-to-html');
 
 export default class QuillViewer extends React.Component<{

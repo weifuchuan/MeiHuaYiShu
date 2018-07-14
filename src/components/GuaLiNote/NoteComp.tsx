@@ -13,7 +13,6 @@ import LeiXiang from '../LeiXiang/LeiXiang';
 import QuillViewer from '../QuillViewer';
 
 const { NavigationBar } = require('teaset');
-const { WebViewQuillViewer } = require('react-native-webview-quilljs');
 const { width } = Dimensions.get('window');
 
 @inject('store')

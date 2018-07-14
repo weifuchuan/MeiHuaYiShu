@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import Storage from './storage';
-import { observable, toJS } from 'mobx';
-import { Note, INote } from '../types';
+import { observable } from 'mobx';
+import { Note } from '../types';
 import { GuaResult } from '../types';
 import { SQLite } from 'expo';
 
@@ -108,7 +108,7 @@ export const storage: IStorege = new Storage({
 		// example({ id, resolve, reject, syncParams: { extraFetchOptions, someFlag } } ){
 		//   fetch()...
 		// }
-		currentPosition({ resolve, reject }: { id?: string; resolve: (v: any) => void; reject: (e: any) => void }) {
+		currentPosition({ resolve }: { id?: string; resolve: (v: any) => void; reject: (e: any) => void }) {
 			resolve([ '北京', '北京市', '东城区' ]);
 		}
 	}

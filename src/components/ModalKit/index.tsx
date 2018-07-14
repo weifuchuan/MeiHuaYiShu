@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Dimensions, WebView } from 'react-native';
+import { View, Dimensions } from 'react-native';
 
 const { Overlay } = require('teaset');
 const { width, height } = Dimensions.get('window');

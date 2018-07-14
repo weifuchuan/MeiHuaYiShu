@@ -1,19 +1,11 @@
 import * as React from 'react';
-import { View, ViewStyle, WebView, Text, Dimensions, ScrollView } from 'react-native';
+import { View, ViewStyle,  Text, Dimensions, ScrollView } from 'react-native';
 import { observer } from 'mobx-react/native';
 import { gua } from '../../types';
 import { observable } from 'mobx';
 
 const { ListRow, Select } = require('teaset');
 
-// import qian from '../../assets/bagua/qian';
-// import dui from '../../assets/bagua/dui';
-// import li from '../../assets/bagua/li';
-// import zhen from '../../assets/bagua/zhen';
-// import xun from '../../assets/bagua/xun';
-// import kan from '../../assets/bagua/kan';
-// import geng from '../../assets/bagua/geng';
-// import kun from '../../assets/bagua/kun';
 
 const { Overlay } = require('teaset');
 const { width, height } = Dimensions.get('window');

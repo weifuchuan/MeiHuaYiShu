@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, WebView, Platform, StyleSheet, ActivityIndicator, Alert, Text, ViewProps } from 'react-native';
+import { View, WebView, Platform, StyleSheet, ActivityIndicator } from 'react-native';
 import { FileSystem } from 'expo';
 import EDITOR_JS from './QuillEditorJS';
 import EDITOR_HTML_BUILDER from './QuillEditorHTML';
@@ -38,7 +38,7 @@ export default class QuillEditor extends React.Component<IQuillEditorProps> {
 	private lastId: string = '';
 
 	getText(): Promise<any> {
-		return new Promise<any>((resolve, reject) => {
+		return new Promise<any>((resolve) => {
 			this.lastResolve = resolve;
 			this.lastId = Math.random().toString();
 			this.web!.postMessage(JSON.stringify({ action: 'GET', id: this.lastId }));
@@ -47,6 +47,7 @@ export default class QuillEditor extends React.Component<IQuillEditorProps> {
 
 	setText(text: any) {
 		this.web!.postMessage(JSON.stringify({ action: 'SET', text }));
+		setTimeout(() => this.forceUpdate(), 300);
 	}
 
 	render() {
@@ -86,7 +87,6 @@ export default class QuillEditor extends React.Component<IQuillEditorProps> {
 			</View>
 		);
 	};
-
 }
 
 const styles = StyleSheet.create({
