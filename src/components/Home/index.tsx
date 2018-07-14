@@ -18,7 +18,8 @@ import { Drawer, Button } from 'antd-mobile-rn';
 import QiGua from './QiGua';
 import { observable } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
-import meihuabase64 from '../../assets/ui/meihua-base64'; 
+import meihuabase64 from '../../assets/ui/meihua-base64';
+import menubase64 from '../../assets/ui/menu-base64';
 
 const { NavigationBar } = require('teaset');
 
@@ -53,11 +54,7 @@ class Home extends React.Component<
 								justifyContent: 'space-between'
 							}}
 						>
-							<Image
-								source={{uri: meihuabase64}}
-								style={styles.logo}
-								resizeMode={'contain'}
-							/>
+							<Image source={{ uri: meihuabase64 }} style={styles.logo} resizeMode={'contain'} />
 							<Text style={{ color: '#000000', fontSize: 20, marginBottom: height * 0.04 }}>梅花易数</Text>
 							<FlatList
 								style={{ width: width * 0.6 }}
@@ -88,14 +85,15 @@ class Home extends React.Component<
 											this.props.navigation.navigate('MeiHuaYiShu');
 											this.openDrawer = false;
 										}
-                  },
-                  {
-                    title:"帮助",
-                    route:()=>{
-
-                      this.openDrawer = false;
-                    }
-                  }
+									},
+									{
+										title: '帮助',
+										route: () => {
+											console.info("fuck");
+											this.props.navigation.navigate('Helper');
+											this.openDrawer = false;
+										}
+									}
 								]}
 								renderItem={({ item }) => {
 									return (
@@ -122,7 +120,7 @@ class Home extends React.Component<
 										this.openDrawer = true;
 									}}
 								>
-									<Image style={styles.icon} source={require('../../assets/ui/menu.png')} />
+									<Image style={styles.icon} source={{ uri: menubase64 }} />
 								</TouchableOpacity>
 							}
 						/>

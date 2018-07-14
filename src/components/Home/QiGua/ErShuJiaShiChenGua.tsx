@@ -1,16 +1,16 @@
 import * as React from 'react'
-import { Text, View, StyleSheet, ViewStyle, WebView } from 'react-native';
+import { Text, View, StyleSheet, ViewStyle, ScrollView } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../../store';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
-import { List, InputItem, Toast, Picker, DatePicker, Button, Card } from 'antd-mobile-rn';
+import { List, InputItem, Picker, DatePicker, Button, Card } from 'antd-mobile-rn';
 import { observable } from 'mobx';
 import RandomGetNumber from './RandomGetNumber';
 import nongLiUseableData from './nongLiUseableData'
 import { gua } from '../../../types';
 import { qiGuaByTwoNumberAddHour } from '../../../kit';
 import SunTime from './SunTime';
-import ModalWebView from '../../ModalWebVIew';
+import ModalKit from '../../ModalKit';
 
 const solarLunar = require("../../../assets/solarlunar.min.js");
 const { Overlay } = require("teaset")
@@ -127,15 +127,12 @@ class ErShuJiaShiChenGua extends React.Component<NavigationInjectedProps & {
             <Card.Header title={"二数加时辰卦卦例"} extra={(
               <View style={{ flex: 1, alignItems: 'flex-end' }}>
                 <Text onPress={() => {
-                  ModalWebView.show(guali);
+                  ModalKit.show(guali);
                 }}>全屏</Text>
               </View>
             )}  />
             <Card.Body>
-              <WebView
-                source={{
-                  html:guali}}
-              />
+            <View style={{ flex: 1, padding: 5 }}>{guali}</View>
             </Card.Body>
           </Card>
         </View>
@@ -186,12 +183,28 @@ const styles = StyleSheet.create({
 
 export default withNavigation(ErShuJiaShiChenGua); 
 
-const guali = `
-<style type="text/css">
-p {text-indent: 2em}
-</style>
-<h3 align="center">邻夜扣门借物占</h3>
-<p>冬夕酉时，先生方拥炉，有扣门者，初扣一声而止，继而又扣五声，且云借物。先生令勿言，令其子占之所借何物。以一声属乾为上卦，以五声属巽为下卦，又以一乾五巽共六数，加酉时数共得十六数，以六除之，二六一十二，得天风姤。第四爻变巽卦，互见重乾。卦中三乾金，二巽木，为金木之物也，又以乾金短，而巽木长，是借斧也。</p>
-<p>子乃断曰：&ldquo;金短木长者，器也，所借锄也。&rdquo;先生曰：&ldquo;非也。必斧也。&rdquo;闻之，果借斧，其子问何故？先生曰：&ldquo;起数又须明理。以卦推之，斧亦可也，锄亦可也；以理推之，夕晚安用锄？必借斧。盖斧切于劈柴之用耳。推数又须明理，为卜占之切要也。推数不推理，是不得也。学数者志之！&rdquo;</p>
+// const guali = `
+// <style type="text/css">
+// p {text-indent: 2em}
+// </style>
+// <h3 align="center">邻夜扣门借物占</h3>
+// <p>冬夕酉时，先生方拥炉，有扣门者，初扣一声而止，继而又扣五声，且云借物。先生令勿言，令其子占之所借何物。以一声属乾为上卦，以五声属巽为下卦，又以一乾五巽共六数，加酉时数共得十六数，以六除之，二六一十二，得天风姤。第四爻变巽卦，互见重乾。卦中三乾金，二巽木，为金木之物也，又以乾金短，而巽木长，是借斧也。</p>
+// <p>子乃断曰："金短木长者，器也，所借锄也。"先生曰："非也。必斧也。"闻之，果借斧，其子问何故？先生曰："起数又须明理。以卦推之，斧亦可也，锄亦可也；以理推之，夕晚安用锄？必借斧。盖斧切于劈柴之用耳。推数又须明理，为卜占之切要也。推数不推理，是不得也。学数者志之！"</p>
 
-               `
+//                `
+
+               
+const guali = (
+	<ScrollView>
+		<View style={{ alignItems: 'center' }}>
+			<Text style={{ fontSize: 22 }} selectable={true}>邻夜扣门借物占</Text>
+		</View>
+
+		<Text style={{ fontSize: 18 }} selectable={true}>
+    冬夕酉时，先生方拥炉，有扣门者，初扣一声而止，继而又扣五声，且云借物。先生令勿言，令其子占之所借何物。以一声属乾为上卦，以五声属巽为下卦，又以一乾五巽共六数，加酉时数共得十六数，以六除之，二六一十二，得天风姤。第四爻变巽卦，互见重乾。卦中三乾金，二巽木，为金木之物也，又以乾金短，而巽木长，是借斧也。
+		</Text>
+		<Text style={{ fontSize: 18 }} selectable={true}>
+    子乃断曰："金短木长者，器也，所借锄也。"先生曰："非也。必斧也。"闻之，果借斧，其子问何故？先生曰："起数又须明理。以卦推之，斧亦可也，锄亦可也；以理推之，夕晚安用锄？必借斧。盖斧切于劈柴之用耳。推数又须明理，为卜占之切要也。推数不推理，是不得也。学数者志之！"
+		</Text>
+	</ScrollView>
+);

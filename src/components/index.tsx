@@ -7,6 +7,7 @@ import Gua from './Gua';
 import LeiXiang from './LeiXiang';
 import NoteEditor from './GuaLiNote/NoteEditor';
 import Note from './GuaLiNote/NoteComp';
+import Helper from './Helper';
 
 export default createStackNavigator(
   {
@@ -16,7 +17,8 @@ export default createStackNavigator(
     Gua,
     LeiXiang,
     NoteEditor,
-    Note
+    Note,
+    Helper
   },
   {
     initialRouteName: "Home",

@@ -6,6 +6,7 @@ import { NavigationInjectedProps } from 'react-navigation';
 import book from '../../assets/meiHuaYiShuBookHTML'
 import { Drawer, Button } from 'antd-mobile-rn';
 import meihuabase64 from '../../assets/ui/meihua-base64'; 
+import menubase64 from '../../assets/ui/menu-base64'; 
 
 const { NavigationBar } = require("teaset");
 const { height, width } = Dimensions.get("window")
@@ -67,6 +68,13 @@ export default class MeiHuaYiShu extends React.Component<NavigationInjectedProps
                     route: () => {
                       this.openDrawer = false;
                     }
+                  },
+                  {
+                    title:"帮助",
+                    route:()=>{
+                      this.props.navigation.replace('Helper');
+                      this.openDrawer = false;
+                    }
                   }
                 ]}
                 renderItem={({ item }) => {
@@ -98,7 +106,7 @@ export default class MeiHuaYiShu extends React.Component<NavigationInjectedProps
                     marginLeft: 5,
                     tintColor: "#fff"
                   }}
-                  source={require("../../assets/ui/menu.png")}
+                  source={{uri:menubase64}}
                 />
               </TouchableOpacity>
             }

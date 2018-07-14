@@ -24,6 +24,7 @@ import okbase64 from '../../assets/ui/ok-base64';
 import unknowbase64 from '../../assets/ui/unknow-base64';
 import nobase64 from '../../assets/ui/no-base64';
 import _ from 'lodash';
+import menubase64 from '../../assets/ui/menu-base64'; 
 
 const { NavigationBar } = require('teaset');
 const { height, width } = Dimensions.get('window');
@@ -91,6 +92,13 @@ export default class GuaLiNote extends React.Component<
 											this.props.navigation.replace('MeiHuaYiShu');
 											this.openDrawer = false;
 										}
+									},
+									{
+										title: '帮助',
+										route: () => {
+											this.props.navigation.replace('Helper');
+											this.openDrawer = false;
+										}
 									}
 								]}
 								renderItem={({ item }) => {
@@ -122,7 +130,7 @@ export default class GuaLiNote extends React.Component<
 										marginLeft: 5,
 										tintColor: '#fff'
 									}}
-									source={require('../../assets/ui/menu.png')}
+									source={{ uri: menubase64 }}
 								/>
 							</TouchableOpacity>
 						}
