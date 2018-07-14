@@ -89,7 +89,6 @@ class Home extends React.Component<
 									{
 										title: '帮助',
 										route: () => {
-											console.info("fuck");
 											this.props.navigation.navigate('Helper');
 											this.openDrawer = false;
 										}

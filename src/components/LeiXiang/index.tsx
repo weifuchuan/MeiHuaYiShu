@@ -70,7 +70,7 @@ export default class LeiXiang extends React.Component<NavigationInjectedProps>{
                   {
                     title:"帮助",
                     route:()=>{
-                      this.props.navigation.replace('Helper');
+                      this.props.navigation.navigate('Helper');
                       this.openDrawer = false;
                     }
                   }

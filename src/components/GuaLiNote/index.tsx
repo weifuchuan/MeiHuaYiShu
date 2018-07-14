@@ -96,7 +96,7 @@ export default class GuaLiNote extends React.Component<
 									{
 										title: '帮助',
 										route: () => {
-											this.props.navigation.replace('Helper');
+											this.props.navigation.navigate('Helper');
 											this.openDrawer = false;
 										}
 									}
