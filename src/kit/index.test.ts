@@ -6,6 +6,7 @@ import {
 	qiGuaByHouTian
 } from ".";
 
+
 test("ok sunTimeByDateLongtitude", () => {
 	let should = new Date(2018, 11, 5, 11, 55, 0).getTime();
 	let sun = sunTimeByDateLongtitude(

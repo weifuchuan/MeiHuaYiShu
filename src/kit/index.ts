@@ -1,4 +1,3 @@
-// import { Geolocation } from "react-native";
 import { gua } from "../types";
 const dateMath = require("date-arithmetic");
 import { data as yjData, IGuaItem } from '../assets/yijing'

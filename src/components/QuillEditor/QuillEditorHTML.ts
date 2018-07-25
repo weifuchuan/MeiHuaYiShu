@@ -18,6 +18,7 @@ padding: 0 !important;
 ">
 
 <!-- Create the editor container -->
+
 <div id="editor">
 
 </div>
@@ -27,12 +28,43 @@ padding: 0 !important;
 
 <!-- Initialize Quill editor -->
 <script>
-  window.onload = function(){
+  
+    function awaitPostMessage() {
+      let isReactNativePostMessageReady = !!window.originalPostMessage;
+      const queue = [];
+      let currentPostMessageFn = function store(message) {
+        if (queue.length > 100) queue.shift();
+        queue.push(message);
+      };
+      if (!isReactNativePostMessageReady) {
+        // const originalPostMessage = window.postMessage;
+        Object.defineProperty(window, 'postMessage', {
+          configurable: true,
+          enumerable: true,
+          get() {
+            return currentPostMessageFn;
+          },
+          set(fn) {
+            currentPostMessageFn = fn;
+            isReactNativePostMessageReady = true;
+            setTimeout(sendQueue, 0);
+          }
+        });
+      }
+    
+      function sendQueue() {
+        while (queue.length > 0) window.postMessage(queue.shift());
+      }
+    }
+    awaitPostMessage();
+
     var quill = new window.Quill('#editor', {
       theme: 'snow'
     });
 
-    window.document.addEventListener('message', function (msg) {
+    window.postMessage("GET_INIT_CONTENT");
+    var listener = function (msg) {
+      
       const req = JSON.parse(msg.data); 
       switch (req.action){
         case 'GET':
@@ -42,8 +74,10 @@ padding: 0 !important;
           quill.setContents(req.text); 
           break; 
       }
-    })
-  }
+    };
+    document.addEventListener('message', listener);
+    window.addEventListener('message', listener);
+  
 </script>
 
 <style>

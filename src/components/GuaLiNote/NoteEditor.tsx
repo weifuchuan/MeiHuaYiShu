@@ -66,7 +66,7 @@ export default class NoteEditor extends React.Component<
 								if (note.thing.trim()) {
 									this.saving = true;
 									// note.content = (await this.getContent()).delta;
-									note.content = await this.editor!.getText(); 
+									note.content = await this.editor!.getText();
 									try {
 										await this.props.store.saveNote(note);
 									} catch (err) {
@@ -78,7 +78,7 @@ export default class NoteEditor extends React.Component<
 										from: this.props.navigation.getParam('from', FromType.list)
 									});
 								} else {
-									Toast.fail('请输入“问事”');
+									Toast.fail('请输入“问事”', 1);
 								}
 							}}
 						/>
@@ -133,7 +133,12 @@ export default class NoteEditor extends React.Component<
 										<InputItem value={note.thing} onChangeText={(t) => (note.thing = t)}>
 											问事：
 										</InputItem>
-										<QuillEditor ref={(r) => (this.editor = r)} />
+										<QuillEditor
+											ref={(r) => (this.editor = r)}
+											onGetInitContent={() => {
+												this.editor!.setText(note.content);
+											}}
+										/>
 									</View>
 								)
 							},
@@ -166,7 +171,7 @@ export default class NoteEditor extends React.Component<
 														<Text style={{ color: '#000' }}>
 															{(params.route as any).title}
 														</Text>
-													)}                   
+													)}
 												/>
 											)}
 										/>
@@ -213,8 +218,6 @@ export default class NoteEditor extends React.Component<
 	};
 
 	componentDidMount() {
-		const note: Note = this.props.navigation.getParam('note');
-		this.editor!.setText(note.content);
 		BackHandler.addEventListener('hardwareBackPress', this.back);
 	}
 

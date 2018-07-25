@@ -4,17 +4,19 @@ import { FileSystem } from 'expo';
 import EDITOR_JS from './QuillEditorJS';
 import EDITOR_HTML_BUILDER from './QuillEditorHTML';
 
+const fs  =require("expo")
+
 const editorUri = FileSystem.documentDirectory + 'editor.html';
 const editorJSUri = FileSystem.documentDirectory + 'quill.js';
 if (Platform.OS === 'android') {
 	const Buffer = require('buffer').Buffer;
 	(async () => {
-		try {
-			await FileSystem.deleteAsync(editorUri);
-			await FileSystem.deleteAsync(editorJSUri);
-		} catch (err) {
-			console.info(err);
-		}
+		// try {
+		// 	await FileSystem.deleteAsync(editorUri);
+		// 	await FileSystem.deleteAsync(editorJSUri);
+		// } catch (err) {
+		// 	console.info(err);
+		// }
 		const info = await FileSystem.getInfoAsync(editorUri);
 		if (!info.exists) {
 			try {
@@ -27,7 +29,9 @@ if (Platform.OS === 'android') {
 	})();
 }
 
-export interface IQuillEditorProps {}
+export interface IQuillEditorProps {
+	onGetInitContent: () => void;
+}
 
 export default class QuillEditor extends React.Component<IQuillEditorProps> {
 	state = {
@@ -47,7 +51,6 @@ export default class QuillEditor extends React.Component<IQuillEditorProps> {
 
 	setText(text: any) {
 		this.web!.postMessage(JSON.stringify({ action: 'SET', text }));
-		setTimeout(() => this.forceUpdate(), 300);
 	}
 
 	render() {
@@ -70,8 +73,12 @@ export default class QuillEditor extends React.Component<IQuillEditorProps> {
 						this.setState({ webViewNotLoaded: false });
 					}}
 					onMessage={(e) => {
-						const resp = JSON.parse(e.nativeEvent.data);
-						resp.id === this.lastId && this.lastResolve(resp.text);
+						if (e.nativeEvent.data === 'GET_INIT_CONTENT') {
+							this.props.onGetInitContent();
+						} else {
+							const resp = JSON.parse(e.nativeEvent.data);
+							resp.id === this.lastId && this.lastResolve(resp.text);
+						}
 					}}
 				/>
 			</View>
