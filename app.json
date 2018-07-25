@@ -1,7 +1,7 @@
 {
 	"expo": {
 		"name": "梅花易数",
-		"version": "0.1.0",
+		"version": "1.0.0",
 		"sdkVersion": "27.0.0",
 		"slug": "MeiHuaYiShu",
 		"icon": "./src/assets/ui/logo.png",

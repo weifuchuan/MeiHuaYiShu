@@ -5,6 +5,7 @@
 
 # dependencies
 /node_modules
+pages-for-webview
 
 # misc
 .env.local
