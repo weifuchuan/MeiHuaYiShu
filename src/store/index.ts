@@ -25,7 +25,7 @@ export class Store {
 					this.notes.push(Note.fromSQLable(rs.rows.item(i)));
 				}
 			} catch (e) {
-				console.error(e);
+				
 			}
 		})();
 	}

@@ -4,7 +4,7 @@ export default `
 <html class="cye-disabled cye-nm">
 
 <head>
-  <meta http-equiv=Content-Type content="text/html; charset=utf8">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <style type=text/css>
 
     a{

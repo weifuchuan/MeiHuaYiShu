@@ -23,7 +23,7 @@ if (Platform.OS === 'android') {
 				await FileSystem.writeAsStringAsync(editorJSUri, new Buffer(EDITOR_JS, 'base64').toString());
 				await FileSystem.writeAsStringAsync(editorUri, EDITOR_HTML_BUILDER(editorJSUri));
 			} catch (err) {
-				console.error(err);
+				
 			}
 		}
 	})();

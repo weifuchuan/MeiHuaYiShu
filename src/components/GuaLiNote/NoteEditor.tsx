@@ -70,7 +70,7 @@ export default class NoteEditor extends React.Component<
 									try {
 										await this.props.store.saveNote(note);
 									} catch (err) {
-										console.error(err);
+										
 									}
 									this.saving = false;
 									this.props.navigation.navigate('Note', {

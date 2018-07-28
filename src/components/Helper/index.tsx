@@ -22,11 +22,21 @@ export default class Helper extends React.Component<NavigationInjectedProps> {
 					<WebView
 						source={{
 							html: `
+							<!DOCTYPE html>
+							<html>
+								<head>
+										<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+								</head>
+								<body>
 									<div>
 										Bug、功能建议请发送到邮箱<a href="mailto:fuchuan.wei@hotmail.com">fuchuan.wei@hotmail.com</a>。
 									</div>
+								</body>
+							</html>
 								`
+								, baseUrl: ''
 						}}
+						
 						mixedContentMode={'always'}
 						dataDetectorTypes={'all'}
 					/>

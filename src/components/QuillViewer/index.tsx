@@ -13,7 +13,18 @@ export default class QuillViewer extends React.Component<{
 			<View style={{ flex: 1 }}>
 				<WebView
           style={{ flex: 1 }}
-					source={{ html: new QuillDeltaToHtmlConverter(this.props.text.ops, {}).convert() }}
+					source={{ html: `
+					<!DOCTYPE html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>	
+					${new QuillDeltaToHtmlConverter(this.props.text.ops, {}).convert()}
+</body>
+</html>					
+					`, baseUrl: ''}}
 					renderLoading={this.showLoadingIndicator}
 					onLoadStart={() => {
 						this.setState({ webViewNotLoaded: true });

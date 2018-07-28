@@ -125,7 +125,7 @@ export default class MeiHuaYiShu extends React.Component<NavigationInjectedProps
 					<View style={{ marginTop: this.navigationBarHeight, flex: 1 }}>
 						<WebView
 							style={{ flex: 1 }}
-							source={{ html: book }}
+							source={{ html: book , baseUrl: ''}}
 							ref={(r) => (this.web = r!)}
 							javaScriptEnabled={true}
 							domStorageEnabled={true}

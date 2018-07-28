@@ -55,7 +55,7 @@ export default class SunTime extends React.Component<{
 				this.startSunTimeUpdator();
 				this.props.sync();
 			})
-			.catch((err) => console.error(err));
+			
 	}
 
 	render() {
