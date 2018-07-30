@@ -11,7 +11,7 @@ import {
 	FlatList,
 	TouchableOpacity
 } from 'react-native';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { observer } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import book from '../../assets/meiHuaYiShuBookHTML';
@@ -25,7 +25,6 @@ const { height, width } = Dimensions.get('window');
 @observer
 export default class MeiHuaYiShu extends React.Component<NavigationInjectedProps> {
 	@observable navigationBarHeight = 60;
-	@observable webViewHeight = 0;
 	web?: WebView;
 	@observable openDrawer: any;
 	render() {
@@ -102,7 +101,7 @@ export default class MeiHuaYiShu extends React.Component<NavigationInjectedProps
 					}
 				>
 					<NavigationBar
-						onLayout={(e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height)}
+						onLayout={action((e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height))}
 						title={'《梅花易数》'}
 						leftView={
 							<TouchableOpacity

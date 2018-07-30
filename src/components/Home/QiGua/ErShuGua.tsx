@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../../store';
 import { withNavigation, NavigationInjectedProps } from 'react-navigation';
 import { List, InputItem, Picker, DatePicker, Button, Card } from 'antd-mobile-rn';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import RandomGetNumber from './RandomGetNumber';
 import nongLiUseableData from './nongLiUseableData';
 import { gua } from '../../../types';
@@ -43,21 +43,21 @@ class ErShuGua extends React.Component<
 						onExtraClick={() => {
 							this.overlay = Overlay.show(
 								<RandomGetNumber
-									onOk={(n) => {
+									onOk={action((n: number) => {
 										this.up = n;
 										Overlay.hide(this.overlay);
-									}}
+									})}
 								/>
 							);
 						}}
-						onChange={(v) => {
+						onChange={action((v:string) => {
 							const result = v.match(/\d+/);
 							if (result) {
 								this.up = Number.parseInt(result[0]);
 							} else {
 								this.up = 0;
 							}
-						}}
+						})}
 					>
 						<Text>上卦用数：</Text>
 					</InputItem>
@@ -68,21 +68,21 @@ class ErShuGua extends React.Component<
 						onExtraClick={() => {
 							this.overlay = Overlay.show(
 								<RandomGetNumber
-									onOk={(n) => {
+									onOk={action((n:number) => {
 										this.bottom = n;
 										Overlay.hide(this.overlay);
-									}}
+									})}
 								/>
 							);
 						}}
-						onChange={(v) => {
+						onChange={action((v:string) => {
 							const result = v.match(/\d+/);
 							if (result) {
 								this.bottom = Number.parseInt(result[0]);
 							} else {
 								this.bottom = 0;
 							}
-						}}
+						})}
 					>
 						<Text>下卦用数：</Text>
 					</InputItem>
@@ -121,10 +121,10 @@ class ErShuGua extends React.Component<
 						<DatePicker
 							mode={'datetime'}
 							value={this.now}
-							onChange={(d) => {
+							onChange={action((d:Date) => {
 								this.now = d;
 								(this as any).timeForGua = this.solar2timeForGua(this.now);
-							}}
+							})}
 							title={'选择时间'}
 						>
 							<List.Item arrow="horizontal">
@@ -170,6 +170,7 @@ class ErShuGua extends React.Component<
 		);
 	}
 
+	@action
 	private qiGua = () => {
 		const qg = qiGuaByTwoNumber(this.up, this.bottom);
 		const time = this.timeForGua.map((s, i) => (i === 0 ? Number.parseInt(s.split('-')[1]) : Number.parseInt(s)));
@@ -205,6 +206,7 @@ class ErShuGua extends React.Component<
 		];
 	}
 
+	@action
 	private updateTimeForGua() {
 		this.now = this.sunTime!.getNow();
 		(this as any).timeForGua = this.solar2timeForGua(this.now);
@@ -220,7 +222,6 @@ const styles = StyleSheet.create({
 });
 
 export default withNavigation(ErShuGua);
-
 
 const guali = (
 	<ScrollView>

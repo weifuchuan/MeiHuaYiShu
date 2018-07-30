@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 	Image
 } from 'react-native';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { observer, inject } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Store } from '../../store';
@@ -115,7 +115,7 @@ export default class GuaLiNote extends React.Component<
 					}
 				>
 					<NavigationBar
-						onLayout={(e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height)}
+						onLayout={action((e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height))}
 						title={'卦例笔记'}
 						leftView={
 							<TouchableOpacity

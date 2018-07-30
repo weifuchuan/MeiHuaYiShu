@@ -3,7 +3,7 @@ import { View, StyleSheet, ViewStyle } from 'react-native';
 import { gua } from '../../../types';
 import { observer } from 'mobx-react/native';
 import { Store } from '../../../store';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import ShiJianGua from './ShiJianGua';
 import ErShuJiaShiChenGua from './ErShuJiaShiChenGua';
 import ErShuGua from './ErShuGua';
@@ -44,7 +44,7 @@ class QiGua extends React.Component<NavigationInjectedProps & {
             getItemText={(item: string) => item}
             value={this.guaType}
             pickerTitle={"起卦方式"}
-            onSelected={(item: gua.GuaType) => {
+            onSelected={action((item: gua.GuaType) => {
               this.guaType = item
               switch (item) {
                 case "时间卦":
@@ -62,7 +62,7 @@ class QiGua extends React.Component<NavigationInjectedProps & {
                 default:
                   break;
               }
-            }}
+            })}
           />}
         />
         <TypeNavigator navigation={this.props.navigation} />

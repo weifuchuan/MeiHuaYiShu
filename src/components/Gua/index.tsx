@@ -5,7 +5,7 @@ import { gua, Note, FromType } from '../../types';
 import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../store';
 import { quanGua2xZhiX, getRelationForGua, getGuaByGua } from '../../kit';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import LeiXiang from '../LeiXiang/LeiXiang';
 import { IGuaItem } from '../../assets/yijing';
@@ -28,7 +28,6 @@ export default class Gua extends React.Component<
 	}
 > {
 	@observable navigationBarHeight: number = 60;
-	@observable guaPage = 0;
 	state = {
 		tabViewNavigationState: {
 			index: 0,
@@ -74,7 +73,7 @@ export default class Gua extends React.Component<
 		return (
 			<View style={styles.container}>
 				<NavigationBar
-					onLayout={(e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height)}
+					onLayout={action((e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height))}
 					title={quanGua2xZhiX(quanGua)}
 					leftView={<NavigationBar.BackButton title="返回" onPress={() => navigation.goBack()} />}
 					rightView={

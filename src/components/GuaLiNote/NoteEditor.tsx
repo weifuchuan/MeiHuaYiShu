@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View, StyleSheet, ViewStyle, Dimensions, LayoutChangeEvent, Keyboard, BackHandler } from 'react-native';
-import { observable } from 'mobx';
+import { observable, action, runInAction } from 'mobx';
 import { observer, inject } from 'mobx-react/native';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Store } from '../../store';
@@ -55,32 +55,36 @@ export default class NoteEditor extends React.Component<
 		return (
 			<View style={styles.container}>
 				<NavigationBar
-					onLayout={(e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height)}
+					onLayout={action((e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height))}
 					title={quanGua2xZhiX(quanGua)}
 					leftView={<NavigationBar.BackButton title="返回" onPress={this.back} />}
 					rightView={
 						<NavigationBar.LinkButton
 							title={'保存'}
-							onPress={async () => {
+							onPress={action(async () => {
 								Keyboard.dismiss();
 								if (note.thing.trim()) {
 									this.saving = true;
 									// note.content = (await this.getContent()).delta;
-									note.content = await this.editor!.getText();
-									try {
-										await this.props.store.saveNote(note);
-									} catch (err) {
-										
-									}
-									this.saving = false;
-									this.props.navigation.navigate('Note', {
-										note,
-										from: this.props.navigation.getParam('from', FromType.list)
-									});
+									const content = await this.editor!.getText();
+									runInAction(async ()=>{
+										note.content = content; 
+										try {
+											await this.props.store.saveNote(note);
+										} catch (err) {
+										}
+										runInAction(()=>{
+											this.saving = false;
+										})
+										this.props.navigation.navigate('Note', {
+											note,
+											from: this.props.navigation.getParam('from', FromType.list)
+										});
+									})
 								} else {
 									Toast.fail('请输入“问事”', 1);
 								}
-							}}
+							})}
 						/>
 					}
 				/>

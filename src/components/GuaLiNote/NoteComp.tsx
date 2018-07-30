@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Dimensions, LayoutChangeEvent, Text, BackHandler } from 'react-native';
 import { inject, observer } from 'mobx-react/native';
 import { quanGua2xZhiX } from '../../kit';
-import { observable, toJS } from 'mobx';
+import { observable, toJS, action } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import { Note, gua, FromType } from '../../types';
 import { ZhenGua, G } from '../Gua';
@@ -38,7 +38,7 @@ export default class NoteComp extends React.Component<NavigationInjectedProps> {
 		return (
 			<View style={{ flex: 1, backgroundColor: '#fff' }}>
 				<NavigationBar
-					onLayout={(e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height)}
+					onLayout={action((e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height))}
 					title={quanGua2xZhiX(quanGua)}
 					leftView={<NavigationBar.BackButton title="返回" onPress={this.back} />}
 					rightView={

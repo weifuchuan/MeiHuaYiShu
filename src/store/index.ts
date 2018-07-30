@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import Storage from './storage';
-import { observable } from 'mobx';
+import { observable, runInAction, action } from 'mobx';
 import { Note } from '../types';
 import { GuaResult } from '../types';
 import { SQLite } from 'expo';
@@ -21,15 +21,16 @@ export class Store {
 			try {
 				await this.execSQL(Note.createTableSql);
 				const rs = await this.execSQL(Note.findAllSQL);
-				for (let i = 0; i < rs.rows.length; i++) {
-					this.notes.push(Note.fromSQLable(rs.rows.item(i)));
-				}
-			} catch (e) {
-				
-			}
+				runInAction(() => {
+					for (let i = 0; i < rs.rows.length; i++) {
+						this.notes.push(Note.fromSQLable(rs.rows.item(i)));
+					}
+				});
+			} catch (e) {}
 		})();
 	}
 
+	@action
 	async saveNote(note: Note) {
 		const sn = note.toSQLable();
 		// add new note
@@ -42,20 +43,26 @@ export class Store {
 				sn.time,
 				sn.result
 			]);
-			note.id = rs.insertId;
-			this.notes.unshift(note);
+			runInAction(()=>{
+				note.id = rs.insertId; 
+				this.notes.unshift(note);
+			})
 		} else {
 			// update thing and content
 			await this.execSQL(Note.updateThingAndContentSQL, [ sn.thing, sn.content, sn.id ]);
 		}
 	}
 
+	@action
 	async deleteNote(note: Note) {
 		await this.execSQL(Note.deleteByIdSQL, [ note.id ]);
-		const i = this.notes.findIndex((n) => note.id === n.id);
-		i !== -1 && this.notes.splice(i, 1);
+		runInAction(()=>{
+			const i = this.notes.findIndex((n) => note.id === n.id);
+			i !== -1 && this.notes.splice(i, 1);
+		})
 	}
 
+	@action
 	async changeNoteResult(note: Note, result: GuaResult) {
 		await this.execSQL(Note.updateResultSQL, [ result, note.id ]);
 		note.result = result;

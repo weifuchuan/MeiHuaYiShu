@@ -9,6 +9,9 @@
 			"sourceExts": [ "ts", "tsx" ],
 			"transformer": "node_modules/react-native-typescript-transformer/index.js"
 		},
+		"ios": {
+      "bundleIdentifier": "com.fuchuan.meihuayishu"
+    },
 		"android": {
 			"package": "com.fuchuan.meihuayishu"
 		},

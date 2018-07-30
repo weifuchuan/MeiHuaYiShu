@@ -16,7 +16,7 @@ import { inject, observer } from 'mobx-react/native';
 import { Store } from '../../store';
 import { Drawer, Button } from 'antd-mobile-rn';
 import QiGua from './QiGua';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import meihuabase64 from '../../assets/ui/meihua-base64';
 import menubase64 from '../../assets/ui/menu-base64';
@@ -109,9 +109,9 @@ class Home extends React.Component<
 				>
 					<View style={{ flex: 1 }}>
 						<NavigationBar
-							onLayout={(event: LayoutChangeEvent) => {
+							onLayout={action((event: LayoutChangeEvent) => {
 								this.navigationBarHeight = event.nativeEvent.layout.height;
-							}}
+							})}
 							title={'起卦'}
 							leftView={
 								<TouchableOpacity

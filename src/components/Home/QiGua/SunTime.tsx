@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, StyleSheet, ViewStyle, Image, ImageStyle, TouchableOpacity, Dimensions } from 'react-native';
 import { observer } from 'mobx-react/native';
 import { Switch, Picker, List } from 'antd-mobile-rn';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { sunTimeByLongtitude } from '../../../kit';
 import { data as provinces } from '../../../assets/longitude';
 import { storage, fixedKey } from '../../../store';
@@ -75,7 +75,7 @@ export default class SunTime extends React.Component<{
 					accessory={
 						<Switch
 							checked={this.use}
-							onChange={(ok) => {
+							onChange={action((ok:boolean) => {
 								this.use = ok;
 								this.props.onChange(ok);
 								!ok && this.timer && clearInterval(this.timer);
@@ -85,7 +85,7 @@ export default class SunTime extends React.Component<{
 									? '0' + now.getMinutes()
 									: now.getMinutes()}`;
 								this.props.sync();
-							}}
+							})}
 						/>
 					}
 				/>
@@ -147,6 +147,7 @@ export default class SunTime extends React.Component<{
 
 	componentDidMount() {}
 
+	@action
 	private startSunTimeUpdator = () => {
 		this.timer && clearInterval(this.timer);
 		const lng = provinces.find((p) => p.name === this.currentPosition[0])!.city.find(
@@ -157,14 +158,14 @@ export default class SunTime extends React.Component<{
 			1}-${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().length === 1
 			? '0' + now.getMinutes()
 			: now.getMinutes()}`;
-		this.timer = setInterval(() => {
+		this.timer = setInterval(action(() => {
 			const now = sunTimeByLongtitude(lng);
 			this.now = `${now.getFullYear()}-${now.getMonth() +
 				1}-${now.getDate()} ${now.getHours()}:${now.getMinutes().toString().length === 1
 				? '0' + now.getMinutes()
 				: now.getMinutes()}`;
 			this.props.onChange(this.use);
-		}, 30000);
+		}), 30000);
 	};
 
 	componentWillUnmount() {

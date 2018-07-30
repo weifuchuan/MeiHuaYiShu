@@ -1,6 +1,6 @@
 import React from 'react';
 import { WebView, View, Dimensions, LayoutChangeEvent } from 'react-native';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import { observer } from 'mobx-react/native';
 
@@ -9,12 +9,12 @@ const { NavigationBar } = require('teaset');
 @observer
 export default class Helper extends React.Component<NavigationInjectedProps> {
 	@observable navigationBarHeight: number = 60;
-	@observable openDrawer: boolean = false;
+	
 	render() {
 		return (
 			<View style={{ flex: 1, backgroundColor: '#fff' }}>
 				<NavigationBar
-					onLayout={(e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height)}
+					onLayout={action((e: LayoutChangeEvent) => (this.navigationBarHeight = e.nativeEvent.layout.height))}
 					title={'帮助'}
 					leftView={<NavigationBar.BackButton title="返回" onPress={() => this.props.navigation.goBack()} />}
 				/>

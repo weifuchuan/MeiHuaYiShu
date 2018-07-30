@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { View, LayoutChangeEvent, Dimensions, Image, FlatList, Text, TouchableOpacity } from 'react-native';
-import { observable } from 'mobx';
+import { observable, action } from 'mobx';
 import { NavigationInjectedProps } from 'react-navigation';
 import LeiXiangComponent from './LeiXiang'
 import { observer } from 'mobx-react/native';
@@ -89,9 +89,9 @@ export default class LeiXiang extends React.Component<NavigationInjectedProps>{
           }
         >
           <NavigationBar
-            onLayout={(e: LayoutChangeEvent) => {
+            onLayout={action((e: LayoutChangeEvent) => {
               this.navigationBarHeight = e.nativeEvent.layout.height
-            }}
+            })}
             title={"万物类象"}
             leftView={
               <TouchableOpacity
